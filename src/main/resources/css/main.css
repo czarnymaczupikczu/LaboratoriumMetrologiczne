@@ -1,0 +1,158 @@
+.button{
+    -fx-background-color:   #00519b;
+    -fx-text-fill:          white;
+    -fx-font:               bold 14px "Calibri";
+}
+/* LABEL*********************************************************************/
+.label{
+    -fx-font:               14px "Calibri";
+    -fx-text-fill:          #000000;
+}
+#label-head{
+    -fx-font:               18px "Calibri";
+    -fx-text-fill:          white;
+    -fx-font-weight:        bold;
+}
+#label-bottom{
+    -fx-font:               14px "Calibri";
+    -fx-text-fill:          white;
+    -fx-font-weight:        bold;
+}
+#label-main-head{
+    -fx-font:               bold 26px "Calibri";
+    -fx-text-fill:          white;
+}
+#label-main-head-user{
+    -fx-font:               bold 14px "Calibri";
+    -fx-text-fill:          white;
+}
+#label-error{
+    -fx-font:               14px "Calibri";
+    -fx-text-fill:          red;
+}
+/*COMBO BOX*************************************************************/
+.combo-box{
+    -fx-background-color:   #00519b;
+}
+.combo-box .list-view .list-cell,
+.combo-box .list-cell,
+.combo-box-base > .arrow-button{
+
+    -fx-font:               bold 14px "Calibri";
+    -fx-background-color:   #00519b;
+    -fx-text-fill:          white;
+}
+/*TEXT FIELD************************************************************/
+.text-field {
+  -fx-border-color:         #000000;
+  -fx-border-width:         0 0 1 0;
+  -fx-background-color:     white;
+  -fx-font:                 14px "Calibri";
+  -fx-text-fill:            #000000;
+}
+.text-field:focused {
+  -fx-border-color:         #000000;
+  -fx-border-width:         1 1 1 1;
+  -fx-background-color:     white;
+  -fx-font:                 14px "Calibri";
+  -fx-text-fill:            #000000;
+}
+#button-log-out{
+    -fx-background-color:   white;
+    -fx-text-fill:          #000000;
+    -fx-font:               14px "Calibri";
+}
+.toggle-button{
+    -fx-background-color:   #00519b;
+    -fx-text-fill:          white;
+    -fx-font:               bold 14px "Calibri";
+}
+.toggle-button:selected{
+    -fx-background-color:   #42a7dd;
+    -fx-text-fill:          white;
+    -fx-font:               bold 14px "Calibri";
+}
+/* TABLE VIEW *************************************************************/
+.table-view{
+    -fx-border-width:       1 0 1 1;
+    -fx-border-color:       black;
+}
+.table-view .column-header {
+    -fx-background-color:   #1976d2;
+    -fx-border-color:       black;
+    -fx-border-width:       0 1 1 0;
+}
+.table-view .column-header-background .label{
+    -fx-text-fill:          white;
+    -fx-font:               bold 14px "Calibri";
+}
+.table-view .table-cell:filled{
+    -fx-border-color:       black;
+    -fx-border-width:       0 1 1 0;
+    -fx-font:               14px "Calibri";
+}
+.table-row-cell:empty,
+.table-row-cell:empty:hover{
+    -fx-background-color:   transparent;
+}
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+.table-row-cell:odd:filled{
+    -fx-background-color:   #e3f2fd;
+}
+.table-row-cell:even:hover:filled,
+.table-row-cell:odd:hover:filled{
+    -fx-background-color:   #42a7dd;
+    -fx-text-fill:          white;
+    -fx-font:               14px "Calibri";
+}
+.table-row-cell:even:selected,
+.table-row-cell:odd:selected{
+    -fx-background-color:   #42a7dd;
+    -fx-text-fill:          white;
+    -fx-font:               14px "Calibri";
+}
+/*VBox i HBox***********************************************************************/
+#vBox-bottom{
+    -fx-border-color:       black;
+    -fx-border-width:       0 0 0 1;
+}
+#hBox-bottom{
+    -fx-background-color:   white;
+    -fx-border-color:       black;
+    -fx-border-width:       0 0 0 1;
+}
+/*DATE PICKER**************************************************************************/
+.date-picker-popup > .month-year-pane,
+.date-picker-popup > * > .spinner > .button,
+.date-picker-popup > * > .day-name-cell,
+.date-picker-popup > .calendar-grid,
+.date-picker-popup > * > .today,
+.date-picker-popup > * > .week-number-cell {
+    -fx-background-color: #e3f2fd;
+}
+.date-cell {
+    -fx-background-color: white;
+    -fx-font-family: "Calibri";
+    -fx-font-size: 14.0;
+    -fx-text-fill: black;
+}
+.date-cell:hover,
+.date-cell:selected{
+    -fx-background-color: #42a7dd;
+    -fx-font-family: "Calibri";
+    -fx-font-size: 14.0;
+    -fx-text-fill: white;
+}
+.date-picker-popup > * > .previous-month:hover,
+.date-picker-popup > * > .next-month:hover,
+.date-picker-popup > * > .today:hover,
+.date-picker-popup > * > .today.selected,
+.date-picker-popup > * > .selected{
+    -fx-background-color: #42a7dd;
+}
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .next-month {
+    -fx-background-color:  #f2f3f4;
+}

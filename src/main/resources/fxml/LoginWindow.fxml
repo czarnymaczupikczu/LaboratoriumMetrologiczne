@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="loginWindowMainBorderPane" maxHeight="280.0" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWindowController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #00519b;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="loginWindowImageView" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
+            <Label id="label-head" text="LABORATORIUM METROLOGICZNE" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="400.0" spacing="10.0">
+               <children>
+                  <Label text="Login">
+                     <font>
+                        <Font name="Calibri" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField prefHeight="30.0" prefWidth="120.0" promptText="login">
+                     <font>
+                        <Font name="Calibri" size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="400.0" spacing="10.0">
+               <children>
+                  <Label text="Hasło">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Calibri" size="14.0" />
+                     </font>
+                  </Label>
+                  <PasswordField prefHeight="30.0" prefWidth="120.0" promptText="hasło">
+                     <font>
+                        <Font name="Calibri" size="14.0" />
+                     </font></PasswordField>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label id="label-error" fx:id="loginWindowErrorLabel" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#loginWindowLogIn" prefHeight="30.0" prefWidth="100.0" text="Zaloguj się" />
+                  <Button mnemonicParsing="false" onAction="#loginWindowCancel" prefHeight="30.0" prefWidth="100.0" text="Anuluj" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
