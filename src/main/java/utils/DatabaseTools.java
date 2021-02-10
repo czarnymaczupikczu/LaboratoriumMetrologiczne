@@ -4,7 +4,8 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import models.UserModel;
+import models.*;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  * Klasa zawiera metody do obsługi bazy danych.
  */
 public class DatabaseTools {
-    private final static String DATABASE_URL = "jdbc:sqlite:K:/ZC/CM/roboczy/db/baza1.db";
+    private final static String DATABASE_URL = "jdbc:sqlite:C:/KOPIE CM/baza1.db";
     private static ConnectionSource connectionSource;
     private static Dao<UserModel, Integer> userModelDao;
 
@@ -56,7 +57,9 @@ public class DatabaseTools {
     public static void initDatabase(){
         try {
             TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), UserModel.class);
-
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), InstrumentModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), StorehouseModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), RegisterModel.class);
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }
