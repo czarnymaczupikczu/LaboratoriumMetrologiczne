@@ -1,5 +1,6 @@
 package models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -9,37 +10,53 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "REGISTER")
 public class RegisterModel {
-    @DatabaseField(generatedId = true)
+
+    public static final String ID_REGISTER="idRegister";
+    public static final String REGISTER_KIND="registerKind";
+    public static final String ID_REGISTER_BY_YEAR="idRegisterByYear";
+    public static final String STORAGE="storage";
+    public static final String CARD_NUMBER="cardNumber";
+    public static final String CALIBRATION_DATE="calibrationDate";
+    public static final String CALIBRATION_USER="calibrationUser";
+    public static final String CERTIFICATE_NUMBER="certificateNumber";
+    public static final String DOCUMENT_KIND="documentKind";
+    public static final String AGREEMENT_NUMBER="agreementNumber";
+    public static final String STATE="state";
+    public static final String REGISTER_REMARKS="registerRemarks";
+
+    @DatabaseField(generatedId = true,columnName = ID_REGISTER)
     private Integer idRegister;
-    @DatabaseField
+    @DatabaseField(columnName = REGISTER_KIND)
     private Integer registerKind;  //W zakresie akredytacji lub poza zakresem
-    @DatabaseField
+    @DatabaseField(columnName = ID_REGISTER_BY_YEAR)
     private Integer idRegisterByYear;
-    @DatabaseField(foreign = true,foreignAutoRefresh = true)
-    private StorehouseModel storehouse;
-    @DatabaseField
+    @DatabaseField(foreign = true,foreignAutoRefresh = true,columnName = STORAGE)
+    private StorageModel storage;
+    @DatabaseField(columnName = CARD_NUMBER)
     private String cardNumber;
-    @DatabaseField
+    @DatabaseField(columnName = CALIBRATION_DATE)
     private String calibrationDate;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true,columnName = CALIBRATION_USER)
     private UserModel userWhoCalibrate;
-    @DatabaseField
+    @DatabaseField(columnName = CERTIFICATE_NUMBER)
     private String certificateNumber;
-    @DatabaseField
+    @DatabaseField(columnName = DOCUMENT_KIND)
     private String documentKind;
-    @DatabaseField
+    @DatabaseField(columnName = AGREEMENT_NUMBER)
     private String agreementNumber;
-    @DatabaseField
+    @DatabaseField(columnName = STATE)
     private String state;
+    @DatabaseField(dataType = DataType.LONG_STRING,columnName = REGISTER_REMARKS)
+    private String registerRemarks;
 
     //Konstruktory
     public RegisterModel() {
     }
-    public RegisterModel(Integer idRegister, Integer registerKind, Integer idRegisterByYear, StorehouseModel storehouse, String cardNumber, String calibrationDate, UserModel userWhoCalibrate, String certificateNumber, String documentKind, String agreementNumber, String state) {
+    public RegisterModel(Integer idRegister, Integer registerKind, Integer idRegisterByYear, StorageModel storage, String cardNumber, String calibrationDate, UserModel userWhoCalibrate, String certificateNumber, String documentKind, String agreementNumber, String state, String registerRemarks) {
         this.idRegister = idRegister;
         this.registerKind = registerKind;
         this.idRegisterByYear = idRegisterByYear;
-        this.storehouse = storehouse;
+        this.storage = storage;
         this.cardNumber = cardNumber;
         this.calibrationDate = calibrationDate;
         this.userWhoCalibrate = userWhoCalibrate;
@@ -47,6 +64,7 @@ public class RegisterModel {
         this.documentKind = documentKind;
         this.agreementNumber = agreementNumber;
         this.state = state;
+        this.registerRemarks = registerRemarks;
     }
 
     //Gettery i Settery
@@ -68,11 +86,11 @@ public class RegisterModel {
     public void setIdRegisterByYear(Integer idRegisterByYear) {
         this.idRegisterByYear = idRegisterByYear;
     }
-    public StorehouseModel getStorehouse() {
-        return storehouse;
+    public StorageModel getStorage() {
+        return storage;
     }
-    public void setStorehouse(StorehouseModel storehouse) {
-        this.storehouse = storehouse;
+    public void setStorage(StorageModel storage) {
+        this.storage = storage;
     }
     public String getCardNumber() {
         return cardNumber;
@@ -115,5 +133,11 @@ public class RegisterModel {
     }
     public void setState(String state) {
         this.state = state;
+    }
+    public String getRegisterRemarks() {
+        return registerRemarks;
+    }
+    public void setRegisterRemarks(String registerRemarks) {
+        this.registerRemarks = registerRemarks;
     }
 }

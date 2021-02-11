@@ -9,23 +9,34 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "APPLICANTS")
 public class ApplicantModel {
-    @DatabaseField(generatedId = true)
+
+    public static final String ID_APPLICANT="idApplicant";
+    public static final String SHORT_NAME="shortName";
+    public static final String FULL_NAME="fullName";
+    public static final String POST_CODE="postCode";
+    public static final String CITY="city";
+    public static final String STREET="street";
+    public static final String HOUSE_NUMBER="houseNumber";
+    public static final String FLAT_NUMBER="flatNumber";
+    public static final String APPLICANT_STATUS="status";
+
+    @DatabaseField(generatedId = true, columnName=ID_APPLICANT)
     private Integer idApplicant;
-    @DatabaseField()
+    @DatabaseField(columnName = SHORT_NAME)
     private String shortName;
-    @DatabaseField(dataType = DataType.LONG_STRING)
+    @DatabaseField(dataType = DataType.LONG_STRING,columnName = FULL_NAME)
     private String fullName;
-    @DatabaseField
+    @DatabaseField(columnName = POST_CODE)
     private String postCode;
-    @DatabaseField
+    @DatabaseField(columnName = CITY)
     private String city;
-    @DatabaseField
+    @DatabaseField(columnName = STREET)
     private String street;
-    @DatabaseField
+    @DatabaseField(columnName = HOUSE_NUMBER)
     private String houseNumber;
-    @DatabaseField
+    @DatabaseField(columnName = FLAT_NUMBER)
     private String flatNumber;
-    @DatabaseField
+    @DatabaseField(columnName = APPLICANT_STATUS)
     private String status;
 
     //Konstruktory

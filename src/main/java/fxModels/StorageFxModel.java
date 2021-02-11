@@ -9,7 +9,7 @@ import javafx.beans.property.StringProperty;
 /**
  * Obiekty klasy storehouseFxModel są wyświetlane w kontrolerze TableView w zakładce Storehouse
  */
-public class StorehouseFxModel {
+public class StorageFxModel {
     private StringProperty indexOfStorehouseModelList=new SimpleStringProperty();
     private StringProperty idInstrument=new SimpleStringProperty(); //To trzeba zmienić na idStorehouse ale poki co musi byc
     private StringProperty instrumentName=new SimpleStringProperty();
@@ -25,10 +25,10 @@ public class StorehouseFxModel {
     private StringProperty calibrationDate=new SimpleStringProperty();
     private StringProperty leftDate=new SimpleStringProperty();
 
-    public StorehouseFxModel() {
+    public StorageFxModel() {
     }
 
-    public StorehouseFxModel(StringProperty indexOfStorehouseModelList, StringProperty idInstrument, StringProperty instrumentName, StringProperty instrumentType, StringProperty instrumentProducer, StringProperty serialNumber, StringProperty identificationNumber, StringProperty instrumentRange, StringProperty instrumentLength, StringProperty instrumentDiameter, StringProperty client, StringProperty addDate, StringProperty calibrationDate, StringProperty leftDate) {
+    public StorageFxModel(StringProperty indexOfStorehouseModelList, StringProperty idInstrument, StringProperty instrumentName, StringProperty instrumentType, StringProperty instrumentProducer, StringProperty serialNumber, StringProperty identificationNumber, StringProperty instrumentRange, StringProperty instrumentLength, StringProperty instrumentDiameter, StringProperty client, StringProperty addDate, StringProperty calibrationDate, StringProperty leftDate) {
         this.indexOfStorehouseModelList = indexOfStorehouseModelList;
         this.idInstrument = idInstrument;
         this.instrumentName = instrumentName;

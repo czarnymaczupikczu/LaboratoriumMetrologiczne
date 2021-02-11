@@ -8,9 +8,13 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "UNITS")
 public class UnitModel {
-    @DatabaseField(generatedId = true)
+
+    public static final String ID_UNIT="idUnit";
+    public static final String UNIT_NAME="unitName";
+
+    @DatabaseField(generatedId = true, columnName = ID_UNIT)
     private Integer idUnit;
-    @DatabaseField
+    @DatabaseField(columnName = UNIT_NAME)
     private String unitName;
 
     //Konstruktory

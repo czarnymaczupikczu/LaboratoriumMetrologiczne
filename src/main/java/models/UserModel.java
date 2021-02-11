@@ -7,31 +7,40 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "USERS")
 public class UserModel {
-    @DatabaseField(generatedId = true)
+
+    public static final String ID_USER ="idUser";
+    public static final String FIRST_NAME="firstName";
+    public static final String LAST_NAME="lastName";
+    public static final String LOGIN="login";
+    public static final String PASSWORD="password";
+    public static final String PERMISSION_LEVEL="permissionLevel";
+    public static final String STYLE_SHEET="styleSheet";
+
+    @DatabaseField(generatedId = true,columnName = ID_USER)
     private Integer idUser;
-    @DatabaseField
+    @DatabaseField(columnName = FIRST_NAME)
     private String firstName;
-    @DatabaseField
+    @DatabaseField(columnName = LAST_NAME)
     private String lastName;
-    @DatabaseField
+    @DatabaseField(columnName = LOGIN)
     private String login;
-    @DatabaseField
+    @DatabaseField(columnName = PASSWORD)
     private String password;
-    @DatabaseField
-    private String persmissionLevel; //admin,User
-    @DatabaseField
+    @DatabaseField(columnName = PERMISSION_LEVEL)
+    private String permissionLevel; //admin,User
+    @DatabaseField(columnName = STYLE_SHEET)
     private String styleSheet; //być może kiedyś coś takiego będzie
 
     //Konstruktory
     public UserModel() {
     }
-    public UserModel(Integer idUser, String firstName, String lastName, String login, String password, String persmissionLevel, String styleSheet) {
+    public UserModel(Integer idUser, String firstName, String lastName, String login, String password, String permissionLevel, String styleSheet) {
         this.idUser = idUser;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.password = password;
-        this.persmissionLevel = persmissionLevel;
+        this.permissionLevel = permissionLevel;
         this.styleSheet = styleSheet;
     }
 
@@ -66,11 +75,11 @@ public class UserModel {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getPersmissionLevel() {
-        return persmissionLevel;
+    public String getPermissionLevel() {
+        return permissionLevel;
     }
-    public void setPersmissionLevel(String persmissionLevel) {
-        this.persmissionLevel = persmissionLevel;
+    public void setPermissionLevel(String permissionLevel) {
+        this.permissionLevel = permissionLevel;
     }
     public String getStyleSheet() {
         return styleSheet;

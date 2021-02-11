@@ -5,6 +5,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import models.*;
+import models.instrument.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
  * Klasa zawiera metody do obsługi bazy danych.
  */
 public class DatabaseTools {
-    private final static String DATABASE_URL = "jdbc:sqlite:C:/KOPIE CM/baza1.db";
+    private final static String DATABASE_URL = "jdbc:sqlite:C:/KOPIE CM/baza.db";
     private static ConnectionSource connectionSource;
     private static Dao<UserModel, Integer> userModelDao;
 
@@ -56,10 +57,17 @@ public class DatabaseTools {
      */
     public static void initDatabase(){
         try {
-            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), UserModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), NameModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), ProducerModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), RangeModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), TypeModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), UnitModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), ApplicantModel.class);
             TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), InstrumentModel.class);
-            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), StorehouseModel.class);
             TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), RegisterModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), StorageModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), UserModel.class);
+            TableUtils.createTableIfNotExists(DatabaseTools.getConnectionSource(), YearModel.class);
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }

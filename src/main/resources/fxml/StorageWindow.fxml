@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="storehouseMainVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1190.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StorehouseWindowController">
+<VBox fx:id="storageMainVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1190.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StorageWindowController">
    <children>
       <HBox alignment="CENTER_LEFT" depthTest="DISABLE" prefHeight="30.0" spacing="5.0">
          <children>
@@ -31,9 +32,9 @@
             <Label text="  Szukaj:" />
             <TextField fx:id="searchTextField" prefWidth="300.0" />
             <Label text="Stan:" />
-            <ComboBox fx:id="storehouseWindowStateComboBox" prefWidth="120.0" />
+            <ComboBox fx:id="storageStateComboBox" prefWidth="120.0" />
             <Label text="Rok:" />
-            <ComboBox fx:id="storehouseWindowYearComboBox" prefWidth="100.0" />
+            <ComboBox fx:id="storageYearComboBox" prefWidth="100.0" />
             <Button mnemonicParsing="false" onAction="#showSelectedItems" prefWidth="125.0" text="Wczytaj listę" />
             <Button mnemonicParsing="false" prefWidth="125.0" text="Eksport do XLS" />
          </children>
@@ -41,27 +42,27 @@
             <Insets bottom="5.0" />
          </VBox.margin>
       </HBox>
-      <TableView fx:id="storehouseTableView" prefHeight="475.0" prefWidth="1190.0">
+      <TableView fx:id="storageTableView" prefHeight="475.0" prefWidth="1190.0">
         <columns>
           <TableColumn fx:id="idStorehouseColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Lp." />
-          <TableColumn fx:id="instrumentNameColumn" prefWidth="75.0" text="Nazwa" />
-            <TableColumn fx:id="instrumentTypeColumn" prefWidth="75.0" text="Typ" />
-            <TableColumn fx:id="instrumentProducerColumn" prefWidth="75.0" text="Producent" />
-            <TableColumn fx:id="instrumentSerialNumberColumn" prefWidth="75.0" text="Nr fabryczny" />
-            <TableColumn fx:id="instrumentIdentificationNumberColumn" prefWidth="75.0" text="Nr identyfikacyjny" />
-            <TableColumn fx:id="instrumentRangeColumn" prefWidth="75.0" text="Zakres" />
+          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Nazwa" />
+            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Typ" />
+            <TableColumn fx:id="producerColumn" prefWidth="75.0" text="Producent" />
+            <TableColumn fx:id="serialNumberColumn" prefWidth="75.0" text="Nr fabryczny" />
+            <TableColumn fx:id="identificationNumberColumn" prefWidth="75.0" text="Nr identyfikacyjny" />
+            <TableColumn fx:id="rangeColumn" prefWidth="75.0" text="Zakres" />
             <TableColumn prefWidth="75.0" text="Wymiary [mm]">
                <columns>
-                  <TableColumn fx:id="instrumentLengthColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="l" />
-                  <TableColumn fx:id="instrumentDiameterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="⌀" />
+                  <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="l" />
+                  <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="⌀" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="instrumentClientColumn" prefWidth="75.0" text="Zleceniodawca" />
+            <TableColumn fx:id="applicantColumn" prefWidth="75.0" text="Zleceniodawca" />
             <TableColumn prefWidth="75.0" text="Data">
                <columns>
-                  <TableColumn fx:id="addDateColumn" prefWidth="75.0" text="przyjęcia" />
+                  <TableColumn fx:id="entryDateColumn" prefWidth="75.0" text="przyjęcia" />
                   <TableColumn fx:id="calibrationDateColumn" prefWidth="75.0" text="wzorcowania" />
-                  <TableColumn fx:id="leftDateColumn" prefWidth="75.0" text="wydania" />
+                  <TableColumn fx:id="spendDateColumn" prefWidth="75.0" text="wydania" />
                </columns>
             </TableColumn>
         </columns>
@@ -126,22 +127,22 @@
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label fx:id="nameLabel" text="Label">
+                        <Label fx:id="shortNameLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="fullNameLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="cityLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="streetLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
@@ -181,22 +182,22 @@
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label text="Label">
+                        <Label fx:id="entryLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="calibrationLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="spendLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="cardNumberLabel" text="Label">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </VBox.margin>
@@ -212,6 +213,9 @@
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
+               <children>
+                  <TextArea fx:id="storageRemarksTextArea" />
+               </children>
             </HBox>
          </children>
       </GridPane>

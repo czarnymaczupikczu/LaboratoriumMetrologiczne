@@ -1,84 +1,102 @@
 package controllers;
 
-import dataModels.StorehouseDataModel;
-import fxModels.StorehouseFxModel;
+import dataModels.StorageDataModel;
+import fxModels.StorageFxModel;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 
-public class StorehouseWindowController {
-    public StorehouseWindowController(){
+public class StorageWindowController {
+    public StorageWindowController(){
         System.out.println("Konstruktor klasy StorehouseWindowController");
     }
 
+    //ComboBox
     @FXML
-    private ComboBox storehouseWindowStateComboBox;
+    private ComboBox<String> storageStateComboBox;
     @FXML
-    private ComboBox <String> storehouseWindowYearComboBox;
-    @FXML
-    private VBox storehouseMainVBox;
+    private ComboBox<String> storageYearComboBox;
 
     @FXML
-    private TableView<StorehouseFxModel> storehouseTableView;
+    private VBox storehouseMainVBox;
+    //TableView
     @FXML
-    private TableColumn<StorehouseFxModel, String> idStorehouseColumn;
+    private TableView<StorageFxModel> storageTableView;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentNameColumn;
+    private TableColumn<StorageFxModel, String> idStorageColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentTypeColumn;
+    private TableColumn<StorageFxModel, String> nameColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentProducerColumn;
+    private TableColumn<StorageFxModel, String> typeColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentSerialNumberColumn;
+    private TableColumn<StorageFxModel, String> producerColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentIdentificationNumberColumn;
+    private TableColumn<StorageFxModel, String> serialNumberColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentRangeColumn;
+    private TableColumn<StorageFxModel, String> identificationNumberColumn;
     @FXML
-    private TableColumn<StorehouseFxModel,String> instrumentLengthColumn;
+    private TableColumn<StorageFxModel, String> rangeColumn;
     @FXML
-    private TableColumn<StorehouseFxModel,String> instrumentDiameterColumn;
+    private TableColumn<StorageFxModel,String> lengthColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> instrumentClientColumn;
+    private TableColumn<StorageFxModel,String> diameterColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> addDateColumn;
+    private TableColumn<StorageFxModel, String> applicantColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> calibrationDateColumn;
+    private TableColumn<StorageFxModel, String> entryDateColumn;
     @FXML
-    private TableColumn<StorehouseFxModel, String> leftDateColumn;
+    private TableColumn<StorageFxModel, String> calibrationDateColumn;
     @FXML
-    private Label nameLabel;
+    private TableColumn<StorageFxModel, String> spendDateColumn;
+    //Labels
+    @FXML
+    private Label shortNameLabel;
+    @FXML
+    private Label fullNameLabel;
+    @FXML
+    private Label cityLabel;
+    @FXML
+    private Label streetLabel;
+    @FXML
+    private Label entryLabel;
+    @FXML
+    private Label calibrationLabel;
+    @FXML
+    private Label spendLabel;
+    @FXML
+    private Label cardNumberLabel;
+    @FXML
+    private TextArea storageRemarksTextArea;
+
+
+
+
     @FXML
     private TextField searchTextField;
 
-    private StorehouseDataModel storehouseElement;
-    private StorehouseFxModel   storehouseFxElement=new StorehouseFxModel();
-    private ObjectProperty<StorehouseFxModel> testowyObiekt = new SimpleObjectProperty<>(new StorehouseFxModel());
+    private StorageDataModel storehouseElement;
+    private StorageFxModel storehouseFxElement=new StorageFxModel();
+    private ObjectProperty<StorageFxModel> testowyObiekt = new SimpleObjectProperty<>(new StorageFxModel());
 
     @FXML
     public void initialize(){
         System.out.println("Metoda initialize kontrolera StorehouseWindowController ");
-        storehouseWindowStateComboBox.getItems().add("Wszystkie");
-        storehouseWindowStateComboBox.getItems().add("Magazyn");
-        storehouseWindowYearComboBox.getItems().add("2020");
-        storehouseWindowYearComboBox.getItems().add("2021");
-        this.storehouseElement=new StorehouseDataModel();
-        this.storehouseFxElement.setClient("Problem");
-
+        storageStateComboBox.getItems().addAll("Wszystkie","W magazynie");
+        storageStateComboBox.setValue("Wszystkie");
+        storageYearComboBox.getItems().addAll("2021","2020","2019","2018");
+        storageYearComboBox.setValue("2021");
+/*
         initializeTableView();
-        getStorehouseList();
+        getStorehouseList();*/
     }
 
-    public void getStorehouseList(){
+  /*  public void getStorehouseList(){
         this.storehouseElement.listInitialize();
     }
     private void initializeTableView(){
-        this.storehouseTableView.setItems(this.storehouseElement.getStorehouseList());
+        this.storageTableView.setItems(this.storehouseElement.getStorehouseList());
         this.idStorehouseColumn.setCellValueFactory(cellData->cellData.getValue().indexOfStorehouseModelListProperty());
         this.instrumentNameColumn.setCellValueFactory(cellData->cellData.getValue().idInstrumentProperty());
         this.instrumentTypeColumn.setCellValueFactory(cellData->cellData.getValue().instrumentNameProperty());
@@ -116,7 +134,7 @@ public class StorehouseWindowController {
 
         this.storehouseTableView.prefHeightProperty().bind(storehouseMainVBox.heightProperty().multiply(0.7));
     }
-
+*/
     @FXML
     void showSelectedItems() {
         System.out.println("Rozmiar "+this.storehouseElement.getStorehouseSelectedItemsList().size());
