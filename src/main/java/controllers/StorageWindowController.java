@@ -1,6 +1,7 @@
 package controllers;
 
 import dataModels.StorageDataModel;
+import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -93,16 +94,15 @@ public class StorageWindowController {
     private void initializeTableView(){
         this.storageTableView.setItems(this.storageDataModel.getStorageList());
         this.idStorageColumn.setCellValueFactory(cellData->cellData.getValue().idStorageProperty().asObject());
-        //this.nameColumn.setCellValueFactory(cellData->cellData.);
-        //this.typeColumn.setCellValueFactory();
-        //this.producerColumn.setCellValueFactory();
-        //this.serialNumberColumn.setCellValueFactory(cellData->cellData.getValue().serialNumberProperty());
-        //this.identificationNumberColumn.setCellValueFactory(cellData->cellData.getValue().identificationNumberProperty());
-        //this.rangeColumn.setCellValueFactory(cellData->cellData.getValue().instrumentRangeProperty());
-        //this.lengthColumn.setCellValueFactory(cellData->cellData.getValue().instrumentLengthProperty());
-        //this.diameterColumn.setCellValueFactory(cellData->cellData.getValue().instrumentDiameterProperty());
-        //this.applicantColumn.setCellValueFactory(cellData->cellData.getValue().clientProperty());
-
+        this.nameColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().nameProperty());
+        this.typeColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().typeProperty());
+        this.producerColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().producerProperty());
+        this.serialNumberColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().serialNumberProperty());
+        this.identificationNumberColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().identificationNumberProperty());
+        this.rangeColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().rangeProperty());
+        this.lengthColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().lengthProperty());
+        this.diameterColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().diameterProperty());
+        this.applicantColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().getApplicant().shortNameProperty());
         this.entryDateColumn.setCellValueFactory(cellData->cellData.getValue().entryDateProperty());
         this.calibrationDateColumn.setCellValueFactory(cellData->cellData.getValue().calibrationDatesProperty());
         this.spendDateColumn.setCellValueFactory(cellData->cellData.getValue().spendDateProperty());

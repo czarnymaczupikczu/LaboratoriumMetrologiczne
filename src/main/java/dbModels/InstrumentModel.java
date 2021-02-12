@@ -37,9 +37,9 @@ public class InstrumentModel {
     @DatabaseField(columnName = IDENTIFICATION_NUMBER)
     private String identificationNumber;
     @DatabaseField(columnName = LENGTH)
-    private Integer length;
+    private String length;
     @DatabaseField(columnName = DIAMETER)
-    private Integer diameter;
+    private String diameter;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = RANGE)
     private RangeModel range;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = APPLICANT)
@@ -48,7 +48,7 @@ public class InstrumentModel {
     //Konstruktory
     public InstrumentModel() {
     }
-    public InstrumentModel(Integer idInstrument, NameModel name, TypeModel type, ProducerModel producer, String serialNumber, String identificationNumber, Integer length, Integer diameter, RangeModel range, ApplicantModel applicant) {
+    public InstrumentModel(Integer idInstrument, NameModel name, TypeModel type, ProducerModel producer, String serialNumber, String identificationNumber, String length, String diameter, RangeModel range, ApplicantModel applicant) {
         this.idInstrument = idInstrument;
         this.name = name;
         this.type = type;
@@ -98,16 +98,16 @@ public class InstrumentModel {
     public void setIdentificationNumber(String identificationNumber) {
         this.identificationNumber = identificationNumber;
     }
-    public Integer getLength() {
+    public String getLength() {
         return length;
     }
-    public void setLength(Integer length) {
+    public void setLength(String length) {
         this.length = length;
     }
-    public Integer getDiameter() {
+    public String getDiameter() {
         return diameter;
     }
-    public void setDiameter(Integer diameter) {
+    public void setDiameter(String diameter) {
         this.diameter = diameter;
     }
     public RangeModel getRange() {

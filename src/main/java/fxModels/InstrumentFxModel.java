@@ -10,8 +10,8 @@ public class InstrumentFxModel {
     private StringProperty producer=new SimpleStringProperty();
     private StringProperty serialNumber=new SimpleStringProperty();
     private StringProperty identificationNumber=new SimpleStringProperty();
-    private IntegerProperty length=new SimpleIntegerProperty();;
-    private IntegerProperty diameter=new SimpleIntegerProperty();;
+    private StringProperty length=new SimpleStringProperty();;
+    private StringProperty diameter=new SimpleStringProperty();;
     private StringProperty range=new SimpleStringProperty();
     private ApplicantFxModel applicant=new ApplicantFxModel();
 
@@ -19,15 +19,15 @@ public class InstrumentFxModel {
     public InstrumentFxModel() {
     }
     public InstrumentFxModel(int idInstrument, String name, String type, String producer,
-                             String serialNumber, String identificationNumber, String range, int length, int diameter, ApplicantFxModel applicant) {
+                             String serialNumber, String identificationNumber, String range, String length, String diameter, ApplicantFxModel applicant) {
         this.idInstrument = new SimpleIntegerProperty(idInstrument);
         this.name = new SimpleStringProperty(name);
         this.type =  new SimpleStringProperty(type);
         this.producer =  new SimpleStringProperty(producer);
         this.serialNumber = new SimpleStringProperty(serialNumber);
         this.identificationNumber = new SimpleStringProperty(identificationNumber);
-        this.length = new SimpleIntegerProperty(length);
-        this.diameter = new SimpleIntegerProperty(diameter);
+        this.length = new SimpleStringProperty(length);
+        this.diameter = new SimpleStringProperty(diameter);
         this.range =  new SimpleStringProperty(range);
         this.applicant = applicant;
     }
@@ -90,22 +90,22 @@ public class InstrumentFxModel {
     public void setIdentificationNumber(String identificationNumber) {
         this.identificationNumber.set(identificationNumber);
     }
-    public int getLength() {
+    public String getLength() {
         return length.get();
     }
-    public IntegerProperty lengthProperty() {
+    public StringProperty lengthProperty() {
         return length;
     }
-    public void setLength(int length) {
+    public void setLength(String length) {
         this.length.set(length);
     }
-    public int getDiameter() {
+    public String getDiameter() {
         return diameter.get();
     }
-    public IntegerProperty diameterProperty() {
+    public StringProperty diameterProperty() {
         return diameter;
     }
-    public void setDiameter(int diameter) {
+    public void setDiameter(String diameter) {
         this.diameter.set(diameter);
     }
     public String getRange() {

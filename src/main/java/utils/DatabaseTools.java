@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Klasa zawiera metody do obsługi bazy danych.
  */
 public class DatabaseTools {
-    private final static String DATABASE_URL = "jdbc:sqlite:C:/KOPIE CM/baza.db";
+    private final static String DATABASE_URL = "jdbc:sqlite:baza.db";
     private static ConnectionSource connectionSource;
     private static Dao<UserModel, Integer> userModelDao;
 

@@ -51,7 +51,7 @@ public class StorageDataModel {
                     public StorageFxModel mapRow(String[] columns, String[] res) throws SQLException {
                         System.out.println("Wymiar: " +res.length);
                         return new StorageFxModel(Integer.parseInt(res[0]),
-                                new InstrumentFxModel(Integer.parseInt(res[1]), res[2], res[3],res[4], res[5], res[6] ,res[7], Integer.parseInt(res[8]), Integer.parseInt(res[9]),
+                                new InstrumentFxModel(Integer.parseInt(res[1]), res[2], res[3],res[4], res[5], res[6] ,res[7],res[8], res[9],
                                         new ApplicantFxModel(Integer.parseInt(res[10]), res[11], res[12], res[13], res[14], res[15], res[16], res[17], res[18])),
                                 res[19],res[20],res[21],res[22],res[23],res[24],res[25],res[26]);
                     }
