@@ -1,11 +1,11 @@
-package models;
+package dbModels;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import models.instrument.NameModel;
-import models.instrument.ProducerModel;
-import models.instrument.RangeModel;
-import models.instrument.TypeModel;
+import dbModels.instrument.NameModel;
+import dbModels.instrument.ProducerModel;
+import dbModels.instrument.RangeModel;
+import dbModels.instrument.TypeModel;
 
 /**
  * Klasa implementująca model danych w tabeli INSTRUMENTS

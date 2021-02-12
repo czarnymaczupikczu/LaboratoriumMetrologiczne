@@ -44,7 +44,7 @@
       </HBox>
       <TableView fx:id="storageTableView" prefHeight="475.0" prefWidth="1190.0">
         <columns>
-          <TableColumn fx:id="idStorehouseColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Lp." />
+          <TableColumn fx:id="idStorageColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Lp." />
           <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Nazwa" />
             <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Typ" />
             <TableColumn fx:id="producerColumn" prefWidth="75.0" text="Producent" />

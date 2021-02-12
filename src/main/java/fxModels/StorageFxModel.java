@@ -1,215 +1,127 @@
 package fxModels;
 
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
+import javafx.beans.property.*;
 
 /**
  * Obiekty klasy storehouseFxModel są wyświetlane w kontrolerze TableView w zakładce Storehouse
  */
 public class StorageFxModel {
-    private StringProperty indexOfStorehouseModelList=new SimpleStringProperty();
-    private StringProperty idInstrument=new SimpleStringProperty(); //To trzeba zmienić na idStorehouse ale poki co musi byc
-    private StringProperty instrumentName=new SimpleStringProperty();
-    private StringProperty instrumentType=new SimpleStringProperty();
-    private StringProperty instrumentProducer=new SimpleStringProperty();
-    private StringProperty serialNumber=new SimpleStringProperty();
-    private StringProperty identificationNumber=new SimpleStringProperty();
-    private StringProperty instrumentRange=new SimpleStringProperty();
-    private StringProperty instrumentLength=new SimpleStringProperty();
-    private StringProperty instrumentDiameter=new SimpleStringProperty();
-    private StringProperty client= new SimpleStringProperty();
-    private StringProperty addDate=new SimpleStringProperty();
-    private StringProperty calibrationDate=new SimpleStringProperty();
-    private StringProperty leftDate=new SimpleStringProperty();
 
+    private IntegerProperty idStorage=new SimpleIntegerProperty();
+    private InstrumentFxModel instrument=new InstrumentFxModel();
+    private StringProperty entryDate= new SimpleStringProperty();
+    private StringProperty entryUser= new SimpleStringProperty();
+    private StringProperty calibrationDates=new SimpleStringProperty();
+    private StringProperty calibrationUsers=new SimpleStringProperty();
+    private StringProperty cardNumbers = new SimpleStringProperty();
+    private StringProperty spendDate=new SimpleStringProperty();
+    private StringProperty spendUser= new SimpleStringProperty();
+    private StringProperty storageRemarks=new SimpleStringProperty();
+
+    //Konstruktroy
     public StorageFxModel() {
     }
-
-    public StorageFxModel(StringProperty indexOfStorehouseModelList, StringProperty idInstrument, StringProperty instrumentName, StringProperty instrumentType, StringProperty instrumentProducer, StringProperty serialNumber, StringProperty identificationNumber, StringProperty instrumentRange, StringProperty instrumentLength, StringProperty instrumentDiameter, StringProperty client, StringProperty addDate, StringProperty calibrationDate, StringProperty leftDate) {
-        this.indexOfStorehouseModelList = indexOfStorehouseModelList;
-        this.idInstrument = idInstrument;
-        this.instrumentName = instrumentName;
-        this.instrumentType = instrumentType;
-        this.instrumentProducer = instrumentProducer;
-        this.serialNumber = serialNumber;
-        this.identificationNumber = identificationNumber;
-        this.instrumentRange = instrumentRange;
-        this.instrumentLength = instrumentLength;
-        this.instrumentDiameter = instrumentDiameter;
-        this.client = client;
-        this.addDate = addDate;
-        this.calibrationDate = calibrationDate;
-        this.leftDate = leftDate;
+    public StorageFxModel(int idStorage, InstrumentFxModel instrument, String entryDate, String entryUser, String calibrationDates, String calibrationUsers, String cardNumbers,String spendDate, String spendUser, String storageRemarks) {
+        this.idStorage = new SimpleIntegerProperty(idStorage);
+        this.instrument = instrument;
+        this.entryDate = new SimpleStringProperty(entryDate);
+        this.entryUser = new SimpleStringProperty(entryUser);
+        this.calibrationDates=new SimpleStringProperty(calibrationDates);
+        this.calibrationUsers=new SimpleStringProperty(calibrationUsers);
+        this.cardNumbers=new SimpleStringProperty(cardNumbers);
+        this.spendDate = new SimpleStringProperty(spendDate);
+        this.spendUser = new SimpleStringProperty(spendUser);
+        this.storageRemarks = new SimpleStringProperty(storageRemarks);
     }
 
-    public String getIndexOfStorehouseModelList() {
-        return indexOfStorehouseModelList.get();
+    //Gettery i Settery
+    public int getIdStorage() {
+        return idStorage.get();
     }
-
-    public StringProperty indexOfStorehouseModelListProperty() {
-        return indexOfStorehouseModelList;
+    public IntegerProperty idStorageProperty() {
+        return idStorage;
     }
-
-    public void setIndexOfStorehouseModelList(String indexOfStorehouseModelList) {
-        this.indexOfStorehouseModelList.set(indexOfStorehouseModelList);
+    public void setIdStorage(int idStorage) {
+        this.idStorage.set(idStorage);
     }
-
-    public String getIdInstrument() {
-        return idInstrument.get();
+    public InstrumentFxModel getInstrument() {
+        return instrument;
     }
-
-    public StringProperty idInstrumentProperty() {
-        return idInstrument;
+    public void setInstrument(InstrumentFxModel instrument) {
+        this.instrument = instrument;
     }
-
-    public void setIdInstrument(String idInstrument) {
-        this.idInstrument.set(idInstrument);
+    public String getEntryDate() {
+        return entryDate.get();
     }
-
-    public String getInstrumentName() {
-        return instrumentName.get();
+    public StringProperty entryDateProperty() {
+        return entryDate;
     }
-
-    public StringProperty instrumentNameProperty() {
-        return instrumentName;
+    public void setEntryDate(String entryDate) {
+        this.entryDate.set(entryDate);
     }
-
-    public void setInstrumentName(String instrumentName) {
-        this.instrumentName.set(instrumentName);
+    public String getEntryUser() {
+        return entryUser.get();
     }
-
-    public String getInstrumentType() {
-        return instrumentType.get();
+    public StringProperty entryUserProperty() {
+        return entryUser;
     }
-
-    public StringProperty instrumentTypeProperty() {
-        return instrumentType;
+    public void setEntryUser(String entryUser) {
+        this.entryUser.set(entryUser);
     }
-
-    public void setInstrumentType(String instrumentType) {
-        this.instrumentType.set(instrumentType);
+    public String getCalibrationDates() {
+        return calibrationDates.get();
     }
-
-    public String getInstrumentProducer() {
-        return instrumentProducer.get();
+    public StringProperty calibrationDatesProperty() {
+        return calibrationDates;
     }
-
-    public StringProperty instrumentProducerProperty() {
-        return instrumentProducer;
+    public void setCalibrationDates(String calibrationDates) {
+        this.calibrationDates.set(calibrationDates);
     }
-
-    public void setInstrumentProducer(String instrumentProducer) {
-        this.instrumentProducer.set(instrumentProducer);
+    public String getCalibrationUsers() {
+        return calibrationUsers.get();
     }
-
-    public String getSerialNumber() {
-        return serialNumber.get();
+    public StringProperty calibrationUsersProperty() {
+        return calibrationUsers;
     }
-
-    public StringProperty serialNumberProperty() {
-        return serialNumber;
+    public void setCalibrationUsers(String calibrationUsers) {
+        this.calibrationUsers.set(calibrationUsers);
     }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber.set(serialNumber);
+    public String getCardNumbers() {
+        return cardNumbers.get();
     }
-
-    public String getIdentificationNumber() {
-        return identificationNumber.get();
+    public StringProperty cardNumbersProperty() {
+        return cardNumbers;
     }
-
-    public StringProperty identificationNumberProperty() {
-        return identificationNumber;
+    public void setCardNumbers(String cardNumbers) {
+        this.cardNumbers.set(cardNumbers);
     }
-
-    public void setIdentificationNumber(String identificationNumber) {
-        this.identificationNumber.set(identificationNumber);
+    public String getSpendDate() {
+        return spendDate.get();
     }
-
-    public String getInstrumentRange() {
-        return instrumentRange.get();
+    public StringProperty spendDateProperty() {
+        return spendDate;
     }
-
-    public StringProperty instrumentRangeProperty() {
-        return instrumentRange;
+    public void setSpendDate(String spendDate) {
+        this.spendDate.set(spendDate);
     }
-
-    public void setInstrumentRange(String instrumentRange) {
-        this.instrumentRange.set(instrumentRange);
+    public String getSpendUser() {
+        return spendUser.get();
     }
-
-    public String getInstrumentLength() {
-        return instrumentLength.get();
+    public StringProperty spendUserProperty() {
+        return spendUser;
     }
-
-    public StringProperty instrumentLengthProperty() {
-        return instrumentLength;
+    public void setSpendUser(String spendUser) {
+        this.spendUser.set(spendUser);
     }
-
-    public void setInstrumentLength(String instrumentLength) {
-        this.instrumentLength.set(instrumentLength);
+    public String getStorageRemarks() {
+        return storageRemarks.get();
     }
-
-    public String getInstrumentDiameter() {
-        return instrumentDiameter.get();
+    public StringProperty storageRemarksProperty() {
+        return storageRemarks;
     }
-
-    public StringProperty instrumentDiameterProperty() {
-        return instrumentDiameter;
-    }
-
-    public void setInstrumentDiameter(String instrumentDiameter) {
-        this.instrumentDiameter.set(instrumentDiameter);
-    }
-
-    public String getClient() {
-        return client.get();
-    }
-
-    public StringProperty clientProperty() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client.set(client);
-    }
-
-    public String getAddDate() {
-        return addDate.get();
-    }
-
-    public StringProperty addDateProperty() {
-        return addDate;
-    }
-
-    public void setAddDate(String addDate) {
-        this.addDate.set(addDate);
-    }
-
-    public String getCalibrationDate() {
-        return calibrationDate.get();
-    }
-
-    public StringProperty calibrationDateProperty() {
-        return calibrationDate;
-    }
-
-    public void setCalibrationDate(String calibrationDate) {
-        this.calibrationDate.set(calibrationDate);
-    }
-
-    public String getLeftDate() {
-        return leftDate.get();
-    }
-
-    public StringProperty leftDateProperty() {
-        return leftDate;
-    }
-
-    public void setLeftDate(String leftDate) {
-        this.leftDate.set(leftDate);
+    public void setStorageRemarks(String storageRemarks) {
+        this.storageRemarks.set(storageRemarks);
     }
 }

@@ -5,7 +5,10 @@ import fxModels.StorageFxModel;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
+import java.sql.SQLException;
 
 
 public class StorageWindowController {
@@ -25,7 +28,7 @@ public class StorageWindowController {
     @FXML
     private TableView<StorageFxModel> storageTableView;
     @FXML
-    private TableColumn<StorageFxModel, String> idStorageColumn;
+    private TableColumn<StorageFxModel, Integer> idStorageColumn;
     @FXML
     private TableColumn<StorageFxModel, String> nameColumn;
     @FXML
@@ -69,55 +72,48 @@ public class StorageWindowController {
     private Label cardNumberLabel;
     @FXML
     private TextArea storageRemarksTextArea;
-
-
-
-
     @FXML
     private TextField searchTextField;
 
-    private StorageDataModel storehouseElement;
-    private StorageFxModel storehouseFxElement=new StorageFxModel();
-    private ObjectProperty<StorageFxModel> testowyObiekt = new SimpleObjectProperty<>(new StorageFxModel());
+    private StorageDataModel storageDataModel=new StorageDataModel();
 
     @FXML
-    public void initialize(){
+    public void initialize() throws SQLException {
         System.out.println("Metoda initialize kontrolera StorehouseWindowController ");
-        storageStateComboBox.getItems().addAll("Wszystkie","W magazynie");
-        storageStateComboBox.setValue("Wszystkie");
-        storageYearComboBox.getItems().addAll("2021","2020","2019","2018");
-        storageYearComboBox.setValue("2021");
-/*
+        this.storageStateComboBox.getItems().addAll("Wszystkie","W magazynie");
+        this.storageStateComboBox.setValue("Wszystkie");
+        this.storageYearComboBox.getItems().addAll("2021","2020","2019","2018");
+        this.storageYearComboBox.setValue("2021");
+        storageDataModel.listInitialize();
         initializeTableView();
-        getStorehouseList();*/
+
     }
 
-  /*  public void getStorehouseList(){
-        this.storehouseElement.listInitialize();
-    }
+
     private void initializeTableView(){
-        this.storageTableView.setItems(this.storehouseElement.getStorehouseList());
-        this.idStorehouseColumn.setCellValueFactory(cellData->cellData.getValue().indexOfStorehouseModelListProperty());
-        this.instrumentNameColumn.setCellValueFactory(cellData->cellData.getValue().idInstrumentProperty());
-        this.instrumentTypeColumn.setCellValueFactory(cellData->cellData.getValue().instrumentNameProperty());
-        this.instrumentProducerColumn.setCellValueFactory(cellData->cellData.getValue().instrumentTypeProperty());
-        this.instrumentSerialNumberColumn.setCellValueFactory(cellData->cellData.getValue().serialNumberProperty());
-        this.instrumentIdentificationNumberColumn.setCellValueFactory(cellData->cellData.getValue().identificationNumberProperty());
-        this.instrumentRangeColumn.setCellValueFactory(cellData->cellData.getValue().instrumentRangeProperty());
-        this.instrumentLengthColumn.setCellValueFactory(cellData->cellData.getValue().instrumentLengthProperty());
-        this.instrumentDiameterColumn.setCellValueFactory(cellData->cellData.getValue().instrumentDiameterProperty());
-        this.instrumentClientColumn.setCellValueFactory(cellData->cellData.getValue().clientProperty());
-        this.addDateColumn.setCellValueFactory(cellData->cellData.getValue().addDateProperty());
-        this.calibrationDateColumn.setCellValueFactory(cellData->cellData.getValue().calibrationDateProperty());
-        this.leftDateColumn.setCellValueFactory(cellData->cellData.getValue().leftDateProperty());
-        this.storehouseTableView.setItems(this.storehouseElement.getStorehouseList());
+        this.storageTableView.setItems(this.storageDataModel.getStorageList());
+        this.idStorageColumn.setCellValueFactory(cellData->cellData.getValue().idStorageProperty().asObject());
+        //this.nameColumn.setCellValueFactory(cellData->cellData.);
+        //this.typeColumn.setCellValueFactory();
+        //this.producerColumn.setCellValueFactory();
+        //this.serialNumberColumn.setCellValueFactory(cellData->cellData.getValue().serialNumberProperty());
+        //this.identificationNumberColumn.setCellValueFactory(cellData->cellData.getValue().identificationNumberProperty());
+        //this.rangeColumn.setCellValueFactory(cellData->cellData.getValue().instrumentRangeProperty());
+        //this.lengthColumn.setCellValueFactory(cellData->cellData.getValue().instrumentLengthProperty());
+        //this.diameterColumn.setCellValueFactory(cellData->cellData.getValue().instrumentDiameterProperty());
+        //this.applicantColumn.setCellValueFactory(cellData->cellData.getValue().clientProperty());
 
-        this.storehouseTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        this.nameLabel.textProperty().bind(this.storehouseElement.getCurrentStorehouse1().clientProperty());
+        this.entryDateColumn.setCellValueFactory(cellData->cellData.getValue().entryDateProperty());
+        this.calibrationDateColumn.setCellValueFactory(cellData->cellData.getValue().calibrationDatesProperty());
+        this.spendDateColumn.setCellValueFactory(cellData->cellData.getValue().spendDateProperty());
 
 
+        this.storageTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+       // this.nameLabel.textProperty().bind(this.storehouseElement.getCurrentStorehouse1().clientProperty());
+
+
+/*
 
         this.storehouseTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null) {
@@ -132,14 +128,11 @@ public class StorageWindowController {
         });
 
 
-        this.storehouseTableView.prefHeightProperty().bind(storehouseMainVBox.heightProperty().multiply(0.7));
+        this.storehouseTableView.prefHeightProperty().bind(storehouseMainVBox.heightProperty().multiply(0.7));*/
     }
-*/
+
     @FXML
     void showSelectedItems() {
-        System.out.println("Rozmiar "+this.storehouseElement.getStorehouseSelectedItemsList().size());
-        this.storehouseElement.getStorehouseSelectedItemsList().forEach(element->{
-            System.out.println(element.clientProperty().getValue());
-        });
+
     }
 }

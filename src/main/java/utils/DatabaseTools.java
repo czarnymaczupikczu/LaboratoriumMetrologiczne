@@ -4,8 +4,8 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import models.*;
-import models.instrument.*;
+import dbModels.*;
+import dbModels.instrument.*;
 
 import java.io.IOException;
 import java.sql.SQLException;

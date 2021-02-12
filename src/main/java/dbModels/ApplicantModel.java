@@ -1,4 +1,4 @@
-package models;
+package dbModels;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;

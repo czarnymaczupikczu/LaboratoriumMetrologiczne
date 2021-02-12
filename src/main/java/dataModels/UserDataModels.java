@@ -4,18 +4,15 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RawRowMapper;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 import fxModels.CitiesFx;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.City;
-import models.User;
+import dbModels.City;
+import dbModels.User;
 import utils.DatabaseTools;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class UserDataModels {
 
