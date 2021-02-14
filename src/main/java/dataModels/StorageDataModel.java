@@ -9,6 +9,7 @@ import dbModels.StorageModel;
 import fxModels.ApplicantFxModel;
 import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
+import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -31,12 +32,12 @@ public class StorageDataModel {
                 "Select \n" +
                         "STORAGE.idStorage, \n" +
                         "INSTRUMENTS.idInstrument,NAMES.instrumentName,TYPES.typeName, PRODUCERS.producerName, \n" +
-                        "INSTRUMENTS.serialNumber, INSTRUMENTS.identificationNumber, RANGES.rangeName,\n" +
-                        "INSTRUMENTS.length,INSTRUMENTS.diameter,\n" +
+                        "INSTRUMENTS.serialNumber, INSTRUMENTS.identificationNumber,INSTRUMENTS.length, \n" +
+                        "INSTRUMENTS.diameter,RANGES.rangeName,\n" +
                         "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.houseNumber, APPLICANTS.flatNumber, APPLICANTS.status,\n" +
-                        "STORAGE.entryDate, STORAGE.entryUser, \n" +
-                        "GROUP_CONCAT(REGISTER.calibrationDate), GROUP_CONCAT(REGISTER.calibrationUser), GROUP_CONCAT(REGISTER.cardNumber),\n" +
-                        "STORAGE.spendDate, STORAGE.spendUser, STORAGE.storageRemarks\n" +
+                        "STORAGE.entryDate, u1.login, \n" +
+                        "GROUP_CONCAT(REGISTER.calibrationDate), GROUP_CONCAT(u2.login), GROUP_CONCAT(REGISTER.cardNumber),\n" +
+                        "STORAGE.spendDate, u3.login, STORAGE.storageRemarks\n" +
                         "from STORAGE \n" +
                         "left join REGISTER on STORAGE.idStorage=REGISTER.storage \n" +
                         "join INSTRUMENTS on STORAGE.instrument=INSTRUMENTS.idInstrument\n" +
@@ -45,22 +46,64 @@ public class StorageDataModel {
                         "join TYPES on INSTRUMENTS.type=TYPES.idType\n" +
                         "join PRODUCERS on INSTRUMENTS.producer=PRODUCERS.idProducer\n" +
                         "join RANGES on INSTRUMENTS.range=RANGES.idRange\n" +
+                        "join USERS u1 on STORAGE.entryUser=u1.idUser\n" +
+                        "join USERS u2 on REGISTER.calibrationUser=u2.idUser\n" +
+                        "join USERS u3 on STORAGE.spendUser=u3.idUser\n" +
                         "group by idStorage;",
                 new RawRowMapper<StorageFxModel>() {
                     @Override
                     public StorageFxModel mapRow(String[] columns, String[] res) throws SQLException {
-                        System.out.println("Wymiar: " +res.length);
-                        return new StorageFxModel(Integer.parseInt(res[0]),
-                                new InstrumentFxModel(Integer.parseInt(res[1]), res[2], res[3],res[4], res[5], res[6] ,res[7],res[8], res[9],
-                                        new ApplicantFxModel(Integer.parseInt(res[10]), res[11], res[12], res[13], res[14], res[15], res[16], res[17], res[18])),
-                                res[19],res[20],res[21],res[22],res[23],res[24],res[25],res[26]);
+                        //System.out.println("Wymiar: " +res.length);
+                        return createStorageFxModel(res);
                     }
                 });
         for (StorageFxModel storageFxModel: rawResults){
             storageList.add(storageFxModel);
-            // System.out.println(citiesFx.toString());
         }
     }
+    public StorageFxModel createStorageFxModel(String[] results){
+        StorageFxModel tempStorageObject = new StorageFxModel();
+        //Ustawianie poszczególnych pól w sumie zrobię to tak żeby każde pole było ustawione wprost
+        tempStorageObject.setIdStorage(Integer.parseInt(results[0]));
+        tempStorageObject.setInstrument(createInstrumentFxModel(results));
+        tempStorageObject.setEntryDate(results[19]);
+        tempStorageObject.setEntryUser(results[20]);
+        tempStorageObject.setCalibrationDates(results[21]);
+        tempStorageObject.setCalibrationUsers(results[22]);
+        tempStorageObject.setCardNumbers(results[23]);
+        tempStorageObject.setSpendDate(results[24]);
+        tempStorageObject.setSpendUser(results[25]);
+        tempStorageObject.setStorageRemarks(results[26]);
+        return tempStorageObject;
+    }
+    public InstrumentFxModel createInstrumentFxModel(String[] results){
+        InstrumentFxModel tempInstrumentObject = new InstrumentFxModel();
+        tempInstrumentObject.setIdInstrument(Integer.parseInt(results[1]));
+        tempInstrumentObject.setName(results[2]);
+        tempInstrumentObject.setType(results[3]);
+        tempInstrumentObject.setProducer(results[4]);
+        tempInstrumentObject.setSerialNumber(results[5]);
+        tempInstrumentObject.setIdentificationNumber(results[6]);
+        tempInstrumentObject.setLength(results[7]);
+        tempInstrumentObject.setDiameter(results[8]);
+        tempInstrumentObject.setRange(results[9]);
+        tempInstrumentObject.setApplicant(createApplicantFxModel(results));
+        return tempInstrumentObject;
+    }
+    public ApplicantFxModel createApplicantFxModel(String[] results){
+        ApplicantFxModel tempApplicantObject = new ApplicantFxModel();
+        tempApplicantObject.setIdApplicant(Integer.parseInt(results[10]));
+        tempApplicantObject.setShortName(results[11]);
+        tempApplicantObject.setFullName(results[12]);
+        tempApplicantObject.setPostCode(results[13]);
+        tempApplicantObject.setCity(results[14]);
+        tempApplicantObject.setStreet(results[15]);
+        tempApplicantObject.setFlatNumber(results[16]);
+        tempApplicantObject.setHouseNumber(results[17]);
+        tempApplicantObject.setStatus(results[18]);
+        return tempApplicantObject;
+    }
+
     public ObservableList<StorageFxModel> getStorageList() {
         return storageList;
     }

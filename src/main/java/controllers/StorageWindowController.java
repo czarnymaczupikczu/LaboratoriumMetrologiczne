@@ -3,6 +3,7 @@ package controllers;
 import dataModels.StorageDataModel;
 import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,7 +25,7 @@ public class StorageWindowController {
     private ComboBox<String> storageYearComboBox;
 
     @FXML
-    private VBox storehouseMainVBox;
+    private VBox storageMainVBox;
     //TableView
     @FXML
     private TableView<StorageFxModel> storageTableView;
@@ -87,6 +88,7 @@ public class StorageWindowController {
         this.storageYearComboBox.setValue("2021");
         storageDataModel.listInitialize();
         initializeTableView();
+        bindingLabels();
 
     }
 
@@ -106,31 +108,41 @@ public class StorageWindowController {
         this.entryDateColumn.setCellValueFactory(cellData->cellData.getValue().entryDateProperty());
         this.calibrationDateColumn.setCellValueFactory(cellData->cellData.getValue().calibrationDatesProperty());
         this.spendDateColumn.setCellValueFactory(cellData->cellData.getValue().spendDateProperty());
-
-
         this.storageTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-       // this.nameLabel.textProperty().bind(this.storehouseElement.getCurrentStorehouse1().clientProperty());
-
-
-/*
-
-        this.storehouseTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        this.storageTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null) {
-                if (this.storehouseTableView.getSelectionModel().getSelectedItems().size() < 2){ //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
-                    this.storehouseElement.getCurrentStorehouse().setClient(this.storehouseTableView.getSelectionModel().getSelectedItems().get(0).getClient());
-                    this.nameLabel.textProperty().bind(this.storehouseElement.getCurrentStorehouse().clientProperty());
+                if (this.storageTableView.getSelectionModel().getSelectedItems().size() < 2){ //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
+                    updateBindings(newValue);
                 }
-                this.storehouseElement.getStorehouseSelectedItemsList().clear();
-                this.storehouseElement.getStorehouseSelectedItemsList().addAll(this.storehouseTableView.getSelectionModel().getSelectedItems());
-
+                this.storageDataModel.getStorageSelectedItemsList().clear();
+                this.storageDataModel.getStorageSelectedItemsList().addAll(this.storageTableView.getSelectionModel().getSelectedItems());
             }
         });
-
-
-        this.storehouseTableView.prefHeightProperty().bind(storehouseMainVBox.heightProperty().multiply(0.7));*/
+        this.storageTableView.prefHeightProperty().bind(storageMainVBox.heightProperty().multiply(0.7));
     }
-
+    private void bindingLabels(){
+        this.shortNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().shortNameProperty());
+        this.fullNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().fullNameProperty());
+        this.cityLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().postCodeProperty()," ",this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().cityProperty()));
+        //streetLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().streetProperty(),));
+        this.entryLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().entryUserProperty(),", ",this.storageDataModel.getCurrentStorage().entryDateProperty()));
+        this.calibrationLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().calibrationUsersProperty(),", ",this.storageDataModel.getCurrentStorage().calibrationDatesProperty()));
+        this.spendLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().spendUserProperty(),", ",this.storageDataModel.getCurrentStorage().spendDateProperty()));
+        this.storageRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().storageRemarksProperty());
+    }
+    private void updateBindings(StorageFxModel storageElement){
+        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setShortName(storageElement.getInstrument().getApplicant().getShortName());
+        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setFullName(storageElement.getInstrument().getApplicant().getFullName());
+        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setPostCode(storageElement.getInstrument().getApplicant().getPostCode());
+        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setCity(storageElement.getInstrument().getApplicant().getCity());
+        this.storageDataModel.getCurrentStorage().setEntryDate(storageElement.getEntryDate());
+        this.storageDataModel.getCurrentStorage().setEntryUser(storageElement.getEntryUser());
+        this.storageDataModel.getCurrentStorage().setCalibrationDates(storageElement.getCalibrationDates());
+        this.storageDataModel.getCurrentStorage().setCalibrationUsers(storageElement.getCalibrationUsers());
+        this.storageDataModel.getCurrentStorage().setSpendDate(storageElement.getSpendDate());
+        this.storageDataModel.getCurrentStorage().setSpendUser(storageElement.getSpendUser());
+        this.storageDataModel.getCurrentStorage().setStorageRemarks(storageElement.getStorageRemarks());
+    }
     @FXML
     void showSelectedItems() {
 

@@ -75,9 +75,9 @@
       </TableView>
       <GridPane prefHeight="122.0" style="-fx-background-color: #bdbdbd;">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="470.0" minWidth="10.0" prefWidth="470.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="283.0" prefWidth="339.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="437.0" minWidth="10.0" prefWidth="381.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
@@ -101,7 +101,7 @@
             </Label>
             <HBox id="hBox-bottom" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <VBox alignment="CENTER_RIGHT" prefHeight="101.0" prefWidth="128.0">
+                  <VBox alignment="CENTER_RIGHT" minWidth="120.0" prefWidth="120.0">
                      <children>
                         <Label text="Skrócona nazwa:">
                            <VBox.margin>
@@ -125,7 +125,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                  <VBox alignment="CENTER_LEFT">
                      <children>
                         <Label fx:id="shortNameLabel" text="Label">
                            <VBox.margin>
@@ -154,7 +154,7 @@
                   <Insets bottom="5.0" left="5.0" />
                </GridPane.margin>
             </HBox>
-            <HBox id="hBox-bottom" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox id="hBox-bottom" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <VBox alignment="CENTER_RIGHT" prefHeight="101.0" prefWidth="128.0">
                      <children>
@@ -180,7 +180,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                  <VBox alignment="CENTER_LEFT">
                      <children>
                         <Label fx:id="entryLabel" text="Label">
                            <VBox.margin>
