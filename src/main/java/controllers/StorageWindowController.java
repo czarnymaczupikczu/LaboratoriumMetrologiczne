@@ -89,13 +89,13 @@ public class StorageWindowController {
         storageDataModel.listInitialize();
         initializeTableView();
         bindingLabels();
+        addFilter();
 
     }
 
-
     private void initializeTableView(){
-        this.storageTableView.setItems(this.storageDataModel.getStorageList());
-        this.idStorageColumn.setCellValueFactory(cellData->cellData.getValue().idStorageProperty().asObject());
+        this.storageTableView.setItems(this.storageDataModel.getFilteredStorageList());
+        this.idStorageColumn.setCellValueFactory(cellData->cellData.getValue().storageIndexProperty().asObject());
         this.nameColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().nameProperty());
         this.typeColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().typeProperty());
         this.producerColumn.setCellValueFactory(cellData->cellData.getValue().getInstrument().producerProperty());
@@ -125,9 +125,9 @@ public class StorageWindowController {
         this.fullNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().fullNameProperty());
         this.cityLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().postCodeProperty()," ",this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().cityProperty()));
         //streetLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().streetProperty(),));
-        this.entryLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().entryUserProperty(),", ",this.storageDataModel.getCurrentStorage().entryDateProperty()));
-        this.calibrationLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().calibrationUsersProperty(),", ",this.storageDataModel.getCurrentStorage().calibrationDatesProperty()));
-        this.spendLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().spendUserProperty(),", ",this.storageDataModel.getCurrentStorage().spendDateProperty()));
+        this.entryLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().entryUserProperty()," ",this.storageDataModel.getCurrentStorage().entryDateProperty()));
+        this.calibrationLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().calibrationUsersProperty()," ",this.storageDataModel.getCurrentStorage().calibrationDatesProperty()));
+        this.spendLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().spendUserProperty()," ",this.storageDataModel.getCurrentStorage().spendDateProperty()));
         this.storageRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().storageRemarksProperty());
     }
     private void updateBindings(StorageFxModel storageElement){
@@ -137,11 +137,32 @@ public class StorageWindowController {
         this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setCity(storageElement.getInstrument().getApplicant().getCity());
         this.storageDataModel.getCurrentStorage().setEntryDate(storageElement.getEntryDate());
         this.storageDataModel.getCurrentStorage().setEntryUser(storageElement.getEntryUser());
-        this.storageDataModel.getCurrentStorage().setCalibrationDates(storageElement.getCalibrationDates());
-        this.storageDataModel.getCurrentStorage().setCalibrationUsers(storageElement.getCalibrationUsers());
-        this.storageDataModel.getCurrentStorage().setSpendDate(storageElement.getSpendDate());
-        this.storageDataModel.getCurrentStorage().setSpendUser(storageElement.getSpendUser());
+        if (storageElement.calibrationUsersProperty().isNull().getValue()){
+            this.storageDataModel.getCurrentStorage().setCalibrationDates("");
+            this.storageDataModel.getCurrentStorage().setCalibrationUsers("");
+            this.storageDataModel.getCurrentStorage().setCardNumbers("");
+        }
+        else{
+            this.storageDataModel.getCurrentStorage().setCalibrationDates(storageElement.getCalibrationDates());
+            this.storageDataModel.getCurrentStorage().setCalibrationUsers(storageElement.getCalibrationUsers());
+            this.storageDataModel.getCurrentStorage().setCardNumbers(storageElement.getCardNumbers());
+        }
+        if(storageElement.spendUserProperty().isNull().getValue()){
+            this.storageDataModel.getCurrentStorage().setSpendDate("");
+            this.storageDataModel.getCurrentStorage().setSpendUser("");
+        }
+
+        else{
+            this.storageDataModel.getCurrentStorage().setSpendDate(storageElement.getSpendDate());
+            this.storageDataModel.getCurrentStorage().setSpendUser(storageElement.getSpendUser());
+        }
         this.storageDataModel.getCurrentStorage().setStorageRemarks(storageElement.getStorageRemarks());
+        System.out.println(this.storageDataModel.getCurrentStorage().spendUserProperty().getValue());
+    }
+    private void addFilter(){
+        searchTextField.textProperty().addListener((value,oldValue, newValue) ->{
+            storageDataModel.addFilterToObservableList(newValue);
+        } );
     }
     @FXML
     void showSelectedItems() {

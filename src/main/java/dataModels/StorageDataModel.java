@@ -14,30 +14,36 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import org.w3c.dom.ls.LSOutput;
 import utils.DatabaseTools;
+import utils.ShowAlert;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class StorageDataModel {
     private ObservableList<StorageFxModel> storageList= FXCollections.observableArrayList();
     private ObjectProperty<StorageFxModel> currentStorage= new SimpleObjectProperty<>(new StorageFxModel());
     private ObservableList<StorageFxModel> storageSelectedItemsList=FXCollections.observableArrayList();
+    private FilteredList<StorageFxModel> filteredStorageList= new FilteredList<>(storageList,p->true);
 
 
-    public void listInitialize() throws SQLException {
+    public void listInitialize() {
         storageList.clear();
-        Dao<StorageModel,Integer> storageDao= DaoManager.createDao(DatabaseTools.getConnectionSource(), StorageModel.class);
-        QueryBuilder<StorageModel, Integer> storageQueryBuilder= storageDao.queryBuilder();
-        GenericRawResults<StorageFxModel> rawResults=storageDao.queryRaw(
+        Dao<StorageModel,Integer> storageDao= null;
+        try {
+            storageDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), StorageModel.class);
+            GenericRawResults<StorageFxModel> rawResults=storageDao.queryRaw(
                 "Select \n" +
                         "STORAGE.idStorage, \n" +
                         "INSTRUMENTS.idInstrument,NAMES.instrumentName,TYPES.typeName, PRODUCERS.producerName, \n" +
                         "INSTRUMENTS.serialNumber, INSTRUMENTS.identificationNumber,INSTRUMENTS.length, \n" +
                         "INSTRUMENTS.diameter,RANGES.rangeName,\n" +
                         "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.houseNumber, APPLICANTS.flatNumber, APPLICANTS.status,\n" +
-                        "STORAGE.entryDate, u1.login, \n" +
-                        "GROUP_CONCAT(REGISTER.calibrationDate), GROUP_CONCAT(u2.login), GROUP_CONCAT(REGISTER.cardNumber),\n" +
-                        "STORAGE.spendDate, u3.login, STORAGE.storageRemarks\n" +
+                        "STORAGE.entryDate, u1.initials, \n" +
+                        "GROUP_CONCAT(REGISTER.calibrationDate,', '), GROUP_CONCAT(u2.initials,', '), GROUP_CONCAT(REGISTER.cardNumber,', '),\n" +
+                        "STORAGE.spendDate, u3.initials, STORAGE.storageRemarks\n" +
                         "from STORAGE \n" +
                         "left join REGISTER on STORAGE.idStorage=REGISTER.storage \n" +
                         "join INSTRUMENTS on STORAGE.instrument=INSTRUMENTS.idInstrument\n" +
@@ -47,20 +53,39 @@ public class StorageDataModel {
                         "join PRODUCERS on INSTRUMENTS.producer=PRODUCERS.idProducer\n" +
                         "join RANGES on INSTRUMENTS.range=RANGES.idRange\n" +
                         "join USERS u1 on STORAGE.entryUser=u1.idUser\n" +
-                        "join USERS u2 on REGISTER.calibrationUser=u2.idUser\n" +
-                        "join USERS u3 on STORAGE.spendUser=u3.idUser\n" +
+                        "left join USERS u2 on REGISTER.calibrationUser=u2.idUser\n" +
+                        "left join USERS u3 on STORAGE.spendUser=u3.idUser\n" +
                         "group by idStorage;",
                 new RawRowMapper<StorageFxModel>() {
                     @Override
                     public StorageFxModel mapRow(String[] columns, String[] res) throws SQLException {
-                        //System.out.println("Wymiar: " +res.length);
                         return createStorageFxModel(res);
                     }
                 });
-        for (StorageFxModel storageFxModel: rawResults){
-            storageList.add(storageFxModel);
+            int i=1;
+            for (StorageFxModel storageFxModel: rawResults){
+                storageFxModel.setStorageIndex(i);
+                storageList.add(storageFxModel);
+                i=i+1;
+            }
+        } catch (SQLException e) {
+            ShowAlert.display(e.getMessage());
         }
     }
+    public void addFilterToObservableList(String newValue){
+        filteredStorageList.setPredicate(item -> {
+            if (item.getInstrument().getName().toUpperCase().contains(newValue.toUpperCase())||item.getInstrument().getType().toUpperCase().contains(newValue.toUpperCase())||
+                    item.getInstrument().getProducer().toUpperCase().contains(newValue.toUpperCase())||item.getInstrument().getSerialNumber().toUpperCase().contains(newValue.toUpperCase())||
+                    item.getInstrument().getIdentificationNumber().toUpperCase().contains(newValue.toUpperCase())||item.getInstrument().getRange().toUpperCase().contains(newValue.toUpperCase())||
+                    item.getInstrument().getApplicant().getShortName().toUpperCase().contains(newValue.toUpperCase())) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+    }
+
     public StorageFxModel createStorageFxModel(String[] results){
         StorageFxModel tempStorageObject = new StorageFxModel();
         //Ustawianie poszczególnych pól w sumie zrobię to tak żeby każde pole było ustawione wprost
@@ -124,5 +149,11 @@ public class StorageDataModel {
     }
     public void setStorageSelectedItemsList(ObservableList<StorageFxModel> storageSelectedItemsList) {
         this.storageSelectedItemsList = storageSelectedItemsList;
+    }
+    public FilteredList<StorageFxModel> getFilteredStorageList() {
+        return filteredStorageList;
+    }
+    public void setFilteredStorageList(FilteredList<StorageFxModel> filteredStorageList) {
+        this.filteredStorageList = filteredStorageList;
     }
 }

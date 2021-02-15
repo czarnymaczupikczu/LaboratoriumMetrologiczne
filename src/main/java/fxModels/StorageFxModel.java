@@ -8,7 +8,7 @@ import javafx.beans.property.*;
  * Obiekty klasy storehouseFxModel są wyświetlane w kontrolerze TableView w zakładce Storehouse
  */
 public class StorageFxModel {
-
+    private IntegerProperty storageIndex=new SimpleIntegerProperty();
     private IntegerProperty idStorage=new SimpleIntegerProperty();
     private InstrumentFxModel instrument=new InstrumentFxModel();
     private StringProperty entryDate= new SimpleStringProperty();
@@ -37,6 +37,15 @@ public class StorageFxModel {
     }
 
     //Gettery i Settery
+    public int getStorageIndex() {
+        return storageIndex.get();
+    }
+    public IntegerProperty storageIndexProperty() {
+        return storageIndex;
+    }
+    public void setStorageIndex(int storageIndex) {
+        this.storageIndex.set(storageIndex);
+    }
     public int getIdStorage() {
         return idStorage.get();
     }

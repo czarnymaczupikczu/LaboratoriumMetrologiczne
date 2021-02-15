@@ -14,6 +14,7 @@ public class UserModel {
     public static final String LOGIN="login";
     public static final String PASSWORD="password";
     public static final String PERMISSION_LEVEL="permissionLevel";
+    public static final String INITIALS="initials";
     public static final String STYLE_SHEET="styleSheet";
 
     @DatabaseField(generatedId = true,columnName = ID_USER)
@@ -28,19 +29,22 @@ public class UserModel {
     private String password;
     @DatabaseField(columnName = PERMISSION_LEVEL)
     private String permissionLevel; //admin,User
+    @DatabaseField(columnName = INITIALS)
+    private String initials;
     @DatabaseField(columnName = STYLE_SHEET)
     private String styleSheet; //być może kiedyś coś takiego będzie
 
     //Konstruktory
     public UserModel() {
     }
-    public UserModel(Integer idUser, String firstName, String lastName, String login, String password, String permissionLevel, String styleSheet) {
+    public UserModel(Integer idUser, String firstName, String lastName, String login, String password, String permissionLevel, String initials,String styleSheet) {
         this.idUser = idUser;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.password = password;
         this.permissionLevel = permissionLevel;
+        this.initials=initials;
         this.styleSheet = styleSheet;
     }
 
@@ -80,6 +84,12 @@ public class UserModel {
     }
     public void setPermissionLevel(String permissionLevel) {
         this.permissionLevel = permissionLevel;
+    }
+    public String getInitials() {
+        return initials;
+    }
+    public void setInitials(String initials) {
+        this.initials = initials;
     }
     public String getStyleSheet() {
         return styleSheet;
