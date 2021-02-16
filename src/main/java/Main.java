@@ -11,7 +11,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader= new FXMLLoader(Main.class.getResource("/fxml/StorageWindow.fxml"));
+        FXMLLoader loader= new FXMLLoader(Main.class.getResource("/fxml/InstrumentWindow.fxml"));
         // BorderPane kontener = loader.load();
         VBox kontener = loader.load();
         Scene scene = new Scene(kontener);

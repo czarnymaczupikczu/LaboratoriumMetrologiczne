@@ -29,9 +29,10 @@ public class StorageDataModel {
     private FilteredList<StorageFxModel> filteredStorageList= new FilteredList<>(storageList,p->true);
 
 
-    public void listInitialize() {
+    public void listInitialize(String storageState, String storageYear) {
         storageList.clear();
         Dao<StorageModel,Integer> storageDao= null;
+
         try {
             storageDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), StorageModel.class);
             GenericRawResults<StorageFxModel> rawResults=storageDao.queryRaw(
@@ -55,6 +56,7 @@ public class StorageDataModel {
                         "join USERS u1 on STORAGE.entryUser=u1.idUser\n" +
                         "left join USERS u2 on REGISTER.calibrationUser=u2.idUser\n" +
                         "left join USERS u3 on STORAGE.spendUser=u3.idUser\n" +
+                        createSQLStatement(storageState,storageYear)+"\n"+
                         "group by idStorage;",
                 new RawRowMapper<StorageFxModel>() {
                     @Override
@@ -85,7 +87,20 @@ public class StorageDataModel {
         });
 
     }
-
+    public String createSQLStatement(String storageState, String storageYear){
+        String sqlStatement = null;
+        if(storageState.equals(storageYear)){   //Wszystkie i wszystkie
+            sqlStatement="";
+        }else if(storageState.equals("Wszystkie") && !storageYear.equals("Wszystkie")){
+            sqlStatement="WHERE STORAGE.entryDate LIKE '%"+storageYear+"%' OR STORAGE.spendDate LIKE '%"+storageYear+"%'";
+        }else if(storageState.equals("W magazynie") && storageYear.equals("Wszystkie")) {
+            sqlStatement = "WHERE STORAGE.spendDate = null";
+        }
+        else {
+            sqlStatement="WHERE STORAGE.spendDate = null AND (STORAGE.entryDate LIKE '%"+storageYear+"%' OR STORAGE.spendDate LIKE '%"+storageYear+"%')";
+        }
+        return sqlStatement;
+    }
     public StorageFxModel createStorageFxModel(String[] results){
         StorageFxModel tempStorageObject = new StorageFxModel();
         //Ustawianie poszczególnych pól w sumie zrobię to tak żeby każde pole było ustawione wprost

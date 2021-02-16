@@ -32,10 +32,10 @@
             <Label text="  Szukaj:" />
             <TextField fx:id="searchTextField" prefWidth="300.0" />
             <Label text="Stan:" />
-            <ComboBox fx:id="storageStateComboBox" prefWidth="120.0" />
+            <ComboBox fx:id="storageStateComboBox" prefWidth="130.0" />
             <Label text="Rok:" />
-            <ComboBox fx:id="storageYearComboBox" prefWidth="100.0" />
-            <Button mnemonicParsing="false" onAction="#showSelectedItems" prefWidth="125.0" text="Wczytaj listę" />
+            <ComboBox fx:id="storageYearComboBox" prefWidth="130.0" />
+            <Button mnemonicParsing="false" onAction="#loadStorageList" prefWidth="125.0" text="Wczytaj listę" />
             <Button mnemonicParsing="false" prefWidth="125.0" text="Eksport do XLS" />
          </children>
          <VBox.margin>
@@ -44,25 +44,25 @@
       </HBox>
       <TableView fx:id="storageTableView" prefHeight="475.0" prefWidth="1190.0">
         <columns>
-          <TableColumn fx:id="idStorageColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Lp." />
-          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Nazwa" />
-            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Typ" />
-            <TableColumn fx:id="producerColumn" prefWidth="75.0" text="Producent" />
-            <TableColumn fx:id="serialNumberColumn" prefWidth="75.0" text="Nr fabryczny" />
-            <TableColumn fx:id="identificationNumberColumn" prefWidth="75.0" text="Nr identyfikacyjny" />
-            <TableColumn fx:id="rangeColumn" prefWidth="75.0" text="Zakres" />
+          <TableColumn fx:id="idStorageColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="Lp." />
+          <TableColumn fx:id="nameColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Nazwa" />
+            <TableColumn fx:id="typeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Typ" />
+            <TableColumn fx:id="producerColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Producent" />
+            <TableColumn fx:id="serialNumberColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Nr fabryczny" />
+            <TableColumn fx:id="identificationNumberColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Nr identyfikacyjny" />
+            <TableColumn fx:id="rangeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Zakres" />
             <TableColumn prefWidth="75.0" text="Wymiary [mm]">
                <columns>
-                  <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="l" />
-                  <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="⌀" />
+                  <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="l" />
+                  <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="⌀" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="applicantColumn" prefWidth="75.0" text="Zleceniodawca" />
+            <TableColumn fx:id="applicantColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Zleceniodawca" />
             <TableColumn prefWidth="75.0" text="Data">
                <columns>
-                  <TableColumn fx:id="entryDateColumn" prefWidth="75.0" text="przyjęcia" />
-                  <TableColumn fx:id="calibrationDateColumn" prefWidth="75.0" text="wzorcowania" />
-                  <TableColumn fx:id="spendDateColumn" prefWidth="75.0" text="wydania" />
+                  <TableColumn fx:id="entryDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="przyjęcia" />
+                  <TableColumn fx:id="calibrationDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="wzorcowania" />
+                  <TableColumn fx:id="spendDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="wydania" />
                </columns>
             </TableColumn>
         </columns>
@@ -73,11 +73,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <GridPane alignment="CENTER" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #bdbdbd;">
+      <GridPane alignment="CENTER_LEFT" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #bdbdbd;">
         <columnConstraints>
-          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-            <ColumnConstraints hgrow="ALWAYS" />
-          <ColumnConstraints hgrow="ALWAYS" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" />
+          <ColumnConstraints fx:id="applicantGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
+            <ColumnConstraints fx:id="historyGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
+          <ColumnConstraints fx:id="remarksGridPaneColumn" hgrow="NEVER" percentWidth="30.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
@@ -99,7 +99,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <HBox id="hBox-bottom" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <HBox id="hBox-bottom" GridPane.rowIndex="1">
                <children>
                   <VBox alignment="CENTER_RIGHT" minWidth="120.0" prefWidth="120.0">
                      <children>
@@ -209,12 +209,12 @@
                   <Insets bottom="5.0" left="5.0" />
                </GridPane.margin>
             </HBox>
-            <HBox id="hBox-bottom" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
                <children>
-                  <TextArea fx:id="storageRemarksTextArea" />
+                  <TextArea fx:id="storageRemarksTextArea" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>

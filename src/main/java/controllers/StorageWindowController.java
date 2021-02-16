@@ -1,16 +1,25 @@
 package controllers;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import dataModels.MainDataModel;
 import dataModels.StorageDataModel;
+import dbModels.YearModel;
 import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.VBox;
+import utils.DatabaseTools;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class StorageWindowController {
@@ -23,7 +32,12 @@ public class StorageWindowController {
     private ComboBox<String> storageStateComboBox;
     @FXML
     private ComboBox<String> storageYearComboBox;
-
+    @FXML
+    private ColumnConstraints applicantGridPaneColumn;
+    @FXML
+    private ColumnConstraints historyGridPaneColumn;
+    @FXML
+    private ColumnConstraints remarksGridPaneColumn;
     @FXML
     private VBox storageMainVBox;
     //TableView
@@ -78,20 +92,17 @@ public class StorageWindowController {
     private TextField searchTextField;
 
     private StorageDataModel storageDataModel=new StorageDataModel();
+    private MainDataModel mainDataModel=new MainDataModel();
 
     @FXML
     public void initialize() throws SQLException {
         System.out.println("Metoda initialize kontrolera StorehouseWindowController ");
-        this.storageStateComboBox.getItems().addAll("Wszystkie","W magazynie");
-        this.storageStateComboBox.setValue("Wszystkie");
-        this.storageYearComboBox.getItems().addAll("2021","2020","2019","2018");
-        this.storageYearComboBox.setValue("2021");
-        storageDataModel.listInitialize();
+        initializeComboBoxes();
         initializeTableView();
         bindingLabels();
         addFilter();
-
     }
+
 
     private void initializeTableView(){
         this.storageTableView.setItems(this.storageDataModel.getFilteredStorageList());
@@ -118,7 +129,17 @@ public class StorageWindowController {
                 this.storageDataModel.getStorageSelectedItemsList().addAll(this.storageTableView.getSelectionModel().getSelectedItems());
             }
         });
+        bindingSizeProperty();
+    }
+    private void initializeComboBoxes(){
+        this.storageStateComboBox.getItems().addAll(mainDataModel.getStorageStateComboBoxList());
+        this.storageStateComboBox.setValue(mainDataModel.getStorageStateComboBoxList().get(0));
+        this.storageYearComboBox.getItems().addAll(mainDataModel.getYearComboBoxList());
+        this.storageYearComboBox.setValue(mainDataModel.getYearComboBoxList().get(mainDataModel.getYearComboBoxList().size()-1));
+    }
+    private void bindingSizeProperty(){
         this.storageTableView.prefHeightProperty().bind(storageMainVBox.heightProperty().multiply(0.7));
+
     }
     private void bindingLabels(){
         this.shortNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().shortNameProperty());
@@ -164,8 +185,11 @@ public class StorageWindowController {
             storageDataModel.addFilterToObservableList(newValue);
         } );
     }
-    @FXML
-    void showSelectedItems() {
 
+    //Przyciski
+    @FXML
+    void loadStorageList() {
+        storageDataModel.listInitialize(storageStateComboBox.getValue(),storageYearComboBox.getValue());
+        System.out.println(storageDataModel.createSQLStatement(storageStateComboBox.getValue(),storageYearComboBox.getValue()));
     }
 }
