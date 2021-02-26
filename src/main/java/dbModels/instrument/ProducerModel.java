@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Klasa implementująca model danych w tabeli PRODUCERS
  */
 @DatabaseTable(tableName = "PRODUCERS")
-public class ProducerModel {
+public class ProducerModel implements BaseModel{
     public static final String ID_PRODUCER="idProducer";
     public static final String PRODUCER_NAME="producerName";
 
@@ -36,5 +36,8 @@ public class ProducerModel {
     }
     public void setProducerName(String producerName) {
         this.producerName = producerName;
+    }
+    public String getName(){
+        return producerName;
     }
 }

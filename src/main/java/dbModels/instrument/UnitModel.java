@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Klasa implementująca model danych w tabeli UNITS
  */
 @DatabaseTable(tableName = "UNITS")
-public class UnitModel {
+public class UnitModel implements BaseModel {
 
     public static final String ID_UNIT="idUnit";
     public static final String UNIT_NAME="unitName";
@@ -37,5 +37,8 @@ public class UnitModel {
     }
     public void setUnitName(String unitName) {
         this.unitName = unitName;
+    }
+    public String getName(){
+        return unitName;
     }
 }

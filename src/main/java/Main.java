@@ -15,7 +15,7 @@ public class Main extends Application {
         // BorderPane kontener = loader.load();
         VBox kontener = loader.load();
         Scene scene = new Scene(kontener);
-        scene.getStylesheets().add("css/main.css");
+        //scene.getStylesheets().add("css/main.css");
         primaryStage.setScene(scene);
         //DatabaseTools.initDatabase();
 

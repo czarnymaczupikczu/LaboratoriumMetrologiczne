@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Klasa implementująca model danych w tabeli TYPES
  */
 @DatabaseTable(tableName = "TYPES")
-public class TypeModel {
+public class TypeModel implements BaseModel{
 
     public static final String ID_TYPE="idType";
     public static final String TYPE_NAME="typeName";
@@ -37,5 +37,8 @@ public class TypeModel {
     }
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+    public String getName(){
+        return typeName;
     }
 }

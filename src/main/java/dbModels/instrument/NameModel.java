@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Klasa implementująca model danych w tabeli NAMES
  */
 @DatabaseTable(tableName = "NAMES")
-public class NameModel {
+public class NameModel implements BaseModel {
 
     public static final String ID_NAME="idName";
     public static final String INSTRUMENT_NAME="instrumentName";
@@ -37,5 +37,19 @@ public class NameModel {
     }
     public void setInstrumentName(String instrumentName) {
         this.instrumentName = instrumentName;
+    }
+
+    public String getName(){
+        return instrumentName;
+    }
+
+    //To string dla testów
+
+    @Override
+    public String toString() {
+        return "NameModel{" +
+                "idName=" + idName +
+                ", instrumentName='" + instrumentName + '\'' +
+                '}';
     }
 }

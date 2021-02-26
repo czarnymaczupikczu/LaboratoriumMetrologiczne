@@ -93,11 +93,11 @@ public class StorageDataModel {
             sqlStatement="";
         }else if(storageState.equals("Wszystkie") && !storageYear.equals("Wszystkie")){
             sqlStatement="WHERE STORAGE.entryDate LIKE '%"+storageYear+"%' OR STORAGE.spendDate LIKE '%"+storageYear+"%'";
-        }else if(storageState.equals("W magazynie") && storageYear.equals("Wszystkie")) {
-            sqlStatement = "WHERE STORAGE.spendDate = null";
+        }else if(!storageState.equals("Wszystkie") && storageYear.equals("Wszystkie")) {
+            sqlStatement = "WHERE STORAGE.spendDate = ''";
         }
         else {
-            sqlStatement="WHERE STORAGE.spendDate = null AND (STORAGE.entryDate LIKE '%"+storageYear+"%' OR STORAGE.spendDate LIKE '%"+storageYear+"%')";
+            sqlStatement="WHERE STORAGE.spendDate = '' AND STORAGE.entryDate LIKE '%"+storageYear+"%'";
         }
         return sqlStatement;
     }

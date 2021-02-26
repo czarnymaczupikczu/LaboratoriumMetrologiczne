@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Klasa implementująca model danych w tabeli RANGES
  */
 @DatabaseTable(tableName = "RANGES")
-public class RangeModel {
+public class RangeModel implements BaseModel{
 
     public static final String ID_RANGE="idRange";
     public static final String RANGE_NAME="rangeName";
@@ -37,5 +37,8 @@ public class RangeModel {
     }
     public void setRangeName(String rangeName) {
         this.rangeName = rangeName;
+    }
+    public String getName(){
+        return rangeName;
     }
 }
