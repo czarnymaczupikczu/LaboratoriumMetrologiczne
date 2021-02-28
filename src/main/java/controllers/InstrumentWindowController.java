@@ -1,6 +1,7 @@
 package controllers;
 
 import dataModels.InstrumentDataModel;
+import dbModels.InstrumentModel;
 import dbModels.instrument.NameModel;
 import dbModels.instrument.ProducerModel;
 import dbModels.instrument.RangeModel;
@@ -9,6 +10,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -16,9 +18,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import utils.CommonTools;
+import utils.database.CommonDao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static dbModels.instrument.NameModel.INSTRUMENT_NAME;
 import static dbModels.instrument.ProducerModel.PRODUCER_NAME;
@@ -43,22 +48,28 @@ public class InstrumentWindowController {
 
     @FXML
     private ComboBox<String> nameComboBox;
-
     @FXML
     private ComboBox<String> typeComboBox;
-
     @FXML
     private ComboBox<String> producerComboBox;
-
     @FXML
     private ComboBox<String> rangeComboBox;
-
     @FXML
     private ComboBox<String> applicantComboBox;
 
     @FXML
-    private DatePicker entryDatePicker;
+    private TextField serialNumberTextField;
+    @FXML
+    private Button checkBySerialNumberButton;
+    @FXML
+    private TextField identificationNumberTextField;
+    @FXML
+    private Button checkByIdentificationNumberButton;
 
+    @FXML
+    private DatePicker entryDatePicker;
+    @FXML
+    private VBox mainVBox;
 
 
 
@@ -87,8 +98,8 @@ public class InstrumentWindowController {
         producerComboBox.disableProperty().bind(typeComboBox.valueProperty().isNull());
         rangeComboBox.disableProperty().bind(producerComboBox.valueProperty().isNull());
         applicantComboBox.disableProperty().bind(rangeComboBox.valueProperty().isNull());
-
-
+        checkBySerialNumberButton.disableProperty().bind(serialNumberTextField.textProperty().isEmpty());
+        checkByIdentificationNumberButton.disableProperty().bind(identificationNumberTextField.textProperty().isEmpty());
     }
     @FXML
     void saveOnAction() {
@@ -97,7 +108,7 @@ public class InstrumentWindowController {
     }
     @FXML
     void cancelOnAction() {
-
+        CommonTools.closePaneWindow(mainVBox);
     }
     @FXML
     void addNewNameOnAction() {
@@ -125,15 +136,25 @@ public class InstrumentWindowController {
     }
     @FXML
     void checkByIdentificationNumberOnAction() {
-
+        instrumentDataModel.setFindInstrument(instrumentDataModel.searchForInstrument("identificationNumber",serialNumberTextField.getText()));
+        if (instrumentDataModel.getFindInstrument()==null){
+            serialNumberTextField.setText("Dupeczka");
+        }else{
+            setInstrumentDataToForm(instrumentDataModel.getFindInstrument());
+        }
     }
     @FXML
     void checkBySerialNumberOnAction() {
-
+        instrumentDataModel.setFindInstrument(instrumentDataModel.searchForInstrument("serialNumber",serialNumberTextField.getText()));
+        if (instrumentDataModel.getFindInstrument()==null){
+            serialNumberTextField.setText("Dupeczka");
+        }else{
+            setInstrumentDataToForm(instrumentDataModel.getFindInstrument());
+        }
     }
     @FXML
     void todayOnAction() {
-
+        entryDatePicker.setValue(LocalDate.now());
     }
     private <T> T loadVBoxWindow(String resource){
         T instrumentData;
@@ -175,7 +196,17 @@ public class InstrumentWindowController {
         });
         comboBox.setItems(filteredList);
     }
+    private void setInstrumentDataToForm(InstrumentModel instrument){
+        this.nameComboBox.setValue(instrument.getName().getInstrumentName());
+        this.typeComboBox.setValue(instrument.getType().getTypeName());
+        this.producerComboBox.setValue(instrument.getProducer().getProducerName());
+        this.serialNumberTextField.setText(instrument.getSerialNumber());
+        this.identificationNumberTextField.setText(instrument.getIdentificationNumber());
+        this.rangeComboBox.setValue(instrument.getRange().getRangeName());
+        this.applicantComboBox.setValue(instrument.getApplicant().getShortName());
 
+
+    }
 
 
 }

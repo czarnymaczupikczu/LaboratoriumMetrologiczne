@@ -2,6 +2,7 @@ package dataModels;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import dbModels.InstrumentModel;
 import dbModels.instrument.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,18 +25,25 @@ public class InstrumentDataModel {
     private FilteredList<String> filteredProducers = new FilteredList<String>(producerObservableList, p -> true);
     private ObservableList<String> rangeObservableList = FXCollections.observableArrayList();
     private FilteredList<String> filteredRange = new FilteredList<String>(rangeObservableList, p -> true);
+    private ObservableList<String> unitObservableList=FXCollections.observableArrayList();
 
     //Listy obiektów z tabel z bazy danych
     private List<NameModel> nameList;
     private List<TypeModel> typeList;
     private List<ProducerModel> producerList;
     private List<RangeModel> rangeList;
+    private List<UnitModel> unitList;
+    private List<InstrumentModel> instrumentList;
+    //Obiekty InstrumentModel z formularza lub wyszukane
+    private InstrumentModel findInstrument=new InstrumentModel();
+    private InstrumentModel formInstrument=new InstrumentModel();
 
     public void init(){
         nameList= getDataToComboBox(NameModel.class,nameObservableList);
         typeList=getDataToComboBox(TypeModel.class,typeObservableList);
         producerList=getDataToComboBox(ProducerModel.class,producerObservableList);
         rangeList=getDataToComboBox(RangeModel.class,rangeObservableList);
+        unitList=getDataToComboBox(UnitModel.class,unitObservableList);
     }
 
     //Gettery i Setter
@@ -87,11 +95,31 @@ public class InstrumentDataModel {
     public void setRangeList(List<RangeModel> rangeList) {
         this.rangeList = rangeList;
     }
+    public ObservableList<String> getUnitObservableList() {
+        return unitObservableList;
+    }
+    public List<InstrumentModel> getInstrumentList() {
+        return instrumentList;
+    }
+    public void setInstrumentList(List<InstrumentModel> instrumentList) {
+        this.instrumentList = instrumentList;
+    }
+
+    public InstrumentModel getFindInstrument() {
+        return findInstrument;
+    }
+    public void setFindInstrument(InstrumentModel findInstrument) {
+        this.findInstrument = findInstrument;
+    }
+    public InstrumentModel getFormInstrument() {
+        return formInstrument;
+    }
+    public void setFormInstrument(InstrumentModel formInstrument) {
+        this.formInstrument = formInstrument;
+    }
 
     public <T extends BaseModel, I> List <T> getDataToComboBox (Class<T> cls, ObservableList<String> dataObservableList){
         dataObservableList.clear();
-        //Dao<T, I> instrumentDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), cls);
-        //List<T> dataList = instrumentDao.queryForAll();
         CommonDao commonDao=new CommonDao();
         List<T> dataList=commonDao.queryForAll(cls);
         dataList.forEach(instrument -> {
@@ -108,5 +136,14 @@ public class InstrumentDataModel {
             }
         }
         return null;
+    }
+    public InstrumentModel searchForInstrument(String numberKind, String value){
+        CommonDao commonDao=new CommonDao();
+        instrumentList=commonDao.getListWithSimpleLikeSelect(InstrumentModel.class, numberKind, value);
+        if(instrumentList.size()>0){
+            return instrumentList.get(instrumentList.size()-1);
+        }else{
+            return null;
+        }
     }
 }

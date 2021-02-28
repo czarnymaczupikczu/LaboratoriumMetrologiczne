@@ -10,7 +10,7 @@
 
 <VBox fx:id="mainVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="150.0" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewInstrumentDataWindowController">
     <children>
-        <Label fx:id="headLabel" text="ZAKRES POMIAROWY">
+        <Label fx:id="headLabel">
             <VBox.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
@@ -37,25 +37,25 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </TextField>
-            <ComboBox fx:id="newInstrumentRangeUnitComboBox" prefHeight="25.0" prefWidth="70.0">
+            <ComboBox fx:id="newRangeUnitComboBox" prefHeight="25.0" prefWidth="70.0">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </ComboBox>
          </children>
       </HBox>
-        <Label fx:id="newInstrumentRangeLabel" textFill="RED">
+        <Label fx:id="errorLabel" textFill="RED">
             <VBox.margin>
                 <Insets left="5.0" />
             </VBox.margin></Label>
         <HBox alignment="CENTER" prefHeight="48.0" prefWidth="290.0">
             <children>
-                <Button fx:id="addButton" mnemonicParsing="false" text="Dodaj" textAlignment="CENTER">
+                <Button fx:id="addButton" mnemonicParsing="false" onAction="#addNewData" text="Dodaj" textAlignment="CENTER">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" text="Anuluj" textAlignment="CENTER">
+                <Button mnemonicParsing="false" onAction="#cancelButton" text="Anuluj" textAlignment="CENTER">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
