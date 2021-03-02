@@ -92,18 +92,22 @@ public class StorageWindowController {
     private TextField searchTextField;
 
     private StorageDataModel storageDataModel=new StorageDataModel();
-    private MainDataModel mainDataModel=new MainDataModel();
+        //Główny kontroler powiązany z kontrolerami poszczególnych okien
+    private MainWindowController mainController;
+    public void setMainController(MainWindowController mainController) {
+        this.mainController = mainController;
+    }
 
     @FXML
     public void initialize() throws SQLException {
         System.out.println("Metoda initialize kontrolera StorehouseWindowController ");
+    }
+    public void init(){
         initializeComboBoxes();
         initializeTableView();
         bindingLabels();
         addFilter();
     }
-
-
     private void initializeTableView(){
         this.storageTableView.setItems(this.storageDataModel.getFilteredStorageList());
         this.idStorageColumn.setCellValueFactory(cellData->cellData.getValue().storageIndexProperty().asObject());
@@ -132,10 +136,10 @@ public class StorageWindowController {
         bindingSizeProperty();
     }
     private void initializeComboBoxes(){
-        this.storageStateComboBox.getItems().addAll(mainDataModel.getStorageStateComboBoxList());
-        this.storageStateComboBox.setValue(mainDataModel.getStorageStateComboBoxList().get(0));
-        this.storageYearComboBox.getItems().addAll(mainDataModel.getYearComboBoxList());
-        this.storageYearComboBox.setValue(mainDataModel.getYearComboBoxList().get(mainDataModel.getYearComboBoxList().size()-1));
+        this.storageStateComboBox.getItems().addAll(mainController.getMainDataModel().getStorageStateComboBoxList());
+        this.storageStateComboBox.setValue(mainController.getMainDataModel().getStorageStateComboBoxList().get(0));
+        this.storageYearComboBox.getItems().addAll(mainController.getMainDataModel().getYearComboBoxList());
+        this.storageYearComboBox.setValue(mainController.getMainDataModel().getYearComboBoxList().get(mainController.getMainDataModel().getYearComboBoxList().size()-1));
     }
     private void bindingSizeProperty(){
         this.storageTableView.prefHeightProperty().bind(storageMainVBox.heightProperty().multiply(0.7));
@@ -145,10 +149,11 @@ public class StorageWindowController {
         this.shortNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().shortNameProperty());
         this.fullNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().fullNameProperty());
         this.cityLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().postCodeProperty()," ",this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().cityProperty()));
-        //streetLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().streetProperty(),));
+        this.streetLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().streetProperty()," ",this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().numberProperty()));
         this.entryLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().entryUserProperty()," ",this.storageDataModel.getCurrentStorage().entryDateProperty()));
         this.calibrationLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().calibrationUsersProperty()," ",this.storageDataModel.getCurrentStorage().calibrationDatesProperty()));
         this.spendLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().spendUserProperty()," ",this.storageDataModel.getCurrentStorage().spendDateProperty()));
+        this.cardNumberLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().cardNumbersProperty());
         this.storageRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().storageRemarksProperty());
     }
     private void updateBindings(StorageFxModel storageElement){
@@ -156,6 +161,8 @@ public class StorageWindowController {
         this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setFullName(storageElement.getInstrument().getApplicant().getFullName());
         this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setPostCode(storageElement.getInstrument().getApplicant().getPostCode());
         this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setCity(storageElement.getInstrument().getApplicant().getCity());
+        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setStreet(storageElement.getInstrument().getApplicant().getStreet());
+        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setNumber(storageElement.getInstrument().getApplicant().getNumber());
         this.storageDataModel.getCurrentStorage().setEntryDate(storageElement.getEntryDate());
         this.storageDataModel.getCurrentStorage().setEntryUser(storageElement.getEntryUser());
         if (storageElement.calibrationUsersProperty().isNull().getValue()){
@@ -172,11 +179,11 @@ public class StorageWindowController {
             this.storageDataModel.getCurrentStorage().setSpendDate("");
             this.storageDataModel.getCurrentStorage().setSpendUser("");
         }
-
         else{
             this.storageDataModel.getCurrentStorage().setSpendDate(storageElement.getSpendDate());
             this.storageDataModel.getCurrentStorage().setSpendUser(storageElement.getSpendUser());
         }
+        this.storageDataModel.getCurrentStorage().setCardNumbers(storageElement.getCardNumbers());
         this.storageDataModel.getCurrentStorage().setStorageRemarks(storageElement.getStorageRemarks());
         System.out.println(this.storageDataModel.getCurrentStorage().spendUserProperty().getValue());
     }

@@ -4,9 +4,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import dbModels.UserModel;
 import dbModels.YearModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import utils.DatabaseTools;
 import utils.ShowAlert;
 
@@ -44,8 +41,6 @@ public class MainDataModel {
         }
         return tempYearList;
     }
-
-
 
     public YearModel getYear() {
         return year;

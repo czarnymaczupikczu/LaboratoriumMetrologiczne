@@ -13,22 +13,24 @@ public class ApplicantFxModel {
     private StringProperty postCode=new SimpleStringProperty();
     private StringProperty city=new SimpleStringProperty();
     private StringProperty street=new SimpleStringProperty();
-    private StringProperty houseNumber=new SimpleStringProperty();
-    private StringProperty flatNumber=new SimpleStringProperty();
+    private StringProperty number=new SimpleStringProperty();
     private StringProperty status=new SimpleStringProperty();
 
     //Konstruktory
     public ApplicantFxModel() {
+        this.postCode = new SimpleStringProperty("");
+        this.city = new SimpleStringProperty("");
+        this.street = new SimpleStringProperty("");
+        this.number = new SimpleStringProperty("");
     }
-    public ApplicantFxModel(int idApplicant, String shortName, String fullName, String postCode, String city, String street, String houseNumber, String flatNumber, String status) {
+    public ApplicantFxModel(int idApplicant, String shortName, String fullName, String postCode, String city, String street, String number, String status) {
         this.idApplicant = new SimpleIntegerProperty(idApplicant);
         this.shortName = new SimpleStringProperty(shortName);
         this.fullName = new SimpleStringProperty(fullName);
         this.postCode = new SimpleStringProperty(postCode);
         this.city = new SimpleStringProperty(city);
         this.street = new SimpleStringProperty(street);
-        this.houseNumber = new SimpleStringProperty(houseNumber);
-        this.flatNumber = new SimpleStringProperty(flatNumber);
+        this.number = new SimpleStringProperty(number);
         this.status = new SimpleStringProperty(status);
     }
 
@@ -87,23 +89,14 @@ public class ApplicantFxModel {
     public void setStreet(String street) {
         this.street.set(street);
     }
-    public String getHouseNumber() {
-        return houseNumber.get();
+    public String getNumber() {
+        return number.get();
     }
-    public StringProperty houseNumberProperty() {
-        return houseNumber;
+    public StringProperty numberProperty() {
+        return number;
     }
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber.set(houseNumber);
-    }
-    public String getFlatNumber() {
-        return flatNumber.get();
-    }
-    public StringProperty flatNumberProperty() {
-        return flatNumber;
-    }
-    public void setFlatNumber(String flatNumber) {
-        this.flatNumber.set(flatNumber);
+    public void setNumber(String number) {
+        this.number.set(number);
     }
     public String getStatus() {
         return status.get();

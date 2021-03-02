@@ -37,6 +37,16 @@ public class UserModel {
     //Konstruktory
     public UserModel() {
     }
+    public UserModel(UserModel user){
+        this.idUser = user.getIdUser();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.login = user.getLogin();
+        this.password = user.getPassword();
+        this.permissionLevel = user.getPermissionLevel();
+        this.initials=user.getInitials();
+        this.styleSheet = user.getStyleSheet();
+    }
     public UserModel(Integer idUser, String firstName, String lastName, String login, String password, String permissionLevel, String initials,String styleSheet) {
         this.idUser = idUser;
         this.firstName = firstName;

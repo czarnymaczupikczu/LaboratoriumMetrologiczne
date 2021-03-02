@@ -41,7 +41,7 @@ public class StorageDataModel {
                         "INSTRUMENTS.idInstrument,NAMES.instrumentName,TYPES.typeName, PRODUCERS.producerName, \n" +
                         "INSTRUMENTS.serialNumber, INSTRUMENTS.identificationNumber,INSTRUMENTS.length, \n" +
                         "INSTRUMENTS.diameter,RANGES.rangeName,\n" +
-                        "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.houseNumber, APPLICANTS.flatNumber, APPLICANTS.status,\n" +
+                        "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,\n" +
                         "STORAGE.entryDate, u1.initials, \n" +
                         "GROUP_CONCAT(REGISTER.calibrationDate,', '), GROUP_CONCAT(u2.initials,', '), GROUP_CONCAT(REGISTER.cardNumber,', '),\n" +
                         "STORAGE.spendDate, u3.initials, STORAGE.storageRemarks\n" +
@@ -106,14 +106,14 @@ public class StorageDataModel {
         //Ustawianie poszczególnych pól w sumie zrobię to tak żeby każde pole było ustawione wprost
         tempStorageObject.setIdStorage(Integer.parseInt(results[0]));
         tempStorageObject.setInstrument(createInstrumentFxModel(results));
-        tempStorageObject.setEntryDate(results[19]);
-        tempStorageObject.setEntryUser(results[20]);
-        tempStorageObject.setCalibrationDates(results[21]);
-        tempStorageObject.setCalibrationUsers(results[22]);
-        tempStorageObject.setCardNumbers(results[23]);
-        tempStorageObject.setSpendDate(results[24]);
-        tempStorageObject.setSpendUser(results[25]);
-        tempStorageObject.setStorageRemarks(results[26]);
+        tempStorageObject.setEntryDate(results[18]);
+        tempStorageObject.setEntryUser(results[19]);
+        tempStorageObject.setCalibrationDates(results[20]);
+        tempStorageObject.setCalibrationUsers(results[21]);
+        tempStorageObject.setCardNumbers(results[22]);
+        tempStorageObject.setSpendDate(results[23]);
+        tempStorageObject.setSpendUser(results[24]);
+        tempStorageObject.setStorageRemarks(results[25]);
         return tempStorageObject;
     }
     public InstrumentFxModel createInstrumentFxModel(String[] results){
@@ -138,9 +138,8 @@ public class StorageDataModel {
         tempApplicantObject.setPostCode(results[13]);
         tempApplicantObject.setCity(results[14]);
         tempApplicantObject.setStreet(results[15]);
-        tempApplicantObject.setFlatNumber(results[16]);
-        tempApplicantObject.setHouseNumber(results[17]);
-        tempApplicantObject.setStatus(results[18]);
+        tempApplicantObject.setNumber(results[16]);
+        tempApplicantObject.setStatus(results[17]);
         return tempApplicantObject;
     }
 

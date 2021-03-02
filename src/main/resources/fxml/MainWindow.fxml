@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainWindowController">
+<BorderPane fx:id="mainWindowBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainWindowController">
    <top>
       <VBox style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
@@ -41,7 +41,7 @@
                <children>
                   <ImageView fx:id="mainWindowImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
                   <Label id="label-main-head" text="LABORATORIUM METROLOGICZNE" GridPane.columnIndex="2" />
-                  <Label id="label-main-head-user" text="Użytkownik: gszymczyk" GridPane.columnIndex="3">
+                  <Label id="label-main-head-user" fx:id="userLabel" text="Użytkownik: gszymczyk" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
@@ -56,16 +56,16 @@
             </GridPane>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="MAGAZYN">
+                  <ToggleButton mnemonicParsing="false" onAction="#setStorage1" prefHeight="30.0" prefWidth="130.0" text="MAGAZYN">
                      <toggleGroup>
                         <ToggleGroup fx:id="mainWindowToggleGroup" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setStorage2" prefHeight="30.0" prefWidth="130.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setStorage3" prefHeight="30.0" prefWidth="130.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="PRZYRZĄDY" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="ZLECENIODAWCY" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="ADMINISTRACJA" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton fx:id="administrationToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="ADMINISTRACJA" toggleGroup="$mainWindowToggleGroup" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" />
@@ -77,11 +77,4 @@
          </BorderPane.margin>
       </VBox>
    </top>
-   <center>
-      <VBox fx:id="mainWindowMainVBox" style="-fx-background-color: #388e3c;" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" />
-         </BorderPane.margin>
-      </VBox>
-   </center>
 </BorderPane>

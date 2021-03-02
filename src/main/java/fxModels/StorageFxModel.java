@@ -20,8 +20,16 @@ public class StorageFxModel {
     private StringProperty spendUser= new SimpleStringProperty();
     private StringProperty storageRemarks=new SimpleStringProperty();
 
-    //Konstruktroy
+    //Konstruktory
     public StorageFxModel() {
+        //Domyślne ustawienie zbindowanych pól
+        this.entryDate=new SimpleStringProperty("");
+        this.entryUser=new SimpleStringProperty("");
+        this.calibrationDates=new SimpleStringProperty("");
+        this.calibrationUsers=new SimpleStringProperty("");
+        this.spendDate = new SimpleStringProperty("");
+        this.spendUser = new SimpleStringProperty("");
+
     }
     public StorageFxModel(int idStorage, InstrumentFxModel instrument, String entryDate, String entryUser, String calibrationDates, String calibrationUsers, String cardNumbers,String spendDate, String spendUser, String storageRemarks) {
         this.idStorage = new SimpleIntegerProperty(idStorage);

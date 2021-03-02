@@ -16,8 +16,7 @@ public class ApplicantModel {
     public static final String POST_CODE="postCode";
     public static final String CITY="city";
     public static final String STREET="street";
-    public static final String HOUSE_NUMBER="houseNumber";
-    public static final String FLAT_NUMBER="flatNumber";
+    public static final String NUMBER="number";
     public static final String APPLICANT_STATUS="status";
 
     @DatabaseField(generatedId = true, columnName=ID_APPLICANT)
@@ -32,25 +31,23 @@ public class ApplicantModel {
     private String city;
     @DatabaseField(columnName = STREET)
     private String street;
-    @DatabaseField(columnName = HOUSE_NUMBER)
-    private String houseNumber;
-    @DatabaseField(columnName = FLAT_NUMBER)
-    private String flatNumber;
+    @DatabaseField(columnName = NUMBER)
+    private String number;
     @DatabaseField(columnName = APPLICANT_STATUS)
     private String status;
 
     //Konstruktory
     public ApplicantModel() {
+
     }
-    public ApplicantModel(Integer idApplicant, String shortName, String fullName, String postCode, String city, String street, String houseNumber, String flatNumber, String status) {
+    public ApplicantModel(Integer idApplicant, String shortName, String fullName, String postCode, String city, String street, String number, String status) {
         this.idApplicant = idApplicant;
         this.shortName = shortName;
         this.fullName = fullName;
         this.postCode = postCode;
         this.city = city;
         this.street = street;
-        this.houseNumber = houseNumber;
-        this.flatNumber = flatNumber;
+        this.number = number;
         this.status = status;
     }
 
@@ -91,17 +88,11 @@ public class ApplicantModel {
     public void setStreet(String street) {
         this.street = street;
     }
-    public String getHouseNumber() {
-        return houseNumber;
+    public String getNumber() {
+        return number;
     }
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-    public String getFlatNumber() {
-        return flatNumber;
-    }
-    public void setFlatNumber(String flatNumber) {
-        this.flatNumber = flatNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
     public String getStatus() {
         return status;
