@@ -37,7 +37,7 @@ public class RegisterModel {
     @DatabaseField(columnName = CALIBRATION_DATE)
     private String calibrationDate;
     @DatabaseField(foreign = true, foreignAutoRefresh = true,columnName = CALIBRATION_USER)
-    private UserModel userWhoCalibrate;
+    private UserModel calibrationUser;
     @DatabaseField(columnName = CERTIFICATE_NUMBER)
     private String certificateNumber;
     @DatabaseField(columnName = DOCUMENT_KIND)
@@ -52,14 +52,14 @@ public class RegisterModel {
     //Konstruktory
     public RegisterModel() {
     }
-    public RegisterModel(Integer idRegister, Integer registerKind, Integer idRegisterByYear, StorageModel storage, String cardNumber, String calibrationDate, UserModel userWhoCalibrate, String certificateNumber, String documentKind, String agreementNumber, String state, String registerRemarks) {
+    public RegisterModel(Integer idRegister, Integer registerKind, Integer idRegisterByYear, StorageModel storage, String cardNumber, String calibrationDate, UserModel calibrationUser, String certificateNumber, String documentKind, String agreementNumber, String state, String registerRemarks) {
         this.idRegister = idRegister;
         this.registerKind = registerKind;
         this.idRegisterByYear = idRegisterByYear;
         this.storage = storage;
         this.cardNumber = cardNumber;
         this.calibrationDate = calibrationDate;
-        this.userWhoCalibrate = userWhoCalibrate;
+        this.calibrationUser = calibrationUser;
         this.certificateNumber = certificateNumber;
         this.documentKind = documentKind;
         this.agreementNumber = agreementNumber;
@@ -104,11 +104,11 @@ public class RegisterModel {
     public void setCalibrationDate(String calibrationDate) {
         this.calibrationDate = calibrationDate;
     }
-    public UserModel getUserWhoCalibrate() {
-        return userWhoCalibrate;
+    public UserModel getCalibrationUser() {
+        return calibrationUser;
     }
-    public void setUserWhoCalibrate(UserModel userWhoCalibrate) {
-        this.userWhoCalibrate = userWhoCalibrate;
+    public void setCalibrationUser(UserModel calibrationUser) {
+        this.calibrationUser = calibrationUser;
     }
     public String getCertificateNumber() {
         return certificateNumber;

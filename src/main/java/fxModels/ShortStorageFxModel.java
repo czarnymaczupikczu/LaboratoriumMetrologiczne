@@ -1,42 +1,33 @@
 package fxModels;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-/**
- * Obiekty klasy StorageFxModel są wyświetlane w kontrolerze TableView w oknie Storage
- */
-public class StorageFxModel {
+public class ShortStorageFxModel {
     private IntegerProperty storageIndex=new SimpleIntegerProperty();
     private IntegerProperty idStorage=new SimpleIntegerProperty();
     private InstrumentFxModel instrument=new InstrumentFxModel();
     private StringProperty entryDate= new SimpleStringProperty();
     private StringProperty entryUser= new SimpleStringProperty();
-    private StringProperty calibrationDates=new SimpleStringProperty();
-    private StringProperty calibrationUsers=new SimpleStringProperty();
-    private StringProperty cardNumbers = new SimpleStringProperty();
     private StringProperty spendDate=new SimpleStringProperty();
     private StringProperty spendUser= new SimpleStringProperty();
     private StringProperty storageRemarks=new SimpleStringProperty();
 
     //Konstruktory
-    public StorageFxModel() {
+    public ShortStorageFxModel() {
         //Domyślne ustawienie zbindowanych pól
         this.entryDate=new SimpleStringProperty("");
         this.entryUser=new SimpleStringProperty("");
-        this.calibrationDates=new SimpleStringProperty("");
-        this.calibrationUsers=new SimpleStringProperty("");
         this.spendDate = new SimpleStringProperty("");
         this.spendUser = new SimpleStringProperty("");
-
     }
-    public StorageFxModel(int idStorage, InstrumentFxModel instrument, String entryDate, String entryUser, String calibrationDates, String calibrationUsers, String cardNumbers,String spendDate, String spendUser, String storageRemarks) {
+    public ShortStorageFxModel(int idStorage, InstrumentFxModel instrument, String entryDate, String entryUser, String calibrationDates, String calibrationUsers, String cardNumbers,String spendDate, String spendUser, String storageRemarks) {
         this.idStorage = new SimpleIntegerProperty(idStorage);
         this.instrument = instrument;
         this.entryDate = new SimpleStringProperty(entryDate);
         this.entryUser = new SimpleStringProperty(entryUser);
-        this.calibrationDates=new SimpleStringProperty(calibrationDates);
-        this.calibrationUsers=new SimpleStringProperty(calibrationUsers);
-        this.cardNumbers=new SimpleStringProperty(cardNumbers);
         this.spendDate = new SimpleStringProperty(spendDate);
         this.spendUser = new SimpleStringProperty(spendUser);
         this.storageRemarks = new SimpleStringProperty(storageRemarks);
@@ -84,33 +75,6 @@ public class StorageFxModel {
     }
     public void setEntryUser(String entryUser) {
         this.entryUser.set(entryUser);
-    }
-    public String getCalibrationDates() {
-        return calibrationDates.get();
-    }
-    public StringProperty calibrationDatesProperty() {
-        return calibrationDates;
-    }
-    public void setCalibrationDates(String calibrationDates) {
-        this.calibrationDates.set(calibrationDates);
-    }
-    public String getCalibrationUsers() {
-        return calibrationUsers.get();
-    }
-    public StringProperty calibrationUsersProperty() {
-        return calibrationUsers;
-    }
-    public void setCalibrationUsers(String calibrationUsers) {
-        this.calibrationUsers.set(calibrationUsers);
-    }
-    public String getCardNumbers() {
-        return cardNumbers.get();
-    }
-    public StringProperty cardNumbersProperty() {
-        return cardNumbers;
-    }
-    public void setCardNumbers(String cardNumbers) {
-        this.cardNumbers.set(cardNumbers);
     }
     public String getSpendDate() {
         return spendDate.get();
