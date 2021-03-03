@@ -27,76 +27,46 @@ public class StorageWindowController {
         System.out.println("Konstruktor klasy StorehouseWindowController");
     }
 
-    //ComboBox
-    @FXML
-    private ComboBox<String> storageStateComboBox;
-    @FXML
-    private ComboBox<String> storageYearComboBox;
-    @FXML
-    private ColumnConstraints applicantGridPaneColumn;
-    @FXML
-    private ColumnConstraints historyGridPaneColumn;
-    @FXML
-    private ColumnConstraints remarksGridPaneColumn;
-    @FXML
-    private VBox storageMainVBox;
-    //TableView
-    @FXML
-    private TableView<StorageFxModel> storageTableView;
-    @FXML
-    private TableColumn<StorageFxModel, Integer> idStorageColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> nameColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> typeColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> producerColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> serialNumberColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> identificationNumberColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> rangeColumn;
-    @FXML
-    private TableColumn<StorageFxModel,String> lengthColumn;
-    @FXML
-    private TableColumn<StorageFxModel,String> diameterColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> applicantColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> entryDateColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> calibrationDateColumn;
-    @FXML
-    private TableColumn<StorageFxModel, String> spendDateColumn;
-    //Labels
-    @FXML
-    private Label shortNameLabel;
-    @FXML
-    private Label fullNameLabel;
-    @FXML
-    private Label cityLabel;
-    @FXML
-    private Label streetLabel;
-    @FXML
-    private Label entryLabel;
-    @FXML
-    private Label calibrationLabel;
-    @FXML
-    private Label spendLabel;
-    @FXML
-    private Label cardNumberLabel;
-    @FXML
-    private TextArea storageRemarksTextArea;
-    @FXML
-    private TextField searchTextField;
-
+    //Pola prywatne
     private StorageDataModel storageDataModel=new StorageDataModel();
-        //Główny kontroler powiązany z kontrolerami poszczególnych okien
+    //Główny kontroler powiązany z kontrolerami poszczególnych okien
     private MainWindowController mainController;
     public void setMainController(MainWindowController mainController) {
         this.mainController = mainController;
     }
+
+    //Deklaracje związane z widokiem fxml
+    @FXML private VBox storageMainVBox;
+    //ComboBox
+    @FXML private ComboBox<String> storageStateComboBox;
+    @FXML private ComboBox<String> storageYearComboBox;
+    //TableView
+    @FXML private TableView<StorageFxModel> storageTableView;
+    @FXML private TableColumn<StorageFxModel, Integer> idStorageColumn;
+    @FXML private TableColumn<StorageFxModel, String> nameColumn;
+    @FXML private TableColumn<StorageFxModel, String> typeColumn;
+    @FXML private TableColumn<StorageFxModel, String> producerColumn;
+    @FXML private TableColumn<StorageFxModel, String> serialNumberColumn;
+    @FXML private TableColumn<StorageFxModel, String> identificationNumberColumn;
+    @FXML private TableColumn<StorageFxModel, String> rangeColumn;
+    @FXML private TableColumn<StorageFxModel,String> lengthColumn;
+    @FXML private TableColumn<StorageFxModel,String> diameterColumn;
+    @FXML private TableColumn<StorageFxModel, String> applicantColumn;
+    @FXML private TableColumn<StorageFxModel, String> entryDateColumn;
+    @FXML private TableColumn<StorageFxModel, String> calibrationDateColumn;
+    @FXML private TableColumn<StorageFxModel, String> spendDateColumn;
+    //Labels
+    @FXML private Label shortNameLabel;
+    @FXML private Label fullNameLabel;
+    @FXML private Label cityLabel;
+    @FXML private Label streetLabel;
+    @FXML private Label entryLabel;
+    @FXML private Label calibrationLabel;
+    @FXML private Label spendLabel;
+    @FXML private Label cardNumberLabel;
+    @FXML private TextArea storageRemarksTextArea;
+    @FXML private TextField searchTextField;
+
 
     @FXML
     public void initialize() throws SQLException {
@@ -197,6 +167,6 @@ public class StorageWindowController {
     @FXML
     void loadStorageList() {
         storageDataModel.listInitialize(storageStateComboBox.getValue(),storageYearComboBox.getValue());
-        System.out.println(storageDataModel.createSQLStatement(storageStateComboBox.getValue(),storageYearComboBox.getValue()));
+        //System.out.println(storageDataModel.createSQLStatement(storageStateComboBox.getValue(),storageYearComboBox.getValue()));
     }
 }

@@ -14,60 +14,49 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="storageMainVBox" alignment="CENTER" prefHeight="675.0" prefWidth="1190.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StorageWindowController">
+<VBox fx:id="registerMainVBox" alignment="CENTER" prefHeight="675.0" prefWidth="1190.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterWindowController">
    <children>
-      <HBox alignment="CENTER_LEFT" depthTest="DISABLE" prefHeight="30.0" spacing="5.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="5.0" />
-         </VBox.margin>
-      </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-color: black; -fx-border-width: 1  0 0 0;">
          <children>
             <Label text="  Szukaj:" />
             <TextField fx:id="searchTextField" prefWidth="300.0" />
             <Label text="Stan:" />
-            <ComboBox fx:id="storageStateComboBox" prefWidth="130.0" />
+            <ComboBox fx:id="registerStateComboBox" prefWidth="130.0" />
             <Label text="Rok:" />
-            <ComboBox fx:id="storageYearComboBox" prefWidth="130.0" />
-            <Button mnemonicParsing="false" onAction="#loadStorageList" prefWidth="125.0" text="Wczytaj listę" />
+            <ComboBox fx:id="registerYearComboBox" prefWidth="130.0" />
+            <Button mnemonicParsing="false" onAction="#loadRegisterList" prefWidth="125.0" text="Wczytaj listę" />
             <Button mnemonicParsing="false" prefWidth="125.0" text="Eksport do XLS" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin>
       </HBox>
-      <TableView fx:id="storageTableView" prefHeight="475.0" prefWidth="1190.0">
+      <TableView fx:id="registerTableView" prefHeight="505.0" prefWidth="1190.0">
         <columns>
-          <TableColumn fx:id="idStorageColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="Lp." />
-            <TableColumn fx:id="nameColumn1" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Nr karty" />
-            <TableColumn fx:id="calibrationDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Data &#10;wzorcowania" />
+          <TableColumn fx:id="idRegisterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="Lp." />
+            <TableColumn fx:id="cardNumberColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Nr &#10;karty" />
+            <TableColumn fx:id="calibrationDateColumn" maxWidth="80.0" minWidth="80.0" text="Data &#10;wzorcowania" />
           <TableColumn fx:id="nameColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Nazwa" />
-            <TableColumn fx:id="typeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Typ" />
-            <TableColumn fx:id="producerColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Producent" />
-            <TableColumn fx:id="serialNumberColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Nr fabryczny" />
-            <TableColumn fx:id="identificationNumberColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Nr identyfikacyjny" />
-            <TableColumn fx:id="rangeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Zakres" />
+            <TableColumn fx:id="typeColumn" maxWidth="150.0" minWidth="90.0" prefWidth="100.0" text="Typ" />
+            <TableColumn fx:id="producerColumn" maxWidth="150.0" minWidth="90.0" prefWidth="100.0" text="Producent" />
+            <TableColumn fx:id="serialNumberColumn" maxWidth="150.0" minWidth="90.0" prefWidth="100.0" text="Nr fabryczny" />
+            <TableColumn fx:id="identificationNumberColumn" maxWidth="150.0" minWidth="90.0" prefWidth="100.0" text="Nr identyfikacyjny" />
+            <TableColumn fx:id="rangeColumn" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" text="Zakres" />
             <TableColumn prefWidth="75.0" text="Wymiary [mm]">
                <columns>
                   <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="l" />
                   <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="⌀" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="applicantColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Zleceniodawca" />
-            <TableColumn prefWidth="75.0" text="Świadectwo wzorcowania/ Protokół odmowy wzorcowania">
+            <TableColumn fx:id="applicantColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Zleceniodawca" />
+            <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Świadectwo wzorcowania/ Protokół odmowy wzorcowania">
                <columns>
-                  <TableColumn fx:id="entryDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Numer" />
-                  <TableColumn fx:id="spendDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="ŚW/PO" />
-                  <TableColumn prefWidth="75.0" text="Umowa" />
+                  <TableColumn fx:id="certificateNumberColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Numer" />
+                  <TableColumn fx:id="documentKindColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="ŚW/PO" />
+                  <TableColumn fx:id="agreementNumberColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Umowa" />
                </columns>
             </TableColumn>
-            <TableColumn prefWidth="75.0" text="Stan" />
+            <TableColumn fx:id="stateColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Stan" />
         </columns>
          <VBox.margin>
             <Insets bottom="5.0" />

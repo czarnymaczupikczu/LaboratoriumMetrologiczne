@@ -77,10 +77,33 @@ public class CommonDao {
         }
         return null;
     }
+    public <T, I> List<T> getListWithSimpleSelect(Class<T> cls,String columnName, String value){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().eq(columnName,value).prepare());
+        } catch (SQLException e) {
+            System.out.println("to tutaj!!");
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
     public <T, I> List<T> selectWithTwoConditions(Class<T> cls,String columnName1, String value1,String columnaName2, String value2){
         try {
             Dao<T,I> dao=getDao(cls);
             return dao.query(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnaName2,value2).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> List<T> selectWithThreeConditions(Class<T> cls,String columnName1, String value1,String columnName2, String value2,String columnName3, String value3){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnName2,value2).and().like(columnName3,"%"+value3+"%").prepare());
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }finally{

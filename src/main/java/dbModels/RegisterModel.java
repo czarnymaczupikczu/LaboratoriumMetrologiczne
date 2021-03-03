@@ -30,7 +30,7 @@ public class RegisterModel {
     private Integer registerKind;  //W zakresie akredytacji lub poza zakresem
     @DatabaseField(columnName = ID_REGISTER_BY_YEAR)
     private Integer idRegisterByYear;
-    @DatabaseField(foreign = true,foreignAutoRefresh = true,columnName = STORAGE)
+    @DatabaseField(foreign = true,foreignAutoRefresh = true,columnName = STORAGE,maxForeignAutoRefreshLevel = 4)
     private StorageModel storage;
     @DatabaseField(columnName = CARD_NUMBER)
     private String cardNumber;

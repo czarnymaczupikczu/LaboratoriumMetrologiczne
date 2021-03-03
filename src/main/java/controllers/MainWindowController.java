@@ -30,40 +30,40 @@ public class MainWindowController {
     }
 
     private StorageWindowController storage1;
-    private StorageWindowController storage2;
-    private StorageWindowController storage3;
+    private RegisterWindowController register1;
+    private RegisterWindowController register2;
     private VBox storageVbox1;
-    private VBox storageVbox2;
-    private VBox storageVbox3;
-
-    public void setStorage1(StorageWindowController storage1) {
-        this.storage1 = storage1;
-    }
-    public void setStorage2(StorageWindowController storage2) {
-        this.storage2 = storage2;
-    }
-    public void setStorage3(StorageWindowController storage3) {
-        this.storage3 = storage3;
-    }
+    private VBox register1Vbox;
+    private VBox register2Vbox;
 
     public StorageWindowController getStorage1() {
         return storage1;
     }
-    public StorageWindowController getStorage2() {
-        return storage2;
+    public void setStorage1(StorageWindowController storage1) {
+        this.storage1 = storage1;
     }
-    public StorageWindowController getStorage3() {
-        return storage3;
+    public RegisterWindowController getRegister1() {
+        return register1;
+    }
+
+    public void setRegister1(RegisterWindowController register1) {
+        this.register1 = register1;
+    }
+    public RegisterWindowController getRegister2() {
+        return register2;
+    }
+    public void setRegister2(RegisterWindowController register2) {
+        this.register2 = register2;
     }
 
     public void setStorageVbox1(VBox storageVbox1) {
         this.storageVbox1 = storageVbox1;
     }
-    public void setStorageVbox2(VBox storageVbox2) {
-        this.storageVbox2 = storageVbox2;
+    public void setRegister1Vbox(VBox register1Vbox) {
+        this.register1Vbox = register1Vbox;
     }
-    public void setStorageVbox3(VBox storageVbox3) {
-        this.storageVbox3 = storageVbox3;
+    public void setRegister2Vbox(VBox register2Vbox) {
+        this.register2Vbox = register2Vbox;
     }
 
     @FXML private ImageView mainWindowImageView;
@@ -91,17 +91,17 @@ public class MainWindowController {
     }
     @FXML
     void setStorage2() {
-        if (storageVbox2==null) {
+        if (register1Vbox==null) {
             //storageVbox2 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
-        mainWindowBorderPane.setCenter(storageVbox2);
+        mainWindowBorderPane.setCenter(register1Vbox);
     }
     @FXML
     void setStorage3() {
-        if (storageVbox3==null) {
+        if (register2Vbox==null) {
            // storageVbox3 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
-        mainWindowBorderPane.setCenter(storageVbox3);
+        mainWindowBorderPane.setCenter(register2Vbox);
     }
     public void disableAdministrationToggleButton(){
         this.administrationToggleButton.setVisible(false);

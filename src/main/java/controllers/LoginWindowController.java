@@ -27,6 +27,9 @@ public class LoginWindowController {
 
     private final String MAIN_WINDOW="/fxml/MainWindow.fxml";
     private final String STORAGE_WINDOW="/fxml/StorageWindow.fxml";
+    private final String REGISTER_WINDOW="/fxml/RegisterWindow.fxml";
+    private final String REJESTR_AP131="AP131";
+    private final String REJEST_POZA="PozaAP";
     private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
     static final String LOGIN_ERROR = "Nieprawidłowy użytkownik i/lub hasło";
 
@@ -68,17 +71,19 @@ public class LoginWindowController {
                 mainController.getStorage1().setMainController(this.mainController);
                 mainController.getStorage1().init();
                 //Okno Rejestr AP
-                FXMLLoader loader2= new FXMLLoader(LoginWindowController.class.getResource(STORAGE_WINDOW));
-                mainController.setStorageVbox2(loader2.load());
-                mainController.setStorage2(loader2.getController());
-                mainController.getStorage2().setMainController(this.mainController);
-                mainController.getStorage2().init();
+                FXMLLoader loader2= new FXMLLoader(LoginWindowController.class.getResource(REGISTER_WINDOW));
+                mainController.setRegister1Vbox(loader2.load());
+                mainController.setRegister1(loader2.getController());
+                mainController.getRegister1().setMainController(this.mainController);
+                mainController.getRegister1().getRegisterDataModel().setRegisterType(REJESTR_AP131);
+                mainController.getRegister1().init();
                 //Okno Rejest poza AP
-                FXMLLoader loader3= new FXMLLoader(LoginWindowController.class.getResource(STORAGE_WINDOW));
-                mainController.setStorageVbox3(loader3.load());
-                mainController.setStorage3(loader3.getController());
-                mainController.getStorage3().setMainController(this.mainController);
-                mainController.getStorage3().init();
+                FXMLLoader loader3= new FXMLLoader(LoginWindowController.class.getResource(REGISTER_WINDOW));
+                mainController.setRegister2Vbox(loader3.load());
+                mainController.setRegister2(loader3.getController());
+                mainController.getRegister2().setMainController(this.mainController);
+                mainController.getRegister2().getRegisterDataModel().setRegisterType(REJEST_POZA);
+                mainController.getRegister2().init();
                 //Ustawiamy usera globalnego
                 mainController.getMainDataModel().setUser(userList.get(0));
                 mainController.init();

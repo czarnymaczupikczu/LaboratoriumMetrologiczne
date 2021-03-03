@@ -22,7 +22,7 @@ public class MainDataModel {
 
     private List<String> yearComboBoxList = new ArrayList<>(initYearList());
     private List<String> storageStateComboBoxList= Arrays.asList("Wszystkie","W magazynie");
-    private List<String>  registerStateComboBoxList=Arrays.asList("Wszystkie","ON","OFF");
+    private List<String> registerStateComboBoxList=Arrays.asList("Wszystkie","ON","OFF");
 
     public List<String> initYearList() {
         List<String> tempYearList=new ArrayList<>();

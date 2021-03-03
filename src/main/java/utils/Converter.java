@@ -30,10 +30,11 @@ public class Converter {
 
     public static ShortStorageFxModel convertStorageModelToShortStorageFxModel(StorageModel model){
         ShortStorageFxModel fxModel=new ShortStorageFxModel();
-        fxModel.setIdStorage(model.getIdStorage());
+        //fxModel.setIdStorage(model.getIdStorage());
+        fxModel.setIdStorage(1);
         fxModel.setInstrument(convertInstrumentModelToInstrumentFxModel(model.getInstrument()));
-        fxModel.setEntryDate(model.getEntryDate());
         fxModel.setEntryUser(model.getEntryUser().getInitials());
+        fxModel.setEntryUser("");
         fxModel.setSpendDate(model.getSpendDate());
         fxModel.setSpendUser(model.getSpendUser().getInitials());
         fxModel.setStorageRemarks(model.getStorageRemarks());
