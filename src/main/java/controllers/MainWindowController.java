@@ -2,17 +2,12 @@ package controllers;
 
 import dataModels.MainDataModel;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import utils.FxmlTools;
-
-import java.io.IOException;
 
 
 public class MainWindowController {
@@ -32,9 +27,11 @@ public class MainWindowController {
     private StorageWindowController storage1;
     private RegisterWindowController register1;
     private RegisterWindowController register2;
+    private ApplicantsWindowController applicants;
     private VBox storageVbox1;
     private VBox register1Vbox;
     private VBox register2Vbox;
+    private VBox applicantsVBox;
 
     public StorageWindowController getStorage1() {
         return storage1;
@@ -44,6 +41,9 @@ public class MainWindowController {
     }
     public RegisterWindowController getRegister1() {
         return register1;
+    }
+    public ApplicantsWindowController getApplicants() {
+        return applicants;
     }
 
     public void setRegister1(RegisterWindowController register1) {
@@ -55,6 +55,9 @@ public class MainWindowController {
     public void setRegister2(RegisterWindowController register2) {
         this.register2 = register2;
     }
+    public void setApplicants(ApplicantsWindowController applicants) {
+        this.applicants = applicants;
+    }
 
     public void setStorageVbox1(VBox storageVbox1) {
         this.storageVbox1 = storageVbox1;
@@ -64,6 +67,9 @@ public class MainWindowController {
     }
     public void setRegister2Vbox(VBox register2Vbox) {
         this.register2Vbox = register2Vbox;
+    }
+    public void setApplicantsVBox(VBox applicantsVBox) {
+        this.applicantsVBox = applicantsVBox;
     }
 
     @FXML private ImageView mainWindowImageView;
@@ -80,29 +86,38 @@ public class MainWindowController {
     }
     public void init(){
         this.userLabel.setText("użytkownik: "+mainDataModel.getUser().getLogin());
-        setStorage1();
+        setStorageWindow();
     }
     @FXML
-    void setStorage1() {
+    void setStorageWindow() {
         if (storageVbox1==null) {
            // storageVbox1 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
         mainWindowBorderPane.setCenter(storageVbox1);
     }
     @FXML
-    void setStorage2() {
+    void setRegister1Window() {
         if (register1Vbox==null) {
             //storageVbox2 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
         mainWindowBorderPane.setCenter(register1Vbox);
     }
     @FXML
-    void setStorage3() {
+    void setRegister2Window() {
         if (register2Vbox==null) {
            // storageVbox3 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
         mainWindowBorderPane.setCenter(register2Vbox);
     }
+    @FXML
+    void setApplicantsWindow(){
+        if(applicantsVBox==null){
+
+        }
+        mainWindowBorderPane.setCenter(applicantsVBox);
+    }
+
+
     public void disableAdministrationToggleButton(){
         this.administrationToggleButton.setVisible(false);
     }

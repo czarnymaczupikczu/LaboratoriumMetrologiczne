@@ -28,6 +28,7 @@ public class LoginWindowController {
     private final String MAIN_WINDOW="/fxml/MainWindow.fxml";
     private final String STORAGE_WINDOW="/fxml/StorageWindow.fxml";
     private final String REGISTER_WINDOW="/fxml/RegisterWindow.fxml";
+    private final String APPLICANTS_WINDOW="/fxml/ApplicantsWindow.fxml";
     private final String REJESTR_AP131="AP131";
     private final String REJEST_POZA="PozaAP";
     private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
@@ -84,6 +85,14 @@ public class LoginWindowController {
                 mainController.getRegister2().setMainController(this.mainController);
                 mainController.getRegister2().getRegisterDataModel().setRegisterType(REJEST_POZA);
                 mainController.getRegister2().init();
+                FXMLLoader loader4= new FXMLLoader(LoginWindowController.class.getResource(APPLICANTS_WINDOW));
+                mainController.setApplicantsVBox(loader4.load());
+                mainController.setApplicants(loader4.getController());
+                mainController.getApplicants().setMainController(this.mainController);
+               // mainController.getRegister2().getRegisterDataModel().setRegisterType(REJEST_POZA);
+                //mainController.getRegister2().init();
+
+
                 //Ustawiamy usera globalnego
                 mainController.getMainDataModel().setUser(userList.get(0));
                 mainController.init();

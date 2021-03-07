@@ -12,12 +12,18 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import utils.CommonTools;
 import utils.DatabaseTools;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,6 +33,8 @@ public class StorageWindowController {
         System.out.println("Konstruktor klasy StorehouseWindowController");
     }
 
+    private final String INSTRUMENT_WINDOW="/fxml/InstrumentWindow.fxml";
+
     //Pola prywatne
     private StorageDataModel storageDataModel=new StorageDataModel();
     //Główny kontroler powiązany z kontrolerami poszczególnych okien
@@ -34,6 +42,8 @@ public class StorageWindowController {
     public void setMainController(MainWindowController mainController) {
         this.mainController = mainController;
     }
+    private InstrumentWindowController instrumentWindowController;
+
 
     //Deklaracje związane z widokiem fxml
     @FXML private VBox storageMainVBox;
@@ -168,5 +178,22 @@ public class StorageWindowController {
     void loadStorageList() {
         storageDataModel.listInitialize(storageStateComboBox.getValue(),storageYearComboBox.getValue());
         //System.out.println(storageDataModel.createSQLStatement(storageStateComboBox.getValue(),storageYearComboBox.getValue()));
+    }
+    @FXML
+    void addInstrument() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(INSTRUMENT_WINDOW));
+            VBox vBox = loader.load();
+            instrumentWindowController = loader.getController();
+
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Dodaj przyrząd do magazynu");
+            Scene scene = new Scene(vBox);
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }
     }
 }

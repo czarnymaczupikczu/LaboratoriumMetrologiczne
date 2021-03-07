@@ -18,7 +18,7 @@
    <children>
       <HBox alignment="CENTER_LEFT" depthTest="DISABLE" prefHeight="30.0" spacing="5.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
+            <Button mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />

@@ -5,22 +5,15 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RawRowMapper;
 import dbModels.RegisterModel;
-import dbModels.StorageModel;
 import fxModels.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import utils.Converter;
 import utils.DatabaseTools;
 import utils.ShowAlert;
-import utils.database.CommonDao;
-
 import java.sql.SQLException;
-import java.util.List;
-
-import static dbModels.RegisterModel.*;
 
 public class RegisterDataModel {
     private ObservableList<RegisterFxModel> registerList= FXCollections.observableArrayList();

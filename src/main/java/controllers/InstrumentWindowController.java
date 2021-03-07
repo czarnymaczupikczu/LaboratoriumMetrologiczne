@@ -2,10 +2,7 @@ package controllers;
 
 import dataModels.InstrumentDataModel;
 import dbModels.InstrumentModel;
-import dbModels.instrument.NameModel;
-import dbModels.instrument.ProducerModel;
-import dbModels.instrument.RangeModel;
-import dbModels.instrument.TypeModel;
+import dbModels.instrument.*;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +21,7 @@ import utils.database.CommonDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 import static dbModels.instrument.NameModel.INSTRUMENT_NAME;
 import static dbModels.instrument.ProducerModel.PRODUCER_NAME;
@@ -204,9 +202,14 @@ public class InstrumentWindowController {
         this.identificationNumberTextField.setText(instrument.getIdentificationNumber());
         this.rangeComboBox.setValue(instrument.getRange().getRangeName());
         this.applicantComboBox.setValue(instrument.getApplicant().getShortName());
-
-
     }
-
+    private <T extends BaseModel> T getValue(List<T> list, String value){
+        for(T element:list){
+            if(element.getName().equals(value)){
+                return element;
+            }
+        }
+        return null;
+    }
 
 }

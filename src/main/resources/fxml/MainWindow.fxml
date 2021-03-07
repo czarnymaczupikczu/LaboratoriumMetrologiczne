@@ -56,15 +56,15 @@
             </GridPane>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ToggleButton mnemonicParsing="false" onAction="#setStorage1" prefHeight="30.0" prefWidth="130.0" text="MAGAZYN">
+                  <ToggleButton mnemonicParsing="false" onAction="#setStorageWindow" prefHeight="30.0" prefWidth="130.0" text="MAGAZYN">
                      <toggleGroup>
                         <ToggleGroup fx:id="mainWindowToggleGroup" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#setStorage2" prefHeight="30.0" prefWidth="130.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" onAction="#setStorage3" prefHeight="30.0" prefWidth="130.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setRegister1Window" prefHeight="30.0" prefWidth="130.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setRegister2Window" prefHeight="30.0" prefWidth="130.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="PRZYRZĄDY" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="ZLECENIODAWCY" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setApplicantsWindow" prefHeight="30.0" prefWidth="130.0" text="ZLECENIODAWCY" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton fx:id="administrationToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="ADMINISTRACJA" toggleGroup="$mainWindowToggleGroup" />
                </children>
                <VBox.margin>
