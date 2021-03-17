@@ -136,30 +136,7 @@ public class RegisterDataModel {
         tempApplicantObject.setStatus(results[19]);
         return tempApplicantObject;
     }
-    /*
-    public void listInitialize(String registerState, String registerYear){
-        registerList.clear();
-        CommonDao commonDao=new CommonDao();
-       // List<RegisterModel> tempList=commonDao.getListWithSimpleSelect(RegisterModel.class,"registerKind","AP131");;
-        List<RegisterModel> tempList=commonDao.queryForAll(RegisterModel.class);
-
-
-        /*if(registerState.equals(registerYear)){   //Wszystkie i wszystkie
-            System.out.println("typ rejestru"+this.registerType);
-            tempList=commonDao.getListWithSimpleLikeSelect(RegisterModel.class,"registerKind","AP131");
-        }else if(registerState.equals("Wszystkie") && !registerYear.equals("Wszystkie")){
-            tempList= commonDao.selectWithThreeConditions(RegisterModel.class, REGISTER_KIND, this.registerType, REGISTER_KIND, this.registerType, CALIBRATION_DATE, registerYear);
-        }else if(!registerState.equals("Wszystkie") && registerYear.equals("Wszystkie")) {
-            tempList= commonDao.selectWithThreeConditions(RegisterModel.class, REGISTER_KIND, this.registerType, STATE, registerState, REGISTER_KIND, this.registerType);
-        }
-        for (RegisterModel registerModel: tempList) {
-            registerList.add(Converter.convertRegisterModelToRegisterFxModel(registerModel));
-        }
-
-    }
-    */
-
-    public void addFilterToObservableList(String newValue){
+     public void addFilterToObservableList(String newValue){
         filteredRegisterList.setPredicate(item -> {
             if (item.getStorage().getInstrument().getName().toUpperCase().contains(newValue.toUpperCase())||item.getStorage().getInstrument().getType().toUpperCase().contains(newValue.toUpperCase())||
                     item.getStorage().getInstrument().getProducer().toUpperCase().contains(newValue.toUpperCase())||item.getStorage().getInstrument().getSerialNumber().toUpperCase().contains(newValue.toUpperCase())||

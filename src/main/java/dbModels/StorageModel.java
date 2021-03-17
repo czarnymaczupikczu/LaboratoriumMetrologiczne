@@ -18,6 +18,7 @@ public class StorageModel {
     public static final String SPEND_DATE="spendDate";
     public static final String SPEND_USER="spendUser";
     public static final String STORAGE_REMARKS="storageRemarks";
+    public static final String CALIBRATION_REMARKS="calibrationRemarks";
 
     @DatabaseField(generatedId = true,columnName = ID_STORAGE)
     private Integer idStorage;
@@ -33,11 +34,13 @@ public class StorageModel {
     private UserModel spendUser;
     @DatabaseField(dataType = DataType.LONG_STRING, columnName = STORAGE_REMARKS)
     private String storageRemarks;
+    @DatabaseField(dataType = DataType.LONG_STRING, columnName = CALIBRATION_REMARKS)
+    private String calibrationRemarks;
 
     //Konstruktory
     public StorageModel() {
     }
-    public StorageModel(Integer idStorage, InstrumentModel instrument, String entryDate, UserModel entryUser, String spendDate, UserModel spendUser, String storageRemarks) {
+    public StorageModel(Integer idStorage, InstrumentModel instrument, String entryDate, UserModel entryUser, String spendDate, UserModel spendUser, String storageRemarks, String calibrationRemarks) {
         this.idStorage = idStorage;
         this.instrument = instrument;
         this.entryDate = entryDate;
@@ -45,6 +48,7 @@ public class StorageModel {
         this.spendDate = spendDate;
         this.spendUser = spendUser;
         this.storageRemarks = storageRemarks;
+        this.calibrationRemarks=calibrationRemarks;
     }
 
     //Gettery i Settery
@@ -89,5 +93,11 @@ public class StorageModel {
     }
     public void setStorageRemarks(String storageRemarks) {
         this.storageRemarks = storageRemarks;
+    }
+    public String getCalibrationRemarks() {
+        return calibrationRemarks;
+    }
+    public void setCalibrationRemarks(String calibrationRemarks) {
+        this.calibrationRemarks = calibrationRemarks;
     }
 }

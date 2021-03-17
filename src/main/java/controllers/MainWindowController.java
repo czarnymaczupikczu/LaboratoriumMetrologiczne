@@ -73,10 +73,14 @@ public class MainWindowController {
     }
 
     @FXML private ImageView mainWindowImageView;
-    @FXML private VBox mainWindowMainVBox;
+    @FXML private VBox mainVBox;
     @FXML private BorderPane mainWindowBorderPane;
     @FXML private ToggleButton administrationToggleButton;
     @FXML private Label userLabel;
+
+    public BorderPane getMainWindowBorderPane() {
+        return mainWindowBorderPane;
+    }
 
     @FXML
     public void initialize(){
@@ -94,6 +98,7 @@ public class MainWindowController {
            // storageVbox1 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
         mainWindowBorderPane.setCenter(storageVbox1);
+
     }
     @FXML
     void setRegister1Window() {

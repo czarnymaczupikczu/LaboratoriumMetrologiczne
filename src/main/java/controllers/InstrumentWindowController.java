@@ -7,11 +7,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,6 +31,7 @@ public class InstrumentWindowController {
     //Deklaracja stałych ze ścieżkami do widoków fxml
     private static final String NEW_INSTRUMENT_DATA_WINDOW = "/fxml/NewInstrumentDataWindow.fxml";
     private static final String NEW_INSTRUMENT_RANGE_WINDOW="/fxml/NewInstrumentRangeWindow.fxml";
+    private static final String APPLICANTS_WINDOW="/fxml/ApplicantsWindow.fxml";
     private static final String NEW_NAME="Dodawanie nowej nazwy przyrządu";
     private static final String NEW_TYPE="Dodawanie nowego typu przyrządu";
     private static final String NEW_PRODUCER="Dodawanie nowego producenta przyrządu";
@@ -43,34 +42,31 @@ public class InstrumentWindowController {
         System.out.println("Konstruktor klasy InstrumentWindowController");
     }
     private NewInstrumentDataWindowController newInstrumentDataWindowController;
+    private ApplicantsWindowController applicantsWindowController;
 
-    @FXML
-    private ComboBox<String> nameComboBox;
-    @FXML
-    private ComboBox<String> typeComboBox;
-    @FXML
-    private ComboBox<String> producerComboBox;
-    @FXML
-    private ComboBox<String> rangeComboBox;
-    @FXML
-    private ComboBox<String> applicantComboBox;
+    @FXML private ComboBox<String> nameComboBox;
+    @FXML private ComboBox<String> typeComboBox;
+    @FXML private ComboBox<String> producerComboBox;
+    @FXML private ComboBox<String> rangeComboBox;
+    @FXML private ComboBox<String> applicantComboBox;
 
-    @FXML
-    private TextField serialNumberTextField;
-    @FXML
-    private Button checkBySerialNumberButton;
-    @FXML
-    private TextField identificationNumberTextField;
-    @FXML
-    private Button checkByIdentificationNumberButton;
+    @FXML private TextField serialNumberTextField;
+    @FXML private Label searchBySerialNumberLabel;
+    @FXML private Button checkBySerialNumberButton;
+    @FXML private TextField identificationNumberTextField;
+    @FXML private Label searchByIdentificationNumberLabel;
+    @FXML private Button checkByIdentificationNumberButton;
+    @FXML private Button saveButton;
+    @FXML private TextArea instrumentRemarks;
+    @FXML private TextArea calibrationRemarks;
+
+
+
 
     @FXML
     private DatePicker entryDatePicker;
     @FXML
     private VBox mainVBox;
-
-
-
 
     private InstrumentDataModel instrumentDataModel= new InstrumentDataModel();
     public InstrumentDataModel getInstrumentDataModel() {
@@ -95,9 +91,10 @@ public class InstrumentWindowController {
         typeComboBox.disableProperty().bind(nameComboBox.valueProperty().isNull());
         producerComboBox.disableProperty().bind(typeComboBox.valueProperty().isNull());
         rangeComboBox.disableProperty().bind(producerComboBox.valueProperty().isNull());
-        applicantComboBox.disableProperty().bind(rangeComboBox.valueProperty().isNull());
+        //applicantComboBox.disableProperty().bind(rangeComboBox.valueProperty().isNull());
         checkBySerialNumberButton.disableProperty().bind(serialNumberTextField.textProperty().isEmpty());
         checkByIdentificationNumberButton.disableProperty().bind(identificationNumberTextField.textProperty().isEmpty());
+        saveButton.disableProperty().bind(serialNumberTextField.textProperty().isEmpty().and(identificationNumberTextField.textProperty().isEmpty()));
     }
     @FXML
     void saveOnAction() {
@@ -133,22 +130,34 @@ public class InstrumentWindowController {
         newInstrumentDataWindowController.init(TYPE_NAME, TypeModel.class,NEW_TYPE);
     }
     @FXML
-    void checkByIdentificationNumberOnAction() {
-        instrumentDataModel.setFindInstrument(instrumentDataModel.searchForInstrument("identificationNumber",serialNumberTextField.getText()));
-        if (instrumentDataModel.getFindInstrument()==null){
-            serialNumberTextField.setText("Dupeczka");
-        }else{
-            setInstrumentDataToForm(instrumentDataModel.getFindInstrument());
-        }
-    }
-    @FXML
     void checkBySerialNumberOnAction() {
         instrumentDataModel.setFindInstrument(instrumentDataModel.searchForInstrument("serialNumber",serialNumberTextField.getText()));
         if (instrumentDataModel.getFindInstrument()==null){
-            serialNumberTextField.setText("Dupeczka");
+            searchBySerialNumberLabel.setTextFill(Color.RED);
         }else{
             setInstrumentDataToForm(instrumentDataModel.getFindInstrument());
+            searchBySerialNumberLabel.setTextFill(Color.WHITE);
+            searchByIdentificationNumberLabel.setTextFill(Color.WHITE);
         }
+    }
+    @FXML
+    void checkByIdentificationNumberOnAction() {
+        instrumentDataModel.setFindInstrument(instrumentDataModel.searchForInstrument("identificationNumber",serialNumberTextField.getText()));
+        if (instrumentDataModel.getFindInstrument()==null){
+            searchByIdentificationNumberLabel.setTextFill(Color.RED);
+        }else{
+            setInstrumentDataToForm(instrumentDataModel.getFindInstrument());
+            searchByIdentificationNumberLabel.setTextFill(Color.WHITE);
+            searchBySerialNumberLabel.setTextFill(Color.WHITE);
+        }
+    }
+
+    @FXML
+    void applicantComboBoxOnAction() {
+        applicantsWindowController=loadVBoxWindow(APPLICANTS_WINDOW);
+        applicantsWindowController.setInstrumentWindowController(this);
+        applicantsWindowController.getApplicantsDataModel().listInitializeApplicantsActive();
+        applicantsWindowController.hideButton();
     }
     @FXML
     void todayOnAction() {
@@ -162,8 +171,10 @@ public class InstrumentWindowController {
             instrumentData=loader.getController();
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
-            window.initStyle(StageStyle.TRANSPARENT);
+            //window.initStyle(StageStyle.TRANSPARENT);
+
             Scene scene = new Scene(vBox);
+            scene.getStylesheets().add("css/main.css");
             window.setScene(scene);
             window.show();
             return instrumentData;
@@ -172,8 +183,6 @@ public class InstrumentWindowController {
         }
         return null;
     }
-
-
     /**
      * Metoda służy do konfiguracji ComboBoxów, żeby można było filtrować w nich wartości
      */
@@ -202,6 +211,7 @@ public class InstrumentWindowController {
         this.identificationNumberTextField.setText(instrument.getIdentificationNumber());
         this.rangeComboBox.setValue(instrument.getRange().getRangeName());
         this.applicantComboBox.setValue(instrument.getApplicant().getShortName());
+
     }
     private <T extends BaseModel> T getValue(List<T> list, String value){
         for(T element:list){
@@ -211,5 +221,7 @@ public class InstrumentWindowController {
         }
         return null;
     }
-
+    public void setApplicantComboBox(String value){
+        this.applicantComboBox.setValue(value);
+    }
 }

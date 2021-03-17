@@ -14,20 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="storageMainVBox" alignment="CENTER" prefHeight="675.0" prefWidth="1190.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StorageWindowController">
+<VBox fx:id="storageMainVBox" alignment="CENTER" prefHeight="660.0" prefWidth="1190.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StorageWindowController">
    <children>
-      <HBox alignment="CENTER_LEFT" depthTest="DISABLE" prefHeight="30.0" spacing="5.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="5.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-color: black; -fx-border-width: 1  0 0 0;">
+      <HBox alignment="CENTER_LEFT" maxHeight="40.0" prefHeight="40.0" spacing="10.0" style="-fx-border-color: black; -fx-border-width: 1  0 0 0;">
          <children>
             <Label text="  Szukaj:" />
             <TextField fx:id="searchTextField" prefWidth="300.0" />
@@ -41,8 +30,25 @@
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
       </HBox>
-      <TableView fx:id="storageTableView" prefHeight="475.0" prefWidth="1190.0">
+      <HBox alignment="CENTER_LEFT" depthTest="DISABLE" maxHeight="30.0" prefHeight="30.0" spacing="5.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </HBox>
+      <TableView fx:id="storageTableView" prefHeight="1000.0" prefWidth="1190.0">
         <columns>
           <TableColumn fx:id="idStorageColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="Lp." />
           <TableColumn fx:id="nameColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Nazwa" />
@@ -51,17 +57,17 @@
             <TableColumn fx:id="serialNumberColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Nr fabryczny" />
             <TableColumn fx:id="identificationNumberColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Nr identyfikacyjny" />
             <TableColumn fx:id="rangeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Zakres" />
-            <TableColumn prefWidth="75.0" text="Wymiary [mm]">
+            <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Wymiary [mm]">
                <columns>
                   <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="l" />
                   <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="⌀" />
                </columns>
             </TableColumn>
             <TableColumn fx:id="applicantColumn" maxWidth="200.0" minWidth="100.0" prefWidth="110.0" text="Zleceniodawca" />
-            <TableColumn prefWidth="75.0" text="Data">
+            <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Data">
                <columns>
                   <TableColumn fx:id="entryDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="przyjęcia" />
-                  <TableColumn fx:id="calibrationDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="wzorcowania" />
+                  <TableColumn fx:id="calibrationDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="wzorcowania" />
                   <TableColumn fx:id="spendDateColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="wydania" />
                </columns>
             </TableColumn>
@@ -73,16 +79,17 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <GridPane alignment="CENTER_LEFT" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #bdbdbd;">
-        <columnConstraints>
-          <ColumnConstraints fx:id="applicantGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
-            <ColumnConstraints fx:id="historyGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
-          <ColumnConstraints fx:id="remarksGridPaneColumn" hgrow="NEVER" percentWidth="30.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <GridPane alignment="CENTER_LEFT" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #8a8a8a;">
+         <columnConstraints>
+            <ColumnConstraints fx:id="applicantGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
+            <ColumnConstraints fx:id="historyGridPaneColumn" hgrow="SOMETIMES" percentWidth="20.0" />
+            <ColumnConstraints fx:id="remarksGridPaneColumn" hgrow="NEVER" percentWidth="20.0" />
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <Label id="label-bottom" text="Zleceniodawca">
                <GridPane.margin>
@@ -94,7 +101,12 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label id="label-bottom" text="Uwagi" GridPane.columnIndex="2">
+            <Label id="label-bottom" text="Uwagi dotyczące przyrządu" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label id="label-bottom" text="Uwagi dotyczące wzorcowania" GridPane.columnIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -214,8 +226,16 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
                <children>
-                  <TextArea fx:id="storageRemarksTextArea" HBox.hgrow="ALWAYS" />
+                  <TextArea fx:id="storageRemarksTextArea" editable="false" HBox.hgrow="ALWAYS" />
                </children>
+            </HBox>
+            <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <TextArea fx:id="calibrationRemarksTextArea" editable="false" HBox.hgrow="ALWAYS" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </GridPane.margin>
             </HBox>
          </children>
       </GridPane>

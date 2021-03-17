@@ -38,13 +38,29 @@ public class InstrumentDataModel {
     private InstrumentModel findInstrument=new InstrumentModel();
     private InstrumentModel formInstrument=new InstrumentModel();
 
-    public void init(){
+    public void init() {
+        nameListInit();
+        typeListInit();
+        producerListInit();
+        rangeListInit();
+        unitListInit();
+    }
+    public void nameListInit(){
         nameList= getDataToComboBox(NameModel.class,nameObservableList);
+    }
+    public void typeListInit(){
         typeList=getDataToComboBox(TypeModel.class,typeObservableList);
+    }
+    public void producerListInit(){
         producerList=getDataToComboBox(ProducerModel.class,producerObservableList);
+    }
+    public void rangeListInit(){
         rangeList=getDataToComboBox(RangeModel.class,rangeObservableList);
+    }
+    public void unitListInit(){
         unitList=getDataToComboBox(UnitModel.class,unitObservableList);
     }
+
 
     //Gettery i Setter
     public FilteredList<String> getFilteredNames() {
@@ -118,6 +134,7 @@ public class InstrumentDataModel {
         this.formInstrument = formInstrument;
     }
 
+    /* Takie sprytne rozwiązanie, że uzupełnia listę observable a zwraca zwykłą listę, dzięki temu aktualizuje 2 jednocześnie*/
     public <T extends BaseModel, I> List <T> getDataToComboBox (Class<T> cls, ObservableList<String> dataObservableList){
         dataObservableList.clear();
         CommonDao commonDao=new CommonDao();
@@ -127,8 +144,8 @@ public class InstrumentDataModel {
         });
         DatabaseTools.closeConnection();
         return dataList;
-
     }
+
     public <T extends BaseModel> T getDataModel(String instrument, List<T> dataList){
         for(T instrumentData:dataList){
             if(instrumentData.getName().equals(instrument)){

@@ -27,8 +27,14 @@ public class ApplicantsDataModel {
             applicantList.add(Converter.convertApplicantModelToApplicantFxModel(applicantModel));
         }
     }
-
-
+    public void listInitializeApplicantsActive(){
+        applicantList.clear();
+        CommonDao commonDao=new CommonDao();
+        List<ApplicantModel> tempList = commonDao.getListWithSimpleSelect(ApplicantModel.class, "status","aktywny");
+        for(ApplicantModel applicantModel:tempList){
+            applicantList.add(Converter.convertApplicantModelToApplicantFxModel(applicantModel));
+        }
+    }
     public void addFilterToObservableList(String newValue){
         filteredApplicantList.setPredicate(item -> {
             if (item.getShortName().toUpperCase().contains(newValue.toUpperCase())||item.getFullName().toUpperCase().contains(newValue.toUpperCase())||

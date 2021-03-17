@@ -72,6 +72,9 @@
     -fx-text-fill:          white;
     -fx-font:               bold 14px "Calibri";
 }
+.text-area{
+    -fx-font:               14px "Calibri";
+}
 /* TABLE VIEW *************************************************************/
 .table-view{
     -fx-border-width:       1 0 1 1;

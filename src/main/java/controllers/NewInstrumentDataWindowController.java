@@ -81,23 +81,26 @@ public class NewInstrumentDataWindowController {
     //Metoda generyczna służąca do dodawania nowych wartości do poszczególnych tabel
     private <T> void createIfNotExist(String columnName, Class<T> cls,String value)  {
         CommonDao commonDao=new CommonDao();
-        //Sprawdzam czy w bazie nie ma już takiej wartości zamias = jest Like dzięki czemu jest caseInsensitive
+        //Sprawdzam czy w bazie nie ma już takiej wartości zamiast = jest Like dzięki czemu jest caseInsensitive
         List<?> dataList=  commonDao.getListWithSimpleLikeSelect(cls,columnName,value);
         if (dataList.size()>0){
             this.errorLabel.setText(ERROR_TEXT);
         }else{
             if (cls==NameModel.class) {
                 commonDao.createBaseModel(new NameModel(0, value));
+                instrumentWindowController.getInstrumentDataModel().nameListInit();
             }else if (cls== TypeModel.class){
                 commonDao.createBaseModel(new TypeModel(0, value));
+                instrumentWindowController.getInstrumentDataModel().typeListInit();
             }else if (cls== ProducerModel.class){
                 commonDao.createBaseModel(new ProducerModel(0, value));
+                instrumentWindowController.getInstrumentDataModel().producerListInit();
             }
             else if (cls== RangeModel.class){
                 commonDao.createBaseModel(new RangeModel(0, value));
+                instrumentWindowController.getInstrumentDataModel().rangeListInit();
             }
-            instrumentWindowController.getInstrumentDataModel().init();
-            cancelButton();
+            CommonTools.closePaneWindow(mainVBox);
         }
     }
 }

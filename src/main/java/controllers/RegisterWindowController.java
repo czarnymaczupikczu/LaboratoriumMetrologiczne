@@ -4,8 +4,12 @@ import dataModels.RegisterDataModel;
 import fxModels.RegisterFxModel;
 import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.skin.TableHeaderRow;
+import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.layout.VBox;
 
 public class RegisterWindowController {
@@ -96,7 +100,6 @@ public class RegisterWindowController {
                 this.registerDataModel.getRegisterSelectedItemsList().addAll(this.registerTableView.getSelectionModel().getSelectedItems());
             }
         });
-        bindingSizeProperty();
     }
 
     private void bindingLabels(){
@@ -119,16 +122,9 @@ public class RegisterWindowController {
         this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setNumber(registerElement.getStorage().getInstrument().getApplicant().getNumber());
         this.registerDataModel.getCurrentRegisterElement().getStorage().setEntryDate(registerElement.getStorage().getEntryDate());
         this.registerDataModel.getCurrentRegisterElement().getStorage().setEntryUser(registerElement.getStorage().getEntryUser());
-        if (registerElement.calibrationUserProperty().isNull().getValue()){
-            this.registerDataModel.getCurrentRegisterElement().setCalibrationDate("");
-            this.registerDataModel.getCurrentRegisterElement().setCalibrationUser("");
-            this.registerDataModel.getCurrentRegisterElement().setCardNumber("");
-        }
-        else{
-            this.registerDataModel.getCurrentRegisterElement().setCalibrationDate(registerElement.getCalibrationDate());
-            this.registerDataModel.getCurrentRegisterElement().setCalibrationUser(registerElement.getCalibrationUser());
-            this.registerDataModel.getCurrentRegisterElement().setCardNumber(registerElement.getCardNumber());
-        }
+        this.registerDataModel.getCurrentRegisterElement().setCalibrationDate(registerElement.getCalibrationDate());
+        this.registerDataModel.getCurrentRegisterElement().setCalibrationUser(registerElement.getCalibrationUser());
+        this.registerDataModel.getCurrentRegisterElement().setCardNumber(registerElement.getCardNumber());
         if(registerElement.getStorage().spendUserProperty().isNull().getValue()){
             this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendDate("");
             this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendUser("");
@@ -145,10 +141,6 @@ public class RegisterWindowController {
         this.registerStateComboBox.setValue(mainController.getMainDataModel().getRegisterStateComboBoxList().get(0));
         this.registerYearComboBox.getItems().addAll(mainController.getMainDataModel().getYearComboBoxList());
         this.registerYearComboBox.setValue(mainController.getMainDataModel().getYearComboBoxList().get(mainController.getMainDataModel().getYearComboBoxList().size()-1));
-    }
-    private void bindingSizeProperty(){
-        this.registerTableView.prefHeightProperty().bind(registerMainVBox.heightProperty().multiply(0.7));
-
     }
 
 

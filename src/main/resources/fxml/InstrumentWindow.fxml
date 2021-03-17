@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="mainVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="380.0" spacing="2.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InstrumentWindowController">
+<VBox fx:id="mainVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="380.0" spacing="1.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InstrumentWindowController">
    <children>
-      <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #00519b;">
+      <HBox alignment="CENTER" prefHeight="42.0" style="-fx-background-color: #00519b;">
          <children>
             <Label id="label-head" text="Edytowany przyrząd" />
          </children>
@@ -64,9 +64,14 @@
             <Insets left="10.0" />
          </VBox.margin>
       </Label>
-      <HBox spacing="40.0">
+      <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
             <TextField fx:id="serialNumberTextField" prefWidth="250.0" />
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: white;">
+               <children>
+                  <Label fx:id="searchBySerialNumberLabel" text="brak" textFill="WHITE" />
+               </children>
+            </HBox>
             <Button fx:id="checkBySerialNumberButton" mnemonicParsing="false" onAction="#checkBySerialNumberOnAction" prefWidth="70.0" text="Sprawdź" />
          </children>
          <VBox.margin>
@@ -78,9 +83,14 @@
             <Insets left="10.0" />
          </VBox.margin>
       </Label>
-      <HBox spacing="40.0">
+      <HBox spacing="5.0">
          <children>
             <TextField fx:id="identificationNumberTextField" prefWidth="250.0" />
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: white;">
+               <children>
+                  <Label fx:id="searchByIdentificationNumberLabel" text="brak" textFill="WHITE" />
+               </children>
+            </HBox>
             <Button fx:id="checkByIdentificationNumberButton" mnemonicParsing="false" onAction="#checkByIdentificationNumberOnAction" prefWidth="70.0" text="Sprawdź" />
          </children>
          <VBox.margin>
@@ -108,7 +118,7 @@
       </Label>
       <HBox>
          <children>
-            <ComboBox fx:id="applicantComboBox" prefWidth="250.0" />
+            <ComboBox fx:id="applicantComboBox" onMouseClicked="#applicantComboBoxOnAction" prefWidth="250.0" />
          </children>
          <VBox.margin>
             <Insets left="10.0" right="10.0" />
@@ -148,19 +158,29 @@
             <Insets left="10.0" right="10.0" />
          </VBox.margin>
       </HBox>
-      <Label text="Uwagi:">
+      <Label text="Uwagi dotyczące przyrządu:">
          <VBox.margin>
             <Insets left="10.0" />
          </VBox.margin>
       </Label>
-      <TextArea prefHeight="80.0">
+      <TextArea fx:id="instrumentRemarks" prefHeight="44.0">
          <VBox.margin>
             <Insets left="10.0" right="10.0" />
          </VBox.margin>
       </TextArea>
-      <HBox alignment="CENTER" prefHeight="60.0" spacing="10.0">
+      <Label text="Uwagi dotyczące wzorcowania:">
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin>
+      </Label>
+      <TextArea fx:id="calibrationRemarks" prefHeight="100.0">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+      </TextArea>
+      <HBox alignment="CENTER" prefHeight="45.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#saveOnAction" prefHeight="30.0" prefWidth="100.0" text="Zapisz" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveOnAction" prefHeight="30.0" prefWidth="100.0" text="Zapisz" />
             <Button mnemonicParsing="false" onAction="#cancelOnAction" prefHeight="30.0" prefWidth="100.0" text="Anuluj" />
          </children>
          <VBox.margin>

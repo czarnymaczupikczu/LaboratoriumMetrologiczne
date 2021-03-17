@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainWindowBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainWindowController">
+<BorderPane fx:id="mainWindowBorderPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainWindowController">
    <top>
-      <VBox style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="120.0" prefHeight="120.0" prefWidth="1198.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar nodeOrientation="RIGHT_TO_LEFT">
               <menus>
@@ -54,27 +54,27 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </GridPane>
-            <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" maxHeight="35.0" prefHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ToggleButton mnemonicParsing="false" onAction="#setStorageWindow" prefHeight="30.0" prefWidth="130.0" text="MAGAZYN">
+                  <ToggleButton mnemonicParsing="false" onAction="#setStorageWindow" prefHeight="30.0" prefWidth="150.0" text="MAGAZYN">
                      <toggleGroup>
                         <ToggleGroup fx:id="mainWindowToggleGroup" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#setRegister1Window" prefHeight="30.0" prefWidth="130.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" onAction="#setRegister2Window" prefHeight="30.0" prefWidth="130.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="PRZYRZĄDY" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" onAction="#setApplicantsWindow" prefHeight="30.0" prefWidth="130.0" text="ZLECENIODAWCY" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton fx:id="administrationToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="ADMINISTRACJA" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setRegister1Window" prefHeight="30.0" prefWidth="150.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setRegister2Window" prefHeight="30.0" prefWidth="150.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="PRZYRZĄDY" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setApplicantsWindow" prefHeight="30.0" prefWidth="150.0" text="ZLECENIODAWCY" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton fx:id="administrationToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="ADMINISTRACJA" toggleGroup="$mainWindowToggleGroup" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </HBox>
          </children>
-         <BorderPane.margin>
-            <Insets left="5.0" right="5.0" />
-         </BorderPane.margin>
       </VBox>
    </top>
+   <center>
+      <VBox fx:id="mainVBox" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

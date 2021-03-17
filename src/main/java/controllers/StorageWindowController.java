@@ -59,8 +59,8 @@ public class StorageWindowController {
     @FXML private TableColumn<StorageFxModel, String> serialNumberColumn;
     @FXML private TableColumn<StorageFxModel, String> identificationNumberColumn;
     @FXML private TableColumn<StorageFxModel, String> rangeColumn;
-    @FXML private TableColumn<StorageFxModel,String> lengthColumn;
-    @FXML private TableColumn<StorageFxModel,String> diameterColumn;
+    @FXML private TableColumn<StorageFxModel, String> lengthColumn;
+    @FXML private TableColumn<StorageFxModel, String> diameterColumn;
     @FXML private TableColumn<StorageFxModel, String> applicantColumn;
     @FXML private TableColumn<StorageFxModel, String> entryDateColumn;
     @FXML private TableColumn<StorageFxModel, String> calibrationDateColumn;
@@ -113,7 +113,6 @@ public class StorageWindowController {
                 this.storageDataModel.getStorageSelectedItemsList().addAll(this.storageTableView.getSelectionModel().getSelectedItems());
             }
         });
-        bindingSizeProperty();
     }
     private void initializeComboBoxes(){
         this.storageStateComboBox.getItems().addAll(mainController.getMainDataModel().getStorageStateComboBoxList());
@@ -121,10 +120,7 @@ public class StorageWindowController {
         this.storageYearComboBox.getItems().addAll(mainController.getMainDataModel().getYearComboBoxList());
         this.storageYearComboBox.setValue(mainController.getMainDataModel().getYearComboBoxList().get(mainController.getMainDataModel().getYearComboBoxList().size()-1));
     }
-    private void bindingSizeProperty(){
-        this.storageTableView.prefHeightProperty().bind(storageMainVBox.heightProperty().multiply(0.7));
 
-    }
     private void bindingLabels(){
         this.shortNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().shortNameProperty());
         this.fullNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().fullNameProperty());

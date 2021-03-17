@@ -20,6 +20,8 @@ public class RegisterFxModel {
 
     //Konstruktory
     public RegisterFxModel() {
+        this.calibrationDate = new SimpleStringProperty("");
+        this.calibrationUser = new SimpleStringProperty("");
     }
     public RegisterFxModel(int idRegister, int idRegisterByYear, ShortStorageFxModel storage, String cardNumber, String calibrationDate, String calibrationUser, String certificateNumber, String documentKind, String agreementNumber, String state, String registerRemarks) {
         this.idRegister = new SimpleIntegerProperty(idRegister);
