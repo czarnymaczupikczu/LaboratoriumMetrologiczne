@@ -40,4 +40,5 @@ public class ProducerModel implements BaseModel{
     public String getName(){
         return producerName;
     }
+    public Integer getId(){return idProducer;}
 }

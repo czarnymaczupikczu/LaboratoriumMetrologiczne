@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="editDateWindowMainVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="260.0" spacing="15.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditDateWindowController">
+<VBox fx:id="editDateWindowMainVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditDateWindowController">
    <children>
-      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #00519b;">
+      <HBox alignment="CENTER" prefHeight="50.0" style="-fx-background-color: #00519b;">
          <children>
-            <Label id="label-head" text="Data wzorcowania" />
+            <Label id="label-head" fx:id="editDateWindowLabel" text="Data wzorcowania" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="25.0">
@@ -20,9 +20,14 @@
             <Button mnemonicParsing="false" onAction="#editDateWindowToday" text="Dzisiaj" />
          </children>
       </HBox>
+      <HBox alignment="CENTER" prefHeight="25.0">
+         <children>
+            <Label fx:id="editDateErrorLabel" />
+         </children>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Zapisz" />
+            <Button mnemonicParsing="false" onAction="#saveEditDate" prefHeight="30.0" prefWidth="100.0" text="Zapisz" />
             <Button mnemonicParsing="false" onAction="#editDateWindowCancel" prefHeight="30.0" prefWidth="100.0" text="Anuluj" />
          </children>
          <VBox.margin>

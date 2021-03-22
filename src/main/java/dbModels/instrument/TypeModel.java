@@ -41,4 +41,5 @@ public class TypeModel implements BaseModel{
     public String getName(){
         return typeName;
     }
+    public Integer getId(){return idType;}
 }

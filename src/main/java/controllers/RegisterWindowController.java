@@ -62,7 +62,8 @@ public class RegisterWindowController {
     @FXML private Label calibrationLabel;
     @FXML private Label spendLabel;
     @FXML private Label cardNumberLabel;
-    @FXML private TextArea storageRemarksTextArea;
+    @FXML private TextArea instrumentRemarksTextArea;
+    @FXML private TextArea calibrationRemarksTextArea;
 
     public void init(){
         initializeComboBoxes();
@@ -111,7 +112,8 @@ public class RegisterWindowController {
         this.calibrationLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().calibrationUserProperty()," ",this.registerDataModel.getCurrentRegisterElement().calibrationDateProperty()));
         this.spendLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().spendUserProperty()," ",this.registerDataModel.getCurrentRegisterElement().getStorage().spendDateProperty()));
         this.cardNumberLabel.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().cardNumberProperty());
-        this.storageRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().storageRemarksProperty());
+        this.instrumentRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().instrumentRemarksProperty());
+        this.calibrationRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().calibrationRemarksProperty());
     }
     private void updateBindings(RegisterFxModel registerElement){
         this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setShortName(registerElement.getStorage().getInstrument().getApplicant().getShortName());
@@ -133,7 +135,8 @@ public class RegisterWindowController {
             this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendDate(registerElement.getStorage().getSpendDate());
             this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendUser(registerElement.getStorage().getSpendUser());
         }
-        this.registerDataModel.getCurrentRegisterElement().getStorage().setStorageRemarks(registerElement.getStorage().getStorageRemarks());
+        this.registerDataModel.getCurrentRegisterElement().getStorage().setInstrumentRemarks(registerElement.getStorage().getInstrumentRemarks());
+        this.registerDataModel.getCurrentRegisterElement().getStorage().setCalibrationRemarks(registerElement.getStorage().getCalibrationRemarks());
 
     }
     private void initializeComboBoxes(){

@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import utils.CommonTools;
+import utils.Converter;
 
 public class ApplicantsWindowController {
     public ApplicantsWindowController(){
@@ -106,6 +107,7 @@ public class ApplicantsWindowController {
     @FXML
     void choseApplicant() {
         instrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
+        instrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
         CommonTools.closePaneWindow(applicantMainVBox);
     }
 
@@ -128,6 +130,7 @@ public class ApplicantsWindowController {
     void mouseClicked(MouseEvent event) {
         if(event.getClickCount()==2 && (this.choseApplicantButton.visibleProperty().get()==true)){
             instrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
+            instrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
             CommonTools.closePaneWindow(applicantMainVBox);
         }
     }

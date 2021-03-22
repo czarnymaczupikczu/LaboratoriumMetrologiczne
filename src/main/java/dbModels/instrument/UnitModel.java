@@ -41,4 +41,5 @@ public class UnitModel implements BaseModel {
     public String getName(){
         return unitName;
     }
+    public Integer getId(){return idUnit;}
 }

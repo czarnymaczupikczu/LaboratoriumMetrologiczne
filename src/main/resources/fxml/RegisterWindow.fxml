@@ -215,7 +215,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
                <children>
-                  <TextArea fx:id="storageRemarksTextArea" editable="false" HBox.hgrow="ALWAYS" />
+                  <TextArea fx:id="instrumentRemarksTextArea" editable="false" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="1">

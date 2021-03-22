@@ -44,7 +44,7 @@ public class StorageDataModel {
                         "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,\n" +
                         "STORAGE.entryDate, u1.initials, \n" +
                         "GROUP_CONCAT(REGISTER.calibrationDate,', '), GROUP_CONCAT(u2.initials,', '), GROUP_CONCAT(REGISTER.cardNumber,', '),\n" +
-                        "STORAGE.spendDate, u3.initials, STORAGE.storageRemarks\n" +
+                        "STORAGE.spendDate, u3.initials, STORAGE.instrumentRemarks, STORAGE.calibrationRemarks\n" +
                         "from STORAGE \n" +
                         "left join REGISTER on STORAGE.idStorage=REGISTER.storage \n" +
                         "join INSTRUMENTS on STORAGE.instrument=INSTRUMENTS.idInstrument\n" +
@@ -108,12 +108,26 @@ public class StorageDataModel {
         tempStorageObject.setInstrument(createInstrumentFxModel(results));
         tempStorageObject.setEntryDate(results[18]);
         tempStorageObject.setEntryUser(results[19]);
-        tempStorageObject.setCalibrationDates(results[20]);
-        tempStorageObject.setCalibrationUsers(results[21]);
-        tempStorageObject.setCardNumbers(results[22]);
-        tempStorageObject.setSpendDate(results[23]);
-        tempStorageObject.setSpendUser(results[24]);
-        tempStorageObject.setStorageRemarks(results[25]);
+        if(results[21]!=null) {
+            tempStorageObject.setCalibrationDates(results[20]);
+            tempStorageObject.setCalibrationUsers(results[21]);
+            tempStorageObject.setCardNumbers(results[22]);
+        }else
+        {
+            tempStorageObject.setCalibrationDates("");
+            tempStorageObject.setCalibrationUsers("");
+            tempStorageObject.setCardNumbers("");
+        }
+        if(results[24]!=null) {
+            tempStorageObject.setSpendDate(results[23]);
+            tempStorageObject.setSpendUser(results[24]);
+        }else
+        {
+            tempStorageObject.setSpendDate("");
+            tempStorageObject.setSpendUser("");
+        }
+        tempStorageObject.setInstrumentRemarks(results[25]);
+        tempStorageObject.setCalibrationRemarks(results[26]);
         return tempStorageObject;
     }
     public InstrumentFxModel createInstrumentFxModel(String[] results){

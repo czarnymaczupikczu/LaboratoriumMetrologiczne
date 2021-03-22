@@ -41,4 +41,5 @@ public class RangeModel implements BaseModel{
     public String getName(){
         return rangeName;
     }
+    public Integer getId(){return idRange;}
 }

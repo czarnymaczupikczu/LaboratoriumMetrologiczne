@@ -19,4 +19,7 @@ public class CommonTools {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    public static String deleteWhiteSpaces(String s){
+        return s.replaceAll("\\s+","");
+    }
 }

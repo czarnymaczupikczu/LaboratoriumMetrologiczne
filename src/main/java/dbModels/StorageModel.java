@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "STORAGE")
-public class StorageModel {
+public class StorageModel implements ComplexModel{
 
     public static final String ID_STORAGE="idStorage";
     public static final String INSTRUMENT="instrument";
@@ -17,7 +17,7 @@ public class StorageModel {
     public static final String ENTRY_USER="entryUser";
     public static final String SPEND_DATE="spendDate";
     public static final String SPEND_USER="spendUser";
-    public static final String STORAGE_REMARKS="storageRemarks";
+    public static final String INSTRUMENT_REMARKS="instrumentRemarks";
     public static final String CALIBRATION_REMARKS="calibrationRemarks";
 
     @DatabaseField(generatedId = true,columnName = ID_STORAGE)
@@ -32,22 +32,23 @@ public class StorageModel {
     private String spendDate;
     @DatabaseField(foreign=true,foreignAutoRefresh = true, columnName = SPEND_USER)
     private UserModel spendUser;
-    @DatabaseField(dataType = DataType.LONG_STRING, columnName = STORAGE_REMARKS)
-    private String storageRemarks;
+    @DatabaseField(dataType = DataType.LONG_STRING, columnName = INSTRUMENT_REMARKS)
+    private String instrumentRemarks;
     @DatabaseField(dataType = DataType.LONG_STRING, columnName = CALIBRATION_REMARKS)
     private String calibrationRemarks;
 
     //Konstruktory
     public StorageModel() {
+        this.spendDate = "";
     }
-    public StorageModel(Integer idStorage, InstrumentModel instrument, String entryDate, UserModel entryUser, String spendDate, UserModel spendUser, String storageRemarks, String calibrationRemarks) {
+    public StorageModel(Integer idStorage, InstrumentModel instrument, String entryDate, UserModel entryUser, String spendDate, UserModel spendUser, String instrumentRemarks, String calibrationRemarks) {
         this.idStorage = idStorage;
         this.instrument = instrument;
         this.entryDate = entryDate;
         this.entryUser = entryUser;
         this.spendDate = spendDate;
         this.spendUser = spendUser;
-        this.storageRemarks = storageRemarks;
+        this.instrumentRemarks = instrumentRemarks;
         this.calibrationRemarks=calibrationRemarks;
     }
 
@@ -88,11 +89,11 @@ public class StorageModel {
     public void setSpendUser(UserModel spendUser) {
         this.spendUser = spendUser;
     }
-    public String getStorageRemarks() {
-        return storageRemarks;
+    public String getInstrumentRemarks() {
+        return instrumentRemarks;
     }
-    public void setStorageRemarks(String storageRemarks) {
-        this.storageRemarks = storageRemarks;
+    public void setInstrumentRemarks(String instrumentRemarks) {
+        this.instrumentRemarks = instrumentRemarks;
     }
     public String getCalibrationRemarks() {
         return calibrationRemarks;

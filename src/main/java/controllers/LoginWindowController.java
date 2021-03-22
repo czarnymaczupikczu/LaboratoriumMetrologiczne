@@ -29,6 +29,7 @@ public class LoginWindowController {
     private final String STORAGE_WINDOW="/fxml/StorageWindow.fxml";
     private final String REGISTER_WINDOW="/fxml/RegisterWindow.fxml";
     private final String APPLICANTS_WINDOW="/fxml/ApplicantsWindow.fxml";
+    private final String ADMIN_WINDOW="/fxml/admin/AdminWindow.fxml";
     private final String REJESTR_AP131="AP131";
     private final String REJEST_POZA="PozaAP";
     private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
@@ -68,9 +69,9 @@ public class LoginWindowController {
                 //Okno Storage
                 FXMLLoader loader1= FxmlTools.getLoader(STORAGE_WINDOW);
                 mainController.setStorageVbox1(loader1.load());
-                mainController.setStorage1(loader1.getController());
-                mainController.getStorage1().setMainController(this.mainController);
-                mainController.getStorage1().init();
+                mainController.setStorage(loader1.getController());
+                mainController.getStorage().setMainController(this.mainController);
+                mainController.getStorage().init();
                 //Okno Rejestr AP
                 FXMLLoader loader2= new FXMLLoader(LoginWindowController.class.getResource(REGISTER_WINDOW));
                 mainController.setRegister1Vbox(loader2.load());
@@ -89,8 +90,7 @@ public class LoginWindowController {
                 mainController.setApplicantsVBox(loader4.load());
                 mainController.setApplicants(loader4.getController());
                 mainController.getApplicants().setMainController(this.mainController);
-               // mainController.getRegister2().getRegisterDataModel().setRegisterType(REJEST_POZA);
-                //mainController.getRegister2().init();
+
 
 
                 //Ustawiamy usera globalnego
@@ -98,6 +98,11 @@ public class LoginWindowController {
                 mainController.init();
                 if(mainController.getMainDataModel().getUser().getPermissionLevel().equals("user")){
                     mainController.disableAdministrationToggleButton();
+                }else{
+                    FXMLLoader loader5=new FXMLLoader(LoginWindowController.class.getResource(ADMIN_WINDOW));
+                    mainController.setAdminVBox(loader5.load());
+                    mainController.setAdmin(loader5.getController());
+                    mainController.getAdmin().setMainController(this.mainController);
                 }
                 showWindow(mainBorderPane);
             } catch (IOException e) {

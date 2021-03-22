@@ -132,9 +132,9 @@
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
             <Label text="Długość:" />
-            <TextField prefWidth="50.0" />
+            <TextField fx:id="lengthTextField" prefWidth="50.0" />
             <Label text="mm Średnica:" />
-            <TextField prefWidth="50.0" />
+            <TextField fx:id="diameterTextField" prefWidth="50.0" />
             <Label text="mm" />
          </children>
          <VBox.margin>

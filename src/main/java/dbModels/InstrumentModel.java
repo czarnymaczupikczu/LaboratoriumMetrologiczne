@@ -11,7 +11,7 @@ import dbModels.instrument.TypeModel;
  * Klasa implementująca model danych w tabeli INSTRUMENTS
  */
 @DatabaseTable(tableName = "INSTRUMENTS")
-public class InstrumentModel {
+public class InstrumentModel implements ComplexModel{
 
     public static final String ID_INSTRUMENT="idInstrument";
     public static final String NAME="name";

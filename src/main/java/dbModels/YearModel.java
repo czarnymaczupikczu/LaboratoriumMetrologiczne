@@ -2,12 +2,13 @@ package dbModels;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import dbModels.instrument.BaseModel;
 
 /**
  * Klasa implementująca model danych w tabeli YEARS
  */
 @DatabaseTable(tableName = "YEARS")
-public class YearModel {
+public class YearModel implements BaseModel {
 
     public static final String ID_YEAR="idYear";
     public static final String YEAR="year";
@@ -38,4 +39,6 @@ public class YearModel {
     public void setYear(String year) {
         this.year = year;
     }
+    public String getName(){return year;}
+    public Integer getId(){return idYear;}
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.admin.AdminWindowController;
 import dataModels.MainDataModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -24,28 +25,26 @@ public class MainWindowController {
         return mainDataModel;
     }
 
-    private StorageWindowController storage1;
+    private StorageWindowController storage;
     private RegisterWindowController register1;
     private RegisterWindowController register2;
     private ApplicantsWindowController applicants;
-    private VBox storageVbox1;
+    private AdminWindowController admin;
+    private VBox storageVbox;
     private VBox register1Vbox;
     private VBox register2Vbox;
     private VBox applicantsVBox;
+    private VBox adminVBox;
 
-    public StorageWindowController getStorage1() {
-        return storage1;
+    public StorageWindowController getStorage() {
+        return storage;
     }
-    public void setStorage1(StorageWindowController storage1) {
-        this.storage1 = storage1;
+    public void setStorage(StorageWindowController storage) {
+        this.storage = storage;
     }
     public RegisterWindowController getRegister1() {
         return register1;
     }
-    public ApplicantsWindowController getApplicants() {
-        return applicants;
-    }
-
     public void setRegister1(RegisterWindowController register1) {
         this.register1 = register1;
     }
@@ -55,12 +54,21 @@ public class MainWindowController {
     public void setRegister2(RegisterWindowController register2) {
         this.register2 = register2;
     }
+    public ApplicantsWindowController getApplicants() {
+        return applicants;
+    }
     public void setApplicants(ApplicantsWindowController applicants) {
         this.applicants = applicants;
     }
+    public AdminWindowController getAdmin() {
+        return admin;
+    }
+    public void setAdmin(AdminWindowController admin) {
+        this.admin = admin;
+    }
 
-    public void setStorageVbox1(VBox storageVbox1) {
-        this.storageVbox1 = storageVbox1;
+    public void setStorageVbox1(VBox storageVbox) {
+        this.storageVbox = storageVbox;
     }
     public void setRegister1Vbox(VBox register1Vbox) {
         this.register1Vbox = register1Vbox;
@@ -70,6 +78,9 @@ public class MainWindowController {
     }
     public void setApplicantsVBox(VBox applicantsVBox) {
         this.applicantsVBox = applicantsVBox;
+    }
+    public void setAdminVBox(VBox adminVBox) {
+        this.adminVBox = adminVBox;
     }
 
     @FXML private ImageView mainWindowImageView;
@@ -94,10 +105,10 @@ public class MainWindowController {
     }
     @FXML
     void setStorageWindow() {
-        if (storageVbox1==null) {
+        if (storageVbox==null) {
            // storageVbox1 = FxmlTools.fxmlLoader(STORAGE_FXML);
         }
-        mainWindowBorderPane.setCenter(storageVbox1);
+        mainWindowBorderPane.setCenter(storageVbox);
 
     }
     @FXML
@@ -120,6 +131,10 @@ public class MainWindowController {
 
         }
         mainWindowBorderPane.setCenter(applicantsVBox);
+    }
+    @FXML
+    void setAdminWindow(){
+        mainWindowBorderPane.setCenter(adminVBox);
     }
 
 

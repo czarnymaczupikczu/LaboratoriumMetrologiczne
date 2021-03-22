@@ -35,7 +35,7 @@ public class RegisterDataModel {
                             "INSTRUMENTS.diameter,RANGES.rangeName,\n" +
                             "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,\n" +
                             "STORAGE.entryDate, u1.initials, \n" +
-                            "STORAGE.spendDate, u3.initials, STORAGE.storageRemarks,\n" +
+                            "STORAGE.spendDate, u3.initials, STORAGE.instrumentRemarks,\n" +
                             "REGISTER.cardNumber, REGISTER.calibrationDate, u2.initials, \n" +
                             "REGISTER.certificateNumber, REGISTER.documentKind, REGISTER.agreementNumber, REGISTER.state, REGISTER.registerRemarks \n"+
                             "from REGISTER \n" +
@@ -107,7 +107,7 @@ public class RegisterDataModel {
         tempStorageObject.setEntryUser(results[21]);
         tempStorageObject.setSpendDate(results[22]);
         tempStorageObject.setSpendUser(results[23]);
-        tempStorageObject.setStorageRemarks(results[24]);
+        tempStorageObject.setInstrumentRemarks(results[24]);
         return tempStorageObject;
     }
     public InstrumentFxModel createInstrumentFxModel(String[] results){

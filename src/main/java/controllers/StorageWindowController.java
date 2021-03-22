@@ -20,8 +20,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import utils.CommonTools;
 import utils.DatabaseTools;
+import utils.FxmlTools;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,16 +36,22 @@ public class StorageWindowController {
     }
 
     private final String INSTRUMENT_WINDOW="/fxml/InstrumentWindow.fxml";
+    private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
 
     //Pola prywatne
     private StorageDataModel storageDataModel=new StorageDataModel();
+
+    public StorageDataModel getStorageDataModel() {
+        return storageDataModel;
+    }
+
     //Główny kontroler powiązany z kontrolerami poszczególnych okien
     private MainWindowController mainController;
     public void setMainController(MainWindowController mainController) {
         this.mainController = mainController;
     }
     private InstrumentWindowController instrumentWindowController;
-
+    private EditDateWindowController editDateWindowController;
 
     //Deklaracje związane z widokiem fxml
     @FXML private VBox storageMainVBox;
@@ -74,7 +82,8 @@ public class StorageWindowController {
     @FXML private Label calibrationLabel;
     @FXML private Label spendLabel;
     @FXML private Label cardNumberLabel;
-    @FXML private TextArea storageRemarksTextArea;
+    @FXML private TextArea instrumentRemarksTextArea;
+    @FXML private TextArea calibrationRemarksTextArea;
     @FXML private TextField searchTextField;
 
 
@@ -107,7 +116,9 @@ public class StorageWindowController {
         this.storageTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null) {
                 if (this.storageTableView.getSelectionModel().getSelectedItems().size() < 2){ //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
-                    updateBindings(newValue);
+                    //updateBindings(newValue);
+                    this.storageDataModel.setCurrentStorage(newValue);
+                    bindingLabels();
                 }
                 this.storageDataModel.getStorageSelectedItemsList().clear();
                 this.storageDataModel.getStorageSelectedItemsList().addAll(this.storageTableView.getSelectionModel().getSelectedItems());
@@ -130,38 +141,8 @@ public class StorageWindowController {
         this.calibrationLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().calibrationUsersProperty()," ",this.storageDataModel.getCurrentStorage().calibrationDatesProperty()));
         this.spendLabel.textProperty().bind(Bindings.concat(this.storageDataModel.getCurrentStorage().spendUserProperty()," ",this.storageDataModel.getCurrentStorage().spendDateProperty()));
         this.cardNumberLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().cardNumbersProperty());
-        this.storageRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().storageRemarksProperty());
-    }
-    private void updateBindings(StorageFxModel storageElement){
-        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setShortName(storageElement.getInstrument().getApplicant().getShortName());
-        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setFullName(storageElement.getInstrument().getApplicant().getFullName());
-        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setPostCode(storageElement.getInstrument().getApplicant().getPostCode());
-        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setCity(storageElement.getInstrument().getApplicant().getCity());
-        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setStreet(storageElement.getInstrument().getApplicant().getStreet());
-        this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().setNumber(storageElement.getInstrument().getApplicant().getNumber());
-        this.storageDataModel.getCurrentStorage().setEntryDate(storageElement.getEntryDate());
-        this.storageDataModel.getCurrentStorage().setEntryUser(storageElement.getEntryUser());
-        if (storageElement.calibrationUsersProperty().isNull().getValue()){
-            this.storageDataModel.getCurrentStorage().setCalibrationDates("");
-            this.storageDataModel.getCurrentStorage().setCalibrationUsers("");
-            this.storageDataModel.getCurrentStorage().setCardNumbers("");
-        }
-        else{
-            this.storageDataModel.getCurrentStorage().setCalibrationDates(storageElement.getCalibrationDates());
-            this.storageDataModel.getCurrentStorage().setCalibrationUsers(storageElement.getCalibrationUsers());
-            this.storageDataModel.getCurrentStorage().setCardNumbers(storageElement.getCardNumbers());
-        }
-        if(storageElement.spendUserProperty().isNull().getValue()){
-            this.storageDataModel.getCurrentStorage().setSpendDate("");
-            this.storageDataModel.getCurrentStorage().setSpendUser("");
-        }
-        else{
-            this.storageDataModel.getCurrentStorage().setSpendDate(storageElement.getSpendDate());
-            this.storageDataModel.getCurrentStorage().setSpendUser(storageElement.getSpendUser());
-        }
-        this.storageDataModel.getCurrentStorage().setCardNumbers(storageElement.getCardNumbers());
-        this.storageDataModel.getCurrentStorage().setStorageRemarks(storageElement.getStorageRemarks());
-        System.out.println(this.storageDataModel.getCurrentStorage().spendUserProperty().getValue());
+        this.instrumentRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().instrumentRemarksProperty());
+        this.calibrationRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().calibrationRemarksProperty());
     }
     private void addFilter(){
         searchTextField.textProperty().addListener((value,oldValue, newValue) ->{
@@ -181,7 +162,7 @@ public class StorageWindowController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(INSTRUMENT_WINDOW));
             VBox vBox = loader.load();
             instrumentWindowController = loader.getController();
-
+            instrumentWindowController.setMainController(this.mainController);
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("Dodaj przyrząd do magazynu");
@@ -191,5 +172,23 @@ public class StorageWindowController {
         } catch (IOException e) {
             CommonTools.displayAlert(e.getMessage());
         }
+    }
+    @FXML
+    void editEntryDate() {
+        this.editDateWindowController=FxmlTools.openVBoxWindow(EDIT_DATE_WINDOW,"Test");
+        if(this.editDateWindowController!=null){
+            this.editDateWindowController.setStorageWindowController(this);
+
+        }
+    }
+
+    @FXML
+    void editInstrument() {
+        System.out.println(this.storageDataModel.getCurrentStorage().getInstrument().getName());
+    }
+
+    @FXML
+    void editLeftDate() {
+        System.out.println(this.storageDataModel.getCurrentStorage().getInstrument().getName());
     }
 }

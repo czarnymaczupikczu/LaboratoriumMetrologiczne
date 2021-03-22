@@ -42,6 +42,7 @@ public class NameModel implements BaseModel {
     public String getName(){
         return instrumentName;
     }
+    public Integer getId(){return idName;}
 
     //To string dla testów
 

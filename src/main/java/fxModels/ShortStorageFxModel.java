@@ -12,7 +12,8 @@ public class ShortStorageFxModel {
     private StringProperty entryUser= new SimpleStringProperty();
     private StringProperty spendDate=new SimpleStringProperty();
     private StringProperty spendUser= new SimpleStringProperty();
-    private StringProperty storageRemarks=new SimpleStringProperty();
+    private StringProperty instrumentRemarks=new SimpleStringProperty();
+    private StringProperty calibrationRemarks=new SimpleStringProperty();
 
     //Konstruktory
     public ShortStorageFxModel() {
@@ -22,14 +23,15 @@ public class ShortStorageFxModel {
         this.spendDate = new SimpleStringProperty("");
         this.spendUser = new SimpleStringProperty("");
     }
-    public ShortStorageFxModel(int idStorage, InstrumentFxModel instrument, String entryDate, String entryUser, String calibrationDates, String calibrationUsers, String cardNumbers,String spendDate, String spendUser, String storageRemarks) {
+    public ShortStorageFxModel(int idStorage, InstrumentFxModel instrument, String entryDate, String entryUser, String calibrationDates, String calibrationUsers, String cardNumbers,String spendDate, String spendUser, String instrumentRemarks, String calibrationRemarks) {
         this.idStorage = new SimpleIntegerProperty(idStorage);
         this.instrument = instrument;
         this.entryDate = new SimpleStringProperty(entryDate);
         this.entryUser = new SimpleStringProperty(entryUser);
         this.spendDate = new SimpleStringProperty(spendDate);
         this.spendUser = new SimpleStringProperty(spendUser);
-        this.storageRemarks = new SimpleStringProperty(storageRemarks);
+        this.instrumentRemarks = new SimpleStringProperty(instrumentRemarks);
+        this.calibrationRemarks=new SimpleStringProperty(calibrationRemarks);
     }
 
     //Gettery i Settery
@@ -84,13 +86,22 @@ public class ShortStorageFxModel {
     public void setSpendUser(String spendUser) {
         this.spendUser.set(spendUser);
     }
-    public String getStorageRemarks() {
-        return storageRemarks.get();
+    public String getInstrumentRemarks() {
+        return instrumentRemarks.get();
     }
-    public StringProperty storageRemarksProperty() {
-        return storageRemarks;
+    public StringProperty instrumentRemarksProperty() {
+        return instrumentRemarks;
     }
-    public void setStorageRemarks(String storageRemarks) {
-        this.storageRemarks.set(storageRemarks);
+    public void setInstrumentRemarks(String instrumentRemarks) {
+        this.instrumentRemarks.set(instrumentRemarks);
+    }
+    public String getCalibrationRemarks() {
+        return calibrationRemarks.get();
+    }
+    public StringProperty calibrationRemarksProperty() {
+        return calibrationRemarks;
+    }
+    public void setCalibrationRemarks(String calibrationRemarks) {
+        this.calibrationRemarks.set(calibrationRemarks);
     }
 }

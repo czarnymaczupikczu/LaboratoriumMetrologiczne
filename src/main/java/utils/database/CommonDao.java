@@ -4,6 +4,8 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
+import dbModels.ComplexModel;
+import dbModels.StorageModel;
 import dbModels.instrument.BaseModel;
 import utils.CommonTools;
 import utils.DatabaseTools;
@@ -36,6 +38,14 @@ public class CommonDao {
         Dao<T, I> dao=getDao((Class<T>) baseModel.getClass());
         try {
             dao.create((T) baseModel);
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }
+    }
+    public <T, I> void create(ComplexModel complexModel){
+        Dao<T, I> dao=getDao((Class<T>) complexModel.getClass());
+        try {
+            dao.create((T) complexModel);
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }
@@ -88,7 +98,30 @@ public class CommonDao {
         }
         return null;
     }
+    public <T, I> List<T> getListWithSimpleSelect(Class<T> cls,String columnName, Integer value){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().eq(columnName,value).prepare());
+        } catch (SQLException e) {
+            System.out.println("to tutaj!!");
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
     public <T, I> List<T> selectWithTwoConditions(Class<T> cls,String columnName1, String value1,String columnaName2, String value2){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnaName2,value2).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> List<T> selectWithTwoConditions(Class<T> cls,String columnName1, String value1,String columnaName2, Integer value2){
         try {
             Dao<T,I> dao=getDao(cls);
             return dao.query(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnaName2,value2).prepare());
@@ -110,6 +143,28 @@ public class CommonDao {
         }
         return null;
     }
+    public <T, I> List<T> selectWithThreeConditions(Class<T> cls,String columnName1, String value1,String columnName2, String value2,String columnName3, Integer value3){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnName2,value2).and().eq(columnName3,value3).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public < T extends ComplexModel,I> void createOrUpdate( ComplexModel complexModel) {
+        Dao <T,I>  dao=getDao((Class<T>) complexModel.getClass());
+        try {
+            dao.createOrUpdate((T)complexModel);
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally {
+            this.closeDbConnection();
+        }
+    }
+
     private void closeDbConnection(){
         try {
             this.connectionSource.close();
