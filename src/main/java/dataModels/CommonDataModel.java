@@ -15,6 +15,9 @@ public class CommonDataModel {
     private ObservableList<CommonFxModel> dataObservableList= FXCollections.observableArrayList();
     private ObjectProperty<CommonFxModel> currentElement=new SimpleObjectProperty<>(new CommonFxModel());
     private Class cls;
+    private String columnNameEdit;
+    private String columnNameDelete;
+    private String function;
 
     public void init(){
         dataObservableList.clear();
@@ -46,5 +49,22 @@ public class CommonDataModel {
     public void setCls(Class cls) {
         this.cls = cls;
     }
-
+    public String getColumnNameEdit() {
+        return columnNameEdit;
+    }
+    public void setColumnNameEdit(String columnNameEdit) {
+        this.columnNameEdit = columnNameEdit;
+    }
+    public String getColumnNameDelete() {
+        return columnNameDelete;
+    }
+    public void setColumnNameDelete(String columnNameDelete) {
+        this.columnNameDelete = columnNameDelete;
+    }
+    public void setFunction(String function) {
+        this.function = function;
+    }
+    public String getFunction() {
+        return function;
+    }
 }

@@ -24,7 +24,9 @@ public class NameModel implements BaseModel {
         this.idName = idName;
         this.instrumentName = instrumentName;
     }
-
+    public static  NameModel returnBaseModel(BaseModel baseModel){
+        return new NameModel(baseModel.getId(),baseModel.getName());
+    }
     //Gettery i Settery
     public Integer getIdName() {
         return idName;

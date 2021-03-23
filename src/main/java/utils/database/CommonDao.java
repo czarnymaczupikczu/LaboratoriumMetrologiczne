@@ -6,6 +6,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import dbModels.ComplexModel;
 import dbModels.StorageModel;
+import dbModels.UserModel;
 import dbModels.instrument.BaseModel;
 import utils.CommonTools;
 import utils.DatabaseTools;
@@ -50,10 +51,59 @@ public class CommonDao {
             CommonTools.displayAlert(e.getMessage());
         }
     }
+    public <T, I> void delete(BaseModel baseModel){
+        Dao<T, I> dao=getDao((Class<T>) baseModel.getClass());
+        try {
+            dao.delete((T) baseModel);
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }
+    }
+    public void deleteUser(UserModel userModel){
+        Dao<UserModel, Integer> dao=getDao(UserModel.class);
+        try {
+            dao.delete(userModel);
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }
+    }
     public <T, I> List<T> queryForAll(Class<T> cls){
         try {
             Dao<T,I> dao=getDao(cls);
             return dao.queryForAll();
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> T queryForFirst(Class<T> cls,String columnName, String value){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return  dao.queryForFirst(dao.queryBuilder().where().like(columnName,value).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> T queryForFirst(Class<T> cls,String columnName, Integer value){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return  dao.queryForFirst(dao.queryBuilder().where().like(columnName,value).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> T queryForFirstWithFullLike(Class<T> cls,String columnName, String value){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return  dao.queryForFirst(dao.queryBuilder().where().like(columnName,"%"+value+"%").prepare());
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }finally{
@@ -121,6 +171,17 @@ public class CommonDao {
         }
         return null;
     }
+    public <T, I> List<T> selectWithTwoOrConditions(Class<T> cls,String columnName1, Integer value1,String columnaName2, Integer value2){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().eq(columnName1,value1).or().eq(columnaName2,value2).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
     public <T, I> List<T> selectWithTwoConditions(Class<T> cls,String columnName1, String value1,String columnaName2, Integer value2){
         try {
             Dao<T,I> dao=getDao(cls);
@@ -158,6 +219,16 @@ public class CommonDao {
         Dao <T,I>  dao=getDao((Class<T>) complexModel.getClass());
         try {
             dao.createOrUpdate((T)complexModel);
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally {
+            this.closeDbConnection();
+        }
+    }
+    public < T extends BaseModel,I> void createOrUpdateBaseModel( BaseModel baseModel) {
+        Dao <T,I>  dao=getDao((Class<T>) baseModel.getClass());
+        try {
+            dao.createOrUpdate((T)baseModel);
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }finally {

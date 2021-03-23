@@ -11,21 +11,21 @@
     <children>
         <Label fx:id="mainLabel">
             <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
             </VBox.margin>
         </Label>
         <TextField fx:id="mainTextField">
             <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
             </VBox.margin>
         </TextField>
         <Label fx:id="errorLabel" textFill="RED">
             <VBox.margin>
-                <Insets left="5.0" />
+                <Insets left="10.0" />
             </VBox.margin></Label>
         <HBox alignment="CENTER" prefHeight="48.0" prefWidth="290.0">
             <children>
-                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#add" text="Zapisz" textAlignment="CENTER">
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Zapisz" textAlignment="CENTER">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>

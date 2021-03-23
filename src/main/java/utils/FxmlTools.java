@@ -42,4 +42,20 @@ public class FxmlTools {
             return null;
         }
     }
+    public static <T> T openVBoxWindow(String fxmlPath){
+        try {
+            FXMLLoader loader = new FXMLLoader(FxmlTools.class.getResource(fxmlPath));
+            VBox vBox = loader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(vBox);
+            window.initStyle(StageStyle.TRANSPARENT);
+            window.setScene(scene);
+            window.show();
+            return loader.getController();
+        } catch (IOException e) {
+            CommonTools.displayAlert(e.getMessage());
+            return null;
+        }
+    }
 }
