@@ -47,7 +47,8 @@ public class EditUserWindowController {
         Integer selectedUserId=this.userWindowController.getUserDataModel().getSelectedUser().getIdUser();
         if(function.equals("delete")){
             this.userLabel.setText("USUWANIE UŻYTKOWNIKA");
-            if(commonDao.selectWithTwoOrConditions(StorageModel.class,"entryUser",selectedUserId,"spendUser",selectedUserId)==null){
+            if(commonDao.selectWithTwoOrConditions(StorageModel.class,"entryUser",selectedUserId,"spendUser",selectedUserId)==null &&
+                    commonDao.getListWithSimpleSelect(RegisterModel.class,"calibrationUser",selectedUserId)==null){
                 this.errorLabel.setText("Można usuwać");
                 commonDao.deleteUser(this.userWindowController.getUserDataModel().getSelectedUser());
                 this.userWindowController.getUserDataModel().init();
@@ -57,9 +58,54 @@ public class EditUserWindowController {
                 this.errorLabel.setText("Nie można usuwać");
             }
         }
-        else{
+        else if (function.equals("edit")){
+            if(isValidUserData()){
+                UserModel editedUser=commonDao.queryForFirst(UserModel.class,"login",this.loginTextField.getText());
+                if(editedUser!=null){
+                    if(editedUser.getIdUser()==this.userWindowController.getUserDataModel().getSelectedUser().getIdUser()){
+                        this.errorLabel.setText("To ten sam user cwaniaku");
+                    }
+                    else{
+                        this.errorLabel.setText("Użytkownik o takim loginie już istnieje w bazie");
+                    }
+                }
+                else{
+                    editedUser.setIdUser(this.userWindowController.getUserDataModel().getSelectedUser().getIdUser());
+                    editedUser.setFirstName(this.firstNameTextField.getText());
+                    editedUser.setLastName(this.lastNameTextField.getText());
+                    editedUser.setLogin(this.loginTextField.getText());
+                    editedUser.setPassword(this.passwordTextField.getText());
+                    editedUser.setPermissionLevel(this.permissionComboBox.getValue());
+                    editedUser.setInitials(this.initialsTextField.getText());
+                    commonDao.createOrUpdate(editedUser);
+                }
+            }
 
-
+        }else if(function.equals("new")){
+            if(this.firstNameTextField.getText()==null){
+                System.out.println("aha");
+            }
+            if(isValidUserData()){
+                UserModel editedUser=commonDao.queryForFirst(UserModel.class,"login",this.loginTextField.getText());
+                if(editedUser!=null){
+                    if(editedUser.getIdUser()==this.userWindowController.getUserDataModel().getSelectedUser().getIdUser()){
+                        this.errorLabel.setText("To ten sam user cwaniaku");
+                    }
+                    else{
+                        this.errorLabel.setText("Użytkownik o takim loginie już istnieje w bazie");
+                    }
+                }
+                else{
+                    editedUser.setIdUser(this.userWindowController.getUserDataModel().getSelectedUser().getIdUser());
+                    editedUser.setFirstName(this.firstNameTextField.getText());
+                    editedUser.setLastName(this.lastNameTextField.getText());
+                    editedUser.setLogin(this.loginTextField.getText());
+                    editedUser.setPassword(this.passwordTextField.getText());
+                    editedUser.setPermissionLevel(this.permissionComboBox.getValue());
+                    editedUser.setInitials(this.initialsTextField.getText());
+                    commonDao.createOrUpdate(editedUser);
+                }
+            }
         }
     }
     @FXML

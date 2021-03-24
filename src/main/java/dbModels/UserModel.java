@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Klasa implementująca model danych w tabeli USERS
  */
 @DatabaseTable(tableName = "USERS")
-public class UserModel {
+public class UserModel implements ComplexModel {
 
     public static final String ID_USER ="idUser";
     public static final String FIRST_NAME="firstName";

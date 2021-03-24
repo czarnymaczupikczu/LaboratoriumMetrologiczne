@@ -60,6 +60,8 @@ public class UserWindowController {
     void addUser() {
         if(this.userDataModel.getSelectedUser().getIdUser()!=null){
             this.editUserWindowController= FxmlTools.openVBoxWindow(EDIT_USER_WINDOW);
+            this.editUserWindowController.setFunction("new");
+            this.editUserWindowController.setUserWindowController(this);
         }
     }
 
@@ -75,6 +77,7 @@ public class UserWindowController {
             this.editUserWindowController.setUserToForm(this.userDataModel.getSelectedUser());
             this.editUserWindowController.setUserFormEditableFalse();
             this.editUserWindowController.setUserWindowController(this);
+            this.editUserWindowController.setFunction("delete");
         }
     }
 
@@ -83,6 +86,8 @@ public class UserWindowController {
         if(this.userDataModel.getSelectedUser().getIdUser()!=null){
             this.editUserWindowController= FxmlTools.openVBoxWindow(EDIT_USER_WINDOW);
             this.editUserWindowController.setUserToForm(this.userDataModel.getSelectedUser());
+            this.editUserWindowController.setFunction("edit");
+            this.editUserWindowController.setUserWindowController(this);
         }
     }
 
