@@ -47,8 +47,8 @@ public class EditUserWindowController {
         Integer selectedUserId=this.userWindowController.getUserDataModel().getSelectedUser().getIdUser();
         if(function.equals("delete")){
             this.userLabel.setText("USUWANIE UŻYTKOWNIKA");
-            if(commonDao.selectWithTwoOrConditions(StorageModel.class,"entryUser",selectedUserId,"spendUser",selectedUserId)==null &&
-                    commonDao.getListWithSimpleSelect(RegisterModel.class,"calibrationUser",selectedUserId)==null){
+            if(commonDao.selectOrStatement(StorageModel.class,"entryUser",selectedUserId,"spendUser",selectedUserId)==null &&
+                    commonDao.selectAndStatement(RegisterModel.class,"calibrationUser",selectedUserId)==null){
                 this.errorLabel.setText("Można usuwać");
                 commonDao.deleteUser(this.userWindowController.getUserDataModel().getSelectedUser());
                 this.userWindowController.getUserDataModel().init();

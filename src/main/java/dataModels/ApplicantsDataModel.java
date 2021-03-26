@@ -2,7 +2,6 @@ package dataModels;
 
 import dbModels.ApplicantModel;
 import fxModels.ApplicantFxModel;
-import fxModels.RegisterFxModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -30,7 +29,7 @@ public class ApplicantsDataModel {
     public void listInitializeApplicantsActive(){
         applicantList.clear();
         CommonDao commonDao=new CommonDao();
-        List<ApplicantModel> tempList = commonDao.getListWithSimpleSelect(ApplicantModel.class, "status","aktywny");
+        List<ApplicantModel> tempList = commonDao.selectAndStatement(ApplicantModel.class, "status","aktywny");
         for(ApplicantModel applicantModel:tempList){
             applicantList.add(Converter.convertApplicantModelToApplicantFxModel(applicantModel));
         }

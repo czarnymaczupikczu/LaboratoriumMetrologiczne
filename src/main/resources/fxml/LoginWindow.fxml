@@ -34,7 +34,7 @@
                         <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="loginTextField" prefHeight="30.0" prefWidth="120.0" promptText="login">
+                  <TextField fx:id="loginTextField" onAction="#login" prefHeight="30.0" prefWidth="120.0" promptText="login">
                      <font>
                         <Font name="Calibri" size="14.0" />
                      </font>
@@ -54,7 +54,7 @@
                         <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="passwordTextField" prefHeight="30.0" prefWidth="120.0" promptText="hasło">
+                  <PasswordField fx:id="passwordTextField" onAction="#login" prefHeight="30.0" prefWidth="120.0" promptText="hasło">
                      <font>
                         <Font name="Calibri" size="14.0" />
                      </font></PasswordField>
@@ -74,7 +74,7 @@
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" spacing="10.0">
                <children>
                   <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="100.0" text="Zaloguj się" />
-                  <Button mnemonicParsing="false" onAction="#loginCancel" prefHeight="30.0" prefWidth="100.0" text="Anuluj" />
+                  <Button mnemonicParsing="false" onAction="#cancel" prefHeight="30.0" prefWidth="100.0" text="Anuluj" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />

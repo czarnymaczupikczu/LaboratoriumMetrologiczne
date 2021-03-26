@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import utils.CommonTools;
 import utils.database.CommonDao;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class CommonEditController {
@@ -107,7 +106,7 @@ public class CommonEditController {
                 tempId=this.commonWindowController.getCommonDataModel().getCurrentElement().getId();
             }
             tempValue=this.mainTextField.getText();
-            List<BaseModel> dataList=commonDao.getListWithSimpleLikeSelect(tempClass,columnNameEdit,tempValue);
+            List<BaseModel> dataList=commonDao.selectAndWithLikeStatement(tempClass,columnNameEdit,tempValue);
             if(dataList.size()>0 ) {
                 if (dataList.get(0).getId() != tempId) {
                     this.errorLabel.setText("Taka wartość istnieje już w bazie tłoku");

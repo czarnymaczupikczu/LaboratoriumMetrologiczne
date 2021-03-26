@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,16 +24,18 @@ public class LoginWindowController {
         System.out.println("Konstruktor klasy LoginWindowController");
     }
 
+    //Deklaracje stałych tekstowych
     private final String MAIN_WINDOW="/fxml/MainWindow.fxml";
     private final String STORAGE_WINDOW="/fxml/StorageWindow.fxml";
     private final String REGISTER_WINDOW="/fxml/RegisterWindow.fxml";
     private final String APPLICANTS_WINDOW="/fxml/ApplicantsWindow.fxml";
+    private final String INSTRUMENTS_WINDOW="/fxml/InstrumentsWindow.fxml";
     private final String ADMIN_WINDOW="/fxml/admin/AdminWindow.fxml";
-    private final String REJESTR_AP131="AP131";
-    private final String REJEST_POZA="PozaAP";
-    private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
-    static final String LOGIN_ERROR = "Nieprawidłowy użytkownik i/lub hasło";
 
+    private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
+    public static final String LOGIN_ERROR = "Nieprawidłowy użytkownik i/lub hasło";
+
+    //Elementy okna LoginWindow
     @FXML private BorderPane loginBorderPane;
     @FXML private ImageView loginImageView;
     @FXML private Label loginErrorLabel;
@@ -55,7 +56,7 @@ public class LoginWindowController {
     @FXML
     private void login(){
         CommonDao commonDao=new CommonDao();
-        List<UserModel> userList = commonDao.selectWithTwoConditions(UserModel.class, "login", loginTextField.getText(), "password", passwordTextField.getText());
+        List<UserModel> userList = commonDao.selectAndStatement(UserModel.class, "login", loginTextField.getText(), "password", passwordTextField.getText());
         if (userList.isEmpty()) {
             loginErrorLabel.setText(LOGIN_ERROR);
         }else{
@@ -66,30 +67,12 @@ public class LoginWindowController {
                 BorderPane mainBorderPane=loader.load();
                 //Główny kontroler
                 mainController=loader.getController();
-                //Okno Storage
-                FXMLLoader loader1= FxmlTools.getLoader(STORAGE_WINDOW);
-                mainController.setStorageVbox1(loader1.load());
-                mainController.setStorage(loader1.getController());
-                mainController.getStorage().setMainController(this.mainController);
-                mainController.getStorage().init();
-                //Okno Rejestr AP
-                FXMLLoader loader2= new FXMLLoader(LoginWindowController.class.getResource(REGISTER_WINDOW));
-                mainController.setRegister1Vbox(loader2.load());
-                mainController.setRegister1(loader2.getController());
-                mainController.getRegister1().setMainController(this.mainController);
-                mainController.getRegister1().getRegisterDataModel().setRegisterType(REJESTR_AP131);
-                mainController.getRegister1().init();
-                //Okno Rejest poza AP
-                FXMLLoader loader3= new FXMLLoader(LoginWindowController.class.getResource(REGISTER_WINDOW));
-                mainController.setRegister2Vbox(loader3.load());
-                mainController.setRegister2(loader3.getController());
-                mainController.getRegister2().setMainController(this.mainController);
-                mainController.getRegister2().getRegisterDataModel().setRegisterType(REJEST_POZA);
-                mainController.getRegister2().init();
-                FXMLLoader loader4= new FXMLLoader(LoginWindowController.class.getResource(APPLICANTS_WINDOW));
-                mainController.setApplicantsVBox(loader4.load());
-                mainController.setApplicants(loader4.getController());
-                mainController.getApplicants().setMainController(this.mainController);
+
+
+                mainController.setStorage(STORAGE_WINDOW);
+                mainController.setRegisterAP131(REGISTER_WINDOW);
+                mainController.setRegister(REGISTER_WINDOW);
+                mainController.setApplicants(APPLICANTS_WINDOW);
 
 
 
@@ -99,10 +82,7 @@ public class LoginWindowController {
                 if(mainController.getMainDataModel().getUser().getPermissionLevel().equals("user")){
                     mainController.disableAdministrationToggleButton();
                 }else{
-                    FXMLLoader loader5=new FXMLLoader(LoginWindowController.class.getResource(ADMIN_WINDOW));
-                    mainController.setAdminVBox(loader5.load());
-                    mainController.setAdmin(loader5.getController());
-                    mainController.getAdmin().setMainController(this.mainController);
+                    mainController.setAdmin(ADMIN_WINDOW);
                 }
                 showWindow(mainBorderPane);
             } catch (IOException e) {
@@ -111,14 +91,16 @@ public class LoginWindowController {
         }
     }
     @FXML
-    private void loginCancel() {
+    private void cancel() {
         CommonTools.closePaneWindow(loginBorderPane);
     }
     private void showWindow(BorderPane mainBorderPane){
         Stage window = new Stage();
         window.setTitle("LABORATORIUM METROLOGICZNE");
         Scene scene = new Scene(mainBorderPane);
-        scene.getStylesheets().add("css/main.css");
+        //scene.getStylesheets().add("css/main.css");
+        //Application.setUserAgentStylesheet("css/main.css");
+
         window.setScene(scene);
         window.show();
     }

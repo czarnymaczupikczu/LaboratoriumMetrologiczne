@@ -82,7 +82,7 @@ public class NewInstrumentDataWindowController {
     private <T> void createIfNotExist(String columnName, Class<T> cls,String value)  {
         CommonDao commonDao=new CommonDao();
         //Sprawdzam czy w bazie nie ma już takiej wartości zamiast = jest Like dzięki czemu jest caseInsensitive
-        List<?> dataList=  commonDao.getListWithSimpleLikeSelect(cls,columnName,value);
+        List<?> dataList=  commonDao.selectAndWithLikeStatement(cls,columnName,value);
         if (dataList.size()>0){
             this.errorLabel.setText(ERROR_TEXT);
         }else{

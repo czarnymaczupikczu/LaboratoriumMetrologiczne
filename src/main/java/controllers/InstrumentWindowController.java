@@ -4,8 +4,6 @@ import dataModels.InstrumentDataModel;
 import dbModels.InstrumentModel;
 import dbModels.StorageModel;
 import dbModels.instrument.*;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import utils.CommonTools;
 import utils.database.CommonDao;
 
@@ -135,11 +132,11 @@ public class InstrumentWindowController {
         Integer idApplicant = instrument.getApplicant().getIdApplicant();
         List<InstrumentModel> lista=null;
         if(!sNumber.isEmpty() && !iNumber.isEmpty()) {
-            lista = commonDao.selectWithThreeConditions(InstrumentModel.class, "serialNumber", sNumber, "identificationNumber", iNumber, "applicant", idApplicant);
+            lista = commonDao.selectAndStatement(InstrumentModel.class, "serialNumber", sNumber, "identificationNumber", iNumber, "applicant", idApplicant);
         }else if(!sNumber.isEmpty() && iNumber.isEmpty()){
-            lista=commonDao.selectWithTwoConditions(InstrumentModel.class,"serialNumber",sNumber,"applicant",idApplicant);
+            lista=commonDao.selectAndStatement(InstrumentModel.class,"serialNumber",sNumber,"applicant",idApplicant);
         }else if(sNumber.isEmpty() && !iNumber.isEmpty()){
-            lista=commonDao.selectWithTwoConditions(InstrumentModel.class,"identificationNumber",iNumber,"applicant",idApplicant);
+            lista=commonDao.selectAndStatement(InstrumentModel.class,"identificationNumber",iNumber,"applicant",idApplicant);
         }
         if(lista.isEmpty()){
             commonDao.create(instrument);
@@ -151,7 +148,7 @@ public class InstrumentWindowController {
         CommonDao commonDao=new CommonDao();
 
 
-        List<StorageModel> lista = commonDao.selectWithTwoConditions(StorageModel.class, "spendDate", "", "instrument", instrument.getIdInstrument());
+        List<StorageModel> lista = commonDao.selectAndStatement(StorageModel.class, "spendDate", "", "instrument", instrument.getIdInstrument());
         if(lista.isEmpty()){
             StorageModel storageModel=new StorageModel();
             storageModel.setInstrument(instrument);

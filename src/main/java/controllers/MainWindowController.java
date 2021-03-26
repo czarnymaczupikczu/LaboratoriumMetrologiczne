@@ -3,21 +3,28 @@ package controllers;
 import controllers.admin.AdminWindowController;
 import dataModels.MainDataModel;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import utils.FxmlTools;
+
+import java.io.IOException;
 
 
 public class MainWindowController {
+
+
     public MainWindowController(){
         System.out.println("Konstruktor klasy MainWindowController");
     }
 
     private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
-    private final String STORAGE_FXML="/fxml/StorageWindow.fxml";
+    private final String REJESTR_AP131="AP131";
+    private final String REJESTR_POZA="PozaAP";
 
 
     private MainDataModel mainDataModel=new MainDataModel();
@@ -25,63 +32,19 @@ public class MainWindowController {
         return mainDataModel;
     }
 
-    private StorageWindowController storage;
-    private RegisterWindowController register1;
-    private RegisterWindowController register2;
-    private ApplicantsWindowController applicants;
-    private AdminWindowController admin;
-    private VBox storageVbox;
-    private VBox register1Vbox;
-    private VBox register2Vbox;
-    private VBox applicantsVBox;
-    private VBox adminVBox;
+    private StorageWindowController storageWindowController;
+    private RegisterWindowController registerAP131WindowController;
+    private RegisterWindowController registerWindowController;
+    private ApplicantsWindowController applicantsWindowController;
+    private AdminWindowController adminWindowController;
+    private VBox storageWindowVbox;
+    private VBox registerAP131WindowVbox;
+    private VBox registerWindowVbox;
+    private VBox applicantsWindowVBox;
+    private VBox adminWindowVBox;
 
-    public StorageWindowController getStorage() {
-        return storage;
-    }
-    public void setStorage(StorageWindowController storage) {
-        this.storage = storage;
-    }
-    public RegisterWindowController getRegister1() {
-        return register1;
-    }
-    public void setRegister1(RegisterWindowController register1) {
-        this.register1 = register1;
-    }
-    public RegisterWindowController getRegister2() {
-        return register2;
-    }
-    public void setRegister2(RegisterWindowController register2) {
-        this.register2 = register2;
-    }
-    public ApplicantsWindowController getApplicants() {
-        return applicants;
-    }
-    public void setApplicants(ApplicantsWindowController applicants) {
-        this.applicants = applicants;
-    }
-    public AdminWindowController getAdmin() {
-        return admin;
-    }
-    public void setAdmin(AdminWindowController admin) {
-        this.admin = admin;
-    }
 
-    public void setStorageVbox1(VBox storageVbox) {
-        this.storageVbox = storageVbox;
-    }
-    public void setRegister1Vbox(VBox register1Vbox) {
-        this.register1Vbox = register1Vbox;
-    }
-    public void setRegister2Vbox(VBox register2Vbox) {
-        this.register2Vbox = register2Vbox;
-    }
-    public void setApplicantsVBox(VBox applicantsVBox) {
-        this.applicantsVBox = applicantsVBox;
-    }
-    public void setAdminVBox(VBox adminVBox) {
-        this.adminVBox = adminVBox;
-    }
+
 
     @FXML private ImageView mainWindowImageView;
     @FXML private VBox mainVBox;
@@ -105,43 +68,84 @@ public class MainWindowController {
     }
     @FXML
     void setStorageWindow() {
-        if (storageVbox==null) {
-           // storageVbox1 = FxmlTools.fxmlLoader(STORAGE_FXML);
-        }
-        mainWindowBorderPane.setCenter(storageVbox);
-
+        mainWindowBorderPane.setCenter(storageWindowVbox);
     }
     @FXML
     void setRegister1Window() {
-        if (register1Vbox==null) {
-            //storageVbox2 = FxmlTools.fxmlLoader(STORAGE_FXML);
-        }
-        mainWindowBorderPane.setCenter(register1Vbox);
+        mainWindowBorderPane.setCenter(registerAP131WindowVbox);
     }
     @FXML
     void setRegister2Window() {
-        if (register2Vbox==null) {
-           // storageVbox3 = FxmlTools.fxmlLoader(STORAGE_FXML);
-        }
-        mainWindowBorderPane.setCenter(register2Vbox);
+        mainWindowBorderPane.setCenter(registerWindowVbox);
     }
     @FXML
     void setApplicantsWindow(){
-        if(applicantsVBox==null){
-
-        }
-        mainWindowBorderPane.setCenter(applicantsVBox);
+        mainWindowBorderPane.setCenter(applicantsWindowVBox);
     }
     @FXML
     void setAdminWindow(){
-        mainWindowBorderPane.setCenter(adminVBox);
+        mainWindowBorderPane.setCenter(adminWindowVBox);
     }
 
 
     public void disableAdministrationToggleButton(){
         this.administrationToggleButton.setVisible(false);
     }
-
-
-
+    public void setStorage (String fxmlPath){
+        FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
+        try {
+            this.storageWindowVbox=loader.load();
+            this.storageWindowController=loader.getController();
+            this.storageWindowController.setMainController(this);
+            this.storageWindowController.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setRegisterAP131 (String fxmlPath){
+        FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
+        try {
+            this.registerAP131WindowVbox=loader.load();
+            this.registerAP131WindowController=loader.getController();
+            this.registerAP131WindowController.getRegisterDataModel().setRegisterType(REJESTR_AP131);
+            this.registerAP131WindowController.setMainController(this);
+            this.registerAP131WindowController.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setRegister (String fxmlPath){
+        FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
+        try {
+            this.registerWindowVbox=loader.load();
+            this.registerWindowController=loader.getController();
+            this.registerWindowController.getRegisterDataModel().setRegisterType(REJESTR_POZA);
+            this.registerWindowController.setMainController(this);
+            this.registerWindowController.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setApplicants (String fxmlPath){
+        FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
+        try {
+            this.applicantsWindowVbox=loader.load();
+            this.applicantsWindowController=loader.getController();
+            this.applicantsWindowController.setMainController(this);
+            //this.applicantsWindowController.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setAdmin (String fxmlPath){
+        FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
+        try {
+            this.adminWindowVbox=loader.load();
+            this.adminWindowController=loader.getController();
+            this.adminWindowController.setMainController(this);
+            //this.applicantsWindowController.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

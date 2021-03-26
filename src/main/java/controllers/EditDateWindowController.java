@@ -65,8 +65,8 @@ public class EditDateWindowController {
         String leftDate=this.storageWindowController.getStorageDataModel().getCurrentStorage().getSpendDate();
         CommonDao registerDao=new CommonDao();
         CommonDao storageDao=new CommonDao();
-        List<StorageModel> storageList = storageDao.getListWithSimpleSelect(StorageModel.class, "idStorage", this.storageWindowController.getStorageDataModel().getCurrentStorage().getIdStorage());
-        List<RegisterModel> registerList = registerDao.getListWithSimpleSelect(RegisterModel.class, "storage", this.storageWindowController.getStorageDataModel().getCurrentStorage().getIdStorage());
+        List<StorageModel> storageList = storageDao.selectAndStatement(StorageModel.class, "idStorage", this.storageWindowController.getStorageDataModel().getCurrentStorage().getIdStorage());
+        List<RegisterModel> registerList = registerDao.selectAndStatement(RegisterModel.class, "storage", this.storageWindowController.getStorageDataModel().getCurrentStorage().getIdStorage());
         StorageModel storageModel=storageList.get(0);
         if (dateType.equals("entryDate")) {
             if(registerList.isEmpty()) {

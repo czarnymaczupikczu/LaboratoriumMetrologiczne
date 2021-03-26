@@ -1,7 +1,5 @@
 package dataModels;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import dbModels.InstrumentModel;
 import dbModels.instrument.*;
 import javafx.collections.FXCollections;
@@ -10,8 +8,6 @@ import javafx.collections.transformation.FilteredList;
 import utils.DatabaseTools;
 import utils.database.CommonDao;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class InstrumentDataModel {
@@ -156,7 +152,7 @@ public class InstrumentDataModel {
     }
     public InstrumentModel searchForInstrument(String numberKind, String value){
         CommonDao commonDao=new CommonDao();
-        instrumentList=commonDao.getListWithSimpleLikeSelect(InstrumentModel.class, numberKind, value);
+        instrumentList=commonDao.selectAndWithLikeStatement(InstrumentModel.class, numberKind, value);
         if(instrumentList.size()>0){
             return instrumentList.get(instrumentList.size()-1);
         }else{

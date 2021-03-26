@@ -1,5 +1,6 @@
 package utils;
 
+import controllers.MainWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -11,6 +12,17 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class FxmlTools {
+    public static <T> void loadTab(String fxmlPath, MainWindowController mainController, VBox centreWindow, T controller){
+        FXMLLoader loader=FxmlTools.getLoader(fxmlPath);
+        try {
+            centreWindow=loader.load();
+            controller=loader.getController();
+
+        } catch (IOException e) {
+            ShowAlert.display(e.getMessage());
+        }
+
+    }
     public static Pane fxmlLoader(String fxmlPath) {
         FXMLLoader loader = new FXMLLoader(FxmlTools.class.getResource(fxmlPath));
 
