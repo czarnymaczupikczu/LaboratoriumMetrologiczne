@@ -9,12 +9,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox fx:id="mainVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="380.0" spacing="1.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InstrumentWindowController">
    <children>
       <HBox alignment="CENTER" prefHeight="42.0" style="-fx-background-color: #00519b;">
          <children>
-            <Label id="label-head" text="Edytowany przyrząd" />
+            <Label id="label-head" text="Dodawanie przyrządu" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font></Label>
          </children>
       </HBox>
       <Label text="Nazwa:">

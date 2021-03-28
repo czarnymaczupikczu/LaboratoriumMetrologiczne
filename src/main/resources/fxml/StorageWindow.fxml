@@ -84,7 +84,7 @@
             <ContextMenu>
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#editEntryDate" text="Edytuj datę przyjęcia" />
-                  <MenuItem mnemonicParsing="false" onAction="#editLeftDate" text="Edytuj datę wydania" />
+                  <MenuItem fx:id="spendDateItem" mnemonicParsing="false" onAction="#editLeftDate" text="Edytuj datę wydania" />
                   <MenuItem mnemonicParsing="false" onAction="#editInstrument" text="Edytuj przyrząd" />
               </items>
             </ContextMenu>

@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import utils.DatabaseTools;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application {
 
     private final String LOGIN_WINDOW="/fxml/LoginWindow.fxml";
@@ -16,7 +20,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader= new FXMLLoader(Main.class.getResource(LOGIN_WINDOW));
+       FXMLLoader loader= new FXMLLoader(Main.class.getResource(LOGIN_WINDOW));
          BorderPane kontener = loader.load();
         //VBox kontener = loader.load();
         Scene scene = new Scene(kontener);
@@ -27,4 +31,5 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }
+
 }

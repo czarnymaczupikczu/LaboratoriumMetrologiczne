@@ -26,25 +26,22 @@ public class MainWindowController {
     private final String REJESTR_AP131="AP131";
     private final String REJESTR_POZA="PozaAP";
 
-
     private MainDataModel mainDataModel=new MainDataModel();
     public MainDataModel getMainDataModel() {
         return mainDataModel;
     }
-
+    //Kontrolery poszczególnych okien
     private StorageWindowController storageWindowController;
     private RegisterWindowController registerAP131WindowController;
     private RegisterWindowController registerWindowController;
     private ApplicantsWindowController applicantsWindowController;
     private AdminWindowController adminWindowController;
+    //Poszczególne okna
     private VBox storageWindowVbox;
     private VBox registerAP131WindowVbox;
     private VBox registerWindowVbox;
     private VBox applicantsWindowVBox;
     private VBox adminWindowVBox;
-
-
-
 
     @FXML private ImageView mainWindowImageView;
     @FXML private VBox mainVBox;
@@ -60,7 +57,6 @@ public class MainWindowController {
     public void initialize(){
         System.out.println("Metoda initialize kontrolera MainWindowController ");
         mainWindowImageView.setImage(new Image(LOGO_EP_PATH));
-
     }
     public void init(){
         this.userLabel.setText("użytkownik: "+mainDataModel.getUser().getLogin());
@@ -86,7 +82,6 @@ public class MainWindowController {
     void setAdminWindow(){
         mainWindowBorderPane.setCenter(adminWindowVBox);
     }
-
 
     public void disableAdministrationToggleButton(){
         this.administrationToggleButton.setVisible(false);
@@ -129,7 +124,7 @@ public class MainWindowController {
     public void setApplicants (String fxmlPath){
         FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
         try {
-            this.applicantsWindowVbox=loader.load();
+            this.applicantsWindowVBox=loader.load();
             this.applicantsWindowController=loader.getController();
             this.applicantsWindowController.setMainController(this);
             //this.applicantsWindowController.init();
@@ -140,7 +135,7 @@ public class MainWindowController {
     public void setAdmin (String fxmlPath){
         FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
         try {
-            this.adminWindowVbox=loader.load();
+            this.adminWindowVBox=loader.load();
             this.adminWindowController=loader.getController();
             this.adminWindowController.setMainController(this);
             //this.applicantsWindowController.init();

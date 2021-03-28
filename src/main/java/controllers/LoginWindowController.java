@@ -61,29 +61,26 @@ public class LoginWindowController {
             loginErrorLabel.setText(LOGIN_ERROR);
         }else{
             CommonTools.closePaneWindow(loginBorderPane);
-            FXMLLoader loader= new FXMLLoader(LoginWindowController.class.getResource(MAIN_WINDOW));
+            FXMLLoader loader= FxmlTools.getLoader(MAIN_WINDOW);
             try {
                 //Ladowanie głównego okna
                 BorderPane mainBorderPane=loader.load();
                 //Główny kontroler
                 mainController=loader.getController();
-
-
+                //Ustawiamy usera globalnego
+                mainController.getMainDataModel().setUser(userList.get(0));
+                mainController.init();
+                //Ladujemy poszczególne karty
                 mainController.setStorage(STORAGE_WINDOW);
                 mainController.setRegisterAP131(REGISTER_WINDOW);
                 mainController.setRegister(REGISTER_WINDOW);
                 mainController.setApplicants(APPLICANTS_WINDOW);
-
-
-
-                //Ustawiamy usera globalnego
-                mainController.getMainDataModel().setUser(userList.get(0));
-                mainController.init();
                 if(mainController.getMainDataModel().getUser().getPermissionLevel().equals("user")){
                     mainController.disableAdministrationToggleButton();
                 }else{
                     mainController.setAdmin(ADMIN_WINDOW);
                 }
+                mainController.init();
                 showWindow(mainBorderPane);
             } catch (IOException e) {
                 CommonTools.displayAlert(e.getMessage());

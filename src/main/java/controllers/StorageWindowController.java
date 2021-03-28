@@ -1,33 +1,12 @@
 package controllers;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import dataModels.MainDataModel;
 import dataModels.StorageDataModel;
-import dbModels.YearModel;
-import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import utils.CommonTools;
-import utils.DatabaseTools;
 import utils.FxmlTools;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 
 public class StorageWindowController {
@@ -35,26 +14,28 @@ public class StorageWindowController {
         System.out.println("Konstruktor klasy StorehouseWindowController");
     }
 
-    private final String INSTRUMENT_WINDOW="/fxml/InstrumentWindow.fxml";
-    private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
-
-    //Pola prywatne
-    private StorageDataModel storageDataModel=new StorageDataModel();
-
-    public StorageDataModel getStorageDataModel() {
-        return storageDataModel;
-    }
-
     //Główny kontroler powiązany z kontrolerami poszczególnych okien
     private MainWindowController mainController;
     public void setMainController(MainWindowController mainController) {
         this.mainController = mainController;
     }
+
+    //Pola prywatne
+    private StorageDataModel storageDataModel=new StorageDataModel();
+    public StorageDataModel getStorageDataModel() {
+        return storageDataModel;
+    }
+
     private InstrumentWindowController instrumentWindowController;
     private EditDateWindowController editDateWindowController;
 
-    //Deklaracje związane z widokiem fxml
-    @FXML private VBox storageMainVBox;
+    //Stałe tekstowe
+    private final String INSTRUMENT_WINDOW="/fxml/InstrumentWindow.fxml";
+    private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
+    private final String ENTRY_DATE="Data przyjęcia";
+    private final String CALIBRATION_DATE="Data wzorcowania";
+    private final String LEFT_DATE="Data wydania";
+
     //ComboBox
     @FXML private ComboBox<String> storageStateComboBox;
     @FXML private ComboBox<String> storageYearComboBox;
@@ -73,6 +54,8 @@ public class StorageWindowController {
     @FXML private TableColumn<StorageFxModel, String> entryDateColumn;
     @FXML private TableColumn<StorageFxModel, String> calibrationDateColumn;
     @FXML private TableColumn<StorageFxModel, String> spendDateColumn;
+    //MenuItem
+    @FXML private MenuItem spendDateItem;
     //Labels
     @FXML private Label shortNameLabel;
     @FXML private Label fullNameLabel;
@@ -86,11 +69,6 @@ public class StorageWindowController {
     @FXML private TextArea calibrationRemarksTextArea;
     @FXML private TextField searchTextField;
 
-
-    @FXML
-    public void initialize() throws SQLException {
-        System.out.println("Metoda initialize kontrolera StorehouseWindowController ");
-    }
     public void init(){
         initializeComboBoxes();
         initializeTableView();
@@ -116,7 +94,6 @@ public class StorageWindowController {
         this.storageTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue!=null) {
                 if (this.storageTableView.getSelectionModel().getSelectedItems().size() < 2){ //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
-                    //updateBindings(newValue);
                     this.storageDataModel.setCurrentStorage(newValue);
                     bindingLabels();
                 }
@@ -131,7 +108,6 @@ public class StorageWindowController {
         this.storageYearComboBox.getItems().addAll(mainController.getMainDataModel().getYearComboBoxList());
         this.storageYearComboBox.setValue(mainController.getMainDataModel().getYearComboBoxList().get(mainController.getMainDataModel().getYearComboBoxList().size()-1));
     }
-
     private void bindingLabels(){
         this.shortNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().shortNameProperty());
         this.fullNameLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant().fullNameProperty());
@@ -143,45 +119,27 @@ public class StorageWindowController {
         this.cardNumberLabel.textProperty().bind(this.storageDataModel.getCurrentStorage().cardNumbersProperty());
         this.instrumentRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().instrumentRemarksProperty());
         this.calibrationRemarksTextArea.textProperty().bind(this.storageDataModel.getCurrentStorage().calibrationRemarksProperty());
+        this.spendDateItem.disableProperty().bind(this.storageDataModel.getCurrentStorage().spendDateProperty().isEmpty());
     }
     private void addFilter(){
         searchTextField.textProperty().addListener((value,oldValue, newValue) ->{
             storageDataModel.addFilterToObservableList(newValue);
         } );
     }
-
     //Przyciski
     @FXML
     void loadStorageList() {
         storageDataModel.listInitialize(storageStateComboBox.getValue(),storageYearComboBox.getValue());
-        //System.out.println(storageDataModel.createSQLStatement(storageStateComboBox.getValue(),storageYearComboBox.getValue()));
     }
     @FXML
     void addInstrument() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(INSTRUMENT_WINDOW));
-            VBox vBox = loader.load();
-            instrumentWindowController = loader.getController();
-            instrumentWindowController.setMainController(this.mainController);
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Dodaj przyrząd do magazynu");
-            Scene scene = new Scene(vBox);
-            window.setScene(scene);
-            window.show();
-        } catch (IOException e) {
-            CommonTools.displayAlert(e.getMessage());
-        }
+        this.instrumentWindowController=FxmlTools.openVBoxWindow(INSTRUMENT_WINDOW);
+        this.instrumentWindowController.setMainController(this.mainController);
     }
     @FXML
     void editEntryDate() {
-        this.editDateWindowController=FxmlTools.openVBoxWindow(EDIT_DATE_WINDOW,"Test");
-        if(this.editDateWindowController!=null){
-            this.editDateWindowController.setStorageWindowController(this);
-
-        }
+        loadEditDateWindow(ENTRY_DATE);
     }
-
     @FXML
     void editInstrument() {
         System.out.println(this.storageDataModel.getCurrentStorage().getInstrument().getName());
@@ -189,6 +147,14 @@ public class StorageWindowController {
 
     @FXML
     void editLeftDate() {
-        System.out.println(this.storageDataModel.getCurrentStorage().getInstrument().getName());
+        loadEditDateWindow(LEFT_DATE);
+    }
+    private void loadEditDateWindow(String dateType){
+        this.editDateWindowController=FxmlTools.openVBoxWindow(EDIT_DATE_WINDOW);
+        if(this.editDateWindowController!=null){
+            this.editDateWindowController.setStorageWindowController(this);
+            this.editDateWindowController.setDateType(dateType);
+            this.editDateWindowController.setEditDateWindowLabel(dateType);
+        }
     }
 }

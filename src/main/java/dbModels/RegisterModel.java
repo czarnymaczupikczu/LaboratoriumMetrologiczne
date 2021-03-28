@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "REGISTER")
-public class RegisterModel {
+public class RegisterModel implements ComplexModel{
 
     public static final String ID_REGISTER="idRegister";
     public static final String REGISTER_KIND="registerKind";

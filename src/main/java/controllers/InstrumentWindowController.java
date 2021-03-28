@@ -28,7 +28,11 @@ import static dbModels.instrument.RangeModel.RANGE_NAME;
 
 public class InstrumentWindowController {
 
-    //Deklaracja stałych ze ścieżkami do widoków fxml
+    public InstrumentWindowController(){
+        System.out.println("Konstruktor klasy InstrumentWindowController");
+    }
+
+    //Deklaracja stałych ze ścieżkami do widoków fxml lub stałe tekstowe
     private static final String NEW_INSTRUMENT_DATA_WINDOW = "/fxml/NewInstrumentDataWindow.fxml";
     private static final String NEW_INSTRUMENT_RANGE_WINDOW="/fxml/NewInstrumentRangeWindow.fxml";
     private static final String APPLICANTS_WINDOW="/fxml/ApplicantsWindow.fxml";
@@ -37,13 +41,21 @@ public class InstrumentWindowController {
     private static final String NEW_PRODUCER="Dodawanie nowego producenta przyrządu";
     private static final String NEW_RANGE="Dodawanie nowego zakresu przyrządu";
 
-
-    public InstrumentWindowController(){
-        System.out.println("Konstruktor klasy InstrumentWindowController");
+    //Główny kontroler powiązany z kontrolerami poszczególnych okien
+    private MainWindowController mainController;
+    public void setMainController(MainWindowController mainController) {
+        this.mainController = mainController;
     }
+
+    private InstrumentDataModel instrumentDataModel= new InstrumentDataModel();
+    public InstrumentDataModel getInstrumentDataModel() {
+        return instrumentDataModel;
+    }
+
     private NewInstrumentDataWindowController newInstrumentDataWindowController;
     private ApplicantsWindowController applicantsWindowController;
 
+    @FXML private VBox mainVBox;
     @FXML private ComboBox<String> nameComboBox;
     @FXML private ComboBox<String> typeComboBox;
     @FXML private ComboBox<String> producerComboBox;
@@ -64,29 +76,14 @@ public class InstrumentWindowController {
     @FXML private TextArea calibrationRemarks;
 
     @FXML private DatePicker entryDatePicker;
-    @FXML private VBox mainVBox;
-
-    //Główny kontroler powiązany z kontrolerami poszczególnych okien
-    private MainWindowController mainController;
-    public void setMainController(MainWindowController mainController) {
-        this.mainController = mainController;
-    }
-
-    private InstrumentDataModel instrumentDataModel= new InstrumentDataModel();
-    public InstrumentDataModel getInstrumentDataModel() {
-        return instrumentDataModel;
-    }
-
 
     @FXML
     public void initialize() throws SQLException {
         System.out.println("Metoda initialize kontrolera InstrumentWindowController ");
         this.instrumentDataModel.init();
         initializeComboBox();
-
         bindComboBox();
     }
-
     private void initializeComboBox(){
         initComboBox(this.nameComboBox,this.instrumentDataModel.getFilteredNames());
         initComboBox(this.typeComboBox,this.instrumentDataModel.getFilteredTypes());
@@ -94,7 +91,6 @@ public class InstrumentWindowController {
         initComboBox(this.rangeComboBox,this.instrumentDataModel.getFilteredRange());
     }
     private void bindComboBox(){
-
         this.typeComboBox.disableProperty().bind(this.nameComboBox.valueProperty().isNull());
         this.producerComboBox.disableProperty().bind(this.typeComboBox.valueProperty().isNull());
         this. rangeComboBox.disableProperty().bind(this.producerComboBox.valueProperty().isNull());

@@ -92,6 +92,7 @@ public class Converter {
     }
     public static InstrumentModel convertInstrumentFxModelToInstrumentModel(InstrumentFxModel fxModel){
         InstrumentModel model=new InstrumentModel();
+        model.setIdInstrument(fxModel.getIdInstrument());
 
         return model;
     }

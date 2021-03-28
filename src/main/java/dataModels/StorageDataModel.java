@@ -28,11 +28,9 @@ public class StorageDataModel {
     private ObservableList<StorageFxModel> storageSelectedItemsList=FXCollections.observableArrayList();
     private FilteredList<StorageFxModel> filteredStorageList= new FilteredList<>(storageList,p->true);
 
-
     public void listInitialize(String storageState, String storageYear) {
         storageList.clear();
         Dao<StorageModel,Integer> storageDao= null;
-
         try {
             storageDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), StorageModel.class);
             GenericRawResults<StorageFxModel> rawResults=storageDao.queryRaw(
@@ -85,7 +83,6 @@ public class StorageDataModel {
                 return false;
             }
         });
-
     }
     public String createSQLStatement(String storageState, String storageYear){
         String sqlStatement = null;
@@ -156,7 +153,6 @@ public class StorageDataModel {
         tempApplicantObject.setStatus(results[17]);
         return tempApplicantObject;
     }
-
     public ObservableList<StorageFxModel> getStorageList() {
         return storageList;
     }
