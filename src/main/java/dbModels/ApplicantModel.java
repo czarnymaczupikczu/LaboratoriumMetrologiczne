@@ -3,12 +3,13 @@ package dbModels;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import dbModels.instrument.BaseModel;
 
 /**
  * Klasa implementująca model danych w tabeli APPLICANTS
  */
 @DatabaseTable(tableName = "APPLICANTS")
-public class ApplicantModel {
+public class ApplicantModel implements ComplexModel {
 
     public static final String ID_APPLICANT="idApplicant";
     public static final String SHORT_NAME="shortName";

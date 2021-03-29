@@ -27,7 +27,6 @@ public class Main extends Application {
         scene.getStylesheets().add("css/main.css");
         primaryStage.setScene(scene);
         //DatabaseTools.initDatabase();
-
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }

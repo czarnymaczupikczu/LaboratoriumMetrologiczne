@@ -12,18 +12,30 @@ import javafx.scene.layout.VBox;
 import utils.CommonTools;
 import utils.database.CommonDao;
 
+import static dbModels.RegisterModel.CALIBRATION_USER;
+import static dbModels.StorageModel.ENTRY_USER;
+import static dbModels.StorageModel.SPEND_USER;
+import static dbModels.UserModel.LOGIN;
+
 public class EditUserWindowController {
 
     private UserWindowController userWindowController;
-
     public void setUserWindowController(UserWindowController userWindowController) {
         this.userWindowController = userWindowController;
     }
 
-    private String function;
+    private String function="";
     public void setFunction(String function) {
         this.function = function;
     }
+
+    private int selectedUserId=0;
+    public void setSelectedUserId(int selectedUserId) {
+        this.selectedUserId = selectedUserId;
+    }
+
+    private final String DELETE_ERROR="Nie można bezpiecznie usunąć elementu";
+    private final String ADD_ERROR="Uzytkownik o takim loginie istnieje już w bazie";
 
     @FXML private VBox mainVBox;
     @FXML private Label userLabel;
@@ -44,66 +56,30 @@ public class EditUserWindowController {
     @FXML
     void saveUser() {
         CommonDao commonDao=new CommonDao();
-        Integer selectedUserId=this.userWindowController.getUserDataModel().getSelectedUser().getIdUser();
         if(function.equals("delete")){
-            this.userLabel.setText("USUWANIE UŻYTKOWNIKA");
-            if(commonDao.selectOrStatement(StorageModel.class,"entryUser",selectedUserId,"spendUser",selectedUserId)==null &&
-                    commonDao.selectAndStatement(RegisterModel.class,"calibrationUser",selectedUserId)==null){
-                this.errorLabel.setText("Można usuwać");
+            if(commonDao.selectOrStatement(StorageModel.class,ENTRY_USER,selectedUserId,SPEND_USER,selectedUserId).isEmpty() &&
+                commonDao.selectAndStatement(RegisterModel.class,CALIBRATION_USER,selectedUserId).isEmpty()){
                 commonDao.deleteUser(this.userWindowController.getUserDataModel().getSelectedUser());
                 this.userWindowController.getUserDataModel().init();
                 CommonTools.closePaneWindow(mainVBox);
             }
             else{
-                this.errorLabel.setText("Nie można usuwać");
+                this.errorLabel.setText(DELETE_ERROR);
             }
         }
-        else if (function.equals("edit")){
+        else {
             if(isValidUserData()){
-                UserModel editedUser=commonDao.queryForFirst(UserModel.class,"login",this.loginTextField.getText());
-                if(editedUser!=null){
-                    if(editedUser.getIdUser()==this.userWindowController.getUserDataModel().getSelectedUser().getIdUser()){
-                        this.errorLabel.setText("To ten sam user cwaniaku");
+                UserModel userModel=commonDao.queryForFirst(UserModel.class,LOGIN,this.loginTextField.getText());
+                if(userModel!=null){
+                    if(userModel.getIdUser()==this.selectedUserId){
+                        commonDao.createOrUpdate(setFormToUserModel());
                     }
                     else{
-                        this.errorLabel.setText("Użytkownik o takim loginie już istnieje w bazie");
+                        this.errorLabel.setText(ADD_ERROR);
                     }
                 }
                 else{
-                    editedUser.setIdUser(this.userWindowController.getUserDataModel().getSelectedUser().getIdUser());
-                    editedUser.setFirstName(this.firstNameTextField.getText());
-                    editedUser.setLastName(this.lastNameTextField.getText());
-                    editedUser.setLogin(this.loginTextField.getText());
-                    editedUser.setPassword(this.passwordTextField.getText());
-                    editedUser.setPermissionLevel(this.permissionComboBox.getValue());
-                    editedUser.setInitials(this.initialsTextField.getText());
-                    commonDao.createOrUpdate(editedUser);
-                }
-            }
-
-        }else if(function.equals("new")){
-            if(this.firstNameTextField.getText()==null){
-                System.out.println("aha");
-            }
-            if(isValidUserData()){
-                UserModel editedUser=commonDao.queryForFirst(UserModel.class,"login",this.loginTextField.getText());
-                if(editedUser!=null){
-                    if(editedUser.getIdUser()==this.userWindowController.getUserDataModel().getSelectedUser().getIdUser()){
-                        this.errorLabel.setText("To ten sam user cwaniaku");
-                    }
-                    else{
-                        this.errorLabel.setText("Użytkownik o takim loginie już istnieje w bazie");
-                    }
-                }
-                else{
-                    editedUser.setIdUser(this.userWindowController.getUserDataModel().getSelectedUser().getIdUser());
-                    editedUser.setFirstName(this.firstNameTextField.getText());
-                    editedUser.setLastName(this.lastNameTextField.getText());
-                    editedUser.setLogin(this.loginTextField.getText());
-                    editedUser.setPassword(this.passwordTextField.getText());
-                    editedUser.setPermissionLevel(this.permissionComboBox.getValue());
-                    editedUser.setInitials(this.initialsTextField.getText());
-                    commonDao.createOrUpdate(editedUser);
+                    commonDao.createOrUpdate(setFormToUserModel());
                 }
             }
         }
@@ -113,25 +89,24 @@ public class EditUserWindowController {
         CommonTools.closePaneWindow(mainVBox);
     }
 
-
     private boolean isValidUserData() {
         String errorMessage = "";
-        if (firstNameTextField.getText() == null || firstNameTextField.getText().length() == 0) {
+        if (this.firstNameTextField.getText() == null || this.firstNameTextField.getText().trim().isEmpty()) {
             errorMessage += "Nie wprowadziłeś prawidłowo imienia ! \n";
         }
-        if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
+        if (this.lastNameTextField.getText() == null || this.lastNameTextField.getText().trim().isEmpty()) {
             errorMessage += "Nie wprowadziłeś prawidłowo nazwiska ! \n";
         }
-        if (loginTextField.getText() == null || loginTextField.getText().length() == 0) {
+        if (this.loginTextField.getText() == null || this.loginTextField.getText().trim().isEmpty()) {
             errorMessage += "Nie wprowadziłeś prawidłowo loginu ! \n";
         }
-        if (passwordTextField.getText() == null || passwordTextField.getText().length() == 0) {
+        if (this.passwordTextField.getText() == null || this.passwordTextField.getText().trim().isEmpty()) {
             errorMessage += "Nie wprowadziłeś prawidłowo hasła ! \n";
         }
-        if (initialsTextField.getText() == null || initialsTextField.getText().length() == 0) {
+        if (this.initialsTextField.getText() == null || this.initialsTextField.getText().trim().isEmpty()) {
             errorMessage += "Nie wprowadziłeś prawidłowo inicjałów ! \n";
         }
-        if (permissionComboBox.getValue() == null ) {
+        if (this.permissionComboBox.getValue() == null ) {
             errorMessage += "Nie wybrałeś poziomu dostępu ! \n";
         }
         if (errorMessage.length() == 0) {
@@ -161,4 +136,19 @@ public class EditUserWindowController {
         this.initialsTextField.setEditable(false);
         this.permissionComboBox.setEditable(false);
     }
+    private UserModel setFormToUserModel(){
+        UserModel userModel=new UserModel();
+        userModel.setIdUser(this.selectedUserId);
+        userModel.setFirstName(this.firstNameTextField.getText().trim());
+        userModel.setLastName(this.lastNameTextField.getText().trim());
+        userModel.setLogin(this.loginTextField.getText().trim());
+        userModel.setPassword(this.passwordTextField.getText().trim());
+        userModel.setPermissionLevel(this.permissionComboBox.getValue().trim());
+        userModel.setInitials(this.initialsTextField.getText().trim());
+        return userModel;
+    }
+    public void setUserLabel(String label){
+        this.userLabel.setText(label);
+    }
+
 }

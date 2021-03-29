@@ -58,6 +58,14 @@ public class CommonDao {
             CommonTools.displayAlert(e.getMessage());
         }
     }
+    public <T, I> void deleteComplexModel(ComplexModel complexModel){
+        Dao<T, I> dao=getDao((Class<T>) complexModel.getClass());
+        try {
+            dao.delete((T) complexModel);
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }
+    }
     public void deleteUser(UserModel userModel){
         Dao<UserModel, Integer> dao=getDao(UserModel.class);
         try {
@@ -196,8 +204,6 @@ public class CommonDao {
         }
         return null;
     }
-
-
     public <T, I> List<T> selectAndWithFullLikeStatement(Class<T> cls, String columnName1, String value1, String columnName2, String value2, String columnName3, String value3){
         try {
             Dao<T,I> dao=getDao(cls);
@@ -209,12 +215,21 @@ public class CommonDao {
         }
         return null;
     }
-
-
     public <T, I> List<T> selectAndWithLikeStatement(Class<T> cls, String columnName, String value){
         try {
             Dao<T,I> dao=getDao(cls);
             return dao.query(dao.queryBuilder().where().like(columnName,value).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> List<T> selectAndWithLikeStatement(Class<T> cls, String columnName1, String value1, String columnName2, String value2){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return dao.query(dao.queryBuilder().where().like(columnName1,value1).and().like(columnName2,value2).prepare());
         } catch (SQLException e) {
             CommonTools.displayAlert(e.getMessage());
         }finally{

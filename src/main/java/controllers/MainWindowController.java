@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import utils.CommonTools;
 import utils.FxmlTools;
 
 import java.io.IOException;
@@ -94,7 +95,7 @@ public class MainWindowController {
             this.storageWindowController.setMainController(this);
             this.storageWindowController.init();
         } catch (IOException e) {
-            e.printStackTrace();
+            CommonTools.displayAlert(e.getMessage());
         }
     }
     public void setRegisterAP131 (String fxmlPath){
@@ -106,7 +107,7 @@ public class MainWindowController {
             this.registerAP131WindowController.setMainController(this);
             this.registerAP131WindowController.init();
         } catch (IOException e) {
-            e.printStackTrace();
+            CommonTools.displayAlert(e.getMessage());
         }
     }
     public void setRegister (String fxmlPath){
@@ -118,7 +119,7 @@ public class MainWindowController {
             this.registerWindowController.setMainController(this);
             this.registerWindowController.init();
         } catch (IOException e) {
-            e.printStackTrace();
+            CommonTools.displayAlert(e.getMessage());
         }
     }
     public void setApplicants (String fxmlPath){
@@ -129,7 +130,7 @@ public class MainWindowController {
             this.applicantsWindowController.setMainController(this);
             //this.applicantsWindowController.init();
         } catch (IOException e) {
-            e.printStackTrace();
+            CommonTools.displayAlert(e.getMessage());
         }
     }
     public void setAdmin (String fxmlPath){
@@ -140,7 +141,7 @@ public class MainWindowController {
             this.adminWindowController.setMainController(this);
             //this.applicantsWindowController.init();
         } catch (IOException e) {
-            e.printStackTrace();
+            CommonTools.displayAlert(e.getMessage());
         }
     }
 }

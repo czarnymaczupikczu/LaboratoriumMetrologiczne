@@ -39,6 +39,11 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
                 </Button>
+            <Button fx:id="deleteApplicantButton" mnemonicParsing="false" onAction="#deleteApplicant" prefHeight="25.0" prefWidth="150.0" text="Usuń zleceniodawcę">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
             <Separator fx:id="separator2" orientation="VERTICAL" prefHeight="50.0" />
             <Button fx:id="exportToExcelButton" mnemonicParsing="false" onAction="#exportToExcel" prefWidth="125.0" text="Eksport do XLS">
                <HBox.margin>

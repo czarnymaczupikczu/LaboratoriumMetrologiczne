@@ -2,13 +2,20 @@ package controllers;
 
 import dataModels.ApplicantsDataModel;
 import fxModels.ApplicantFxModel;
-import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utils.CommonTools;
 import utils.Converter;
+import utils.FxmlTools;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ApplicantsWindowController {
     public ApplicantsWindowController(){
@@ -20,23 +27,29 @@ public class ApplicantsWindowController {
         this.mainController = mainController;
     }
 
-    private ApplicantsDataModel applicantsDataModel=new ApplicantsDataModel();
-    public ApplicantsDataModel getApplicantsDataModel() {
-        return applicantsDataModel;
-    }
-
     private InstrumentWindowController instrumentWindowController;
     public void setInstrumentWindowController(InstrumentWindowController instrumentWindowController) {
         this.instrumentWindowController = instrumentWindowController;
     }
 
-    @FXML private VBox applicantMainVBox;
+    private NewApplicantWindowController newApplicantWindowController;
 
+    private ApplicantsDataModel applicantsDataModel=new ApplicantsDataModel();
+    public ApplicantsDataModel getApplicantsDataModel() {
+        return applicantsDataModel;
+    }
+
+    private final String NEW_APPLICANTS_WINDOW="/fxml/NewApplicantWindow.fxml";
+    private final String EDIT_APPLICANT_LABEL="Edycja zleceniodawcy";
+    private final String DELETE_APPLICANT_LABEL="Usuwanie zleceniodawcy";
+
+    @FXML private VBox applicantMainVBox;
     @FXML private TextField searchTextField;
     @FXML private Button loadApplicantListButton;
     @FXML private Separator separator1;
     @FXML private Button addApplicantButton;
     @FXML private Button editApplicantButton;
+    @FXML private Button deleteApplicantButton;
     @FXML private Separator separator2;
     @FXML private Button exportToExcelButton;
 
@@ -94,6 +107,7 @@ public class ApplicantsWindowController {
         this.separator1.setVisible(false);
         this.addApplicantButton.setVisible(false);
         this.editApplicantButton.setVisible(false);
+        this.deleteApplicantButton.setVisible(false);
         this.separator2.setVisible(false);
         this.exportToExcelButton.setVisible(false);
         this.choseApplicantButton.setVisible(true);
@@ -101,24 +115,70 @@ public class ApplicantsWindowController {
 
     @FXML
     void addApplicant() {
-
+        this.newApplicantWindowController= FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
+        this.newApplicantWindowController.setApplicantsWindowController(this);
     }
 
     @FXML
     void choseApplicant() {
-        instrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
-        instrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
+        this.instrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
+        this.instrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
         CommonTools.closePaneWindow(applicantMainVBox);
     }
 
     @FXML
     void editApplicant() {
-
+        if(!this.applicantsDataModel.getCurrentApplicantElement().getCity().isEmpty()) {
+            this.newApplicantWindowController = FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
+            this.newApplicantWindowController.setApplicantsWindowController(this);
+            this.newApplicantWindowController.setApplicantToForm(this.applicantsDataModel.getCurrentApplicantElement());
+            this.newApplicantWindowController.setSelectedApplicantId(this.applicantsDataModel.getCurrentApplicantElement().getIdApplicant());
+            this.newApplicantWindowController.setApplicantLabel(EDIT_APPLICANT_LABEL);
+        }
     }
-
     @FXML
-    void exportToExcel() {
+    void deleteApplicant(){
+        if(!this.applicantsDataModel.getCurrentApplicantElement().getCity().isEmpty()) {
+            this.newApplicantWindowController = FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
+            this.newApplicantWindowController.setApplicantsWindowController(this);
+            this.newApplicantWindowController.setApplicantToForm(this.applicantsDataModel.getCurrentApplicantElement());
+            this.newApplicantWindowController.setSelectedApplicantId(this.applicantsDataModel.getCurrentApplicantElement().getIdApplicant());
+            this.newApplicantWindowController.setApplicantLabel(DELETE_APPLICANT_LABEL);
+            this.newApplicantWindowController.setFunction("delete");
+        }
+    }
+    @FXML
+    void exportToExcel() throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet spreadsheet = workbook.createSheet("Arkusz1");
+        Row row = spreadsheet.createRow(0);
+        //Nazwy kolumn
+        row.createCell(0).setCellValue("Lp. ");
+        row.createCell(1).setCellValue("Skrót");
+        row.createCell(2).setCellValue("Pełna nazwa");
+        row.createCell(3).setCellValue("Kod pocztowy");
+        row.createCell(4).setCellValue("Miejscowość");
+        row.createCell(5).setCellValue("Ulica");
+        row.createCell(6).setCellValue("Nr domu");
 
+        int i = 0;
+        for (ApplicantFxModel applicant : this.applicantsDataModel.getFilteredApplicantList()) {
+            row = spreadsheet.createRow(i + 1);
+            row.createCell(0).setCellValue(i+1);
+            row.createCell(1).setCellValue(applicant.getShortName());
+            row.createCell(2).setCellValue(applicant.getFullName());
+            row.createCell(3).setCellValue(applicant.getPostCode());
+            row.createCell(4).setCellValue(applicant.getCity());
+            row.createCell(5).setCellValue(applicant.getStreet());
+            row.createCell(6).setCellValue(applicant.getNumber());
+            i++;
+        }
+        for (int j = 0; j < 8; j++) {
+            spreadsheet.autoSizeColumn(j);
+        }
+        FileOutputStream fileOut = new FileOutputStream("Zleceniodawcy.xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
     }
 
     @FXML

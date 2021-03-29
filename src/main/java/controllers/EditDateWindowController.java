@@ -70,7 +70,7 @@ public class EditDateWindowController {
 
     private void saveEntryDate(){
         for(int i=0; i<this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().size();i++){
-           StorageFxModel tempStorageFx=this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().get(i);
+            StorageFxModel tempStorageFx=this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().get(i);
             CommonDao storageDao=new CommonDao();
             StorageModel tempStorageModel=storageDao.queryForFirst(StorageModel.class,"idStorage",tempStorageFx.getIdStorage());
             List<LocalDate> calibrationDatesList =decodeCalibrationDates(tempStorageFx.getCalibrationDates());
@@ -99,9 +99,7 @@ public class EditDateWindowController {
                     }
                 }
             }
-
         }
-
     }
     private void saveSpendData(){
         for(int i=0; i<this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().size();i++){

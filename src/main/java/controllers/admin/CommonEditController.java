@@ -25,7 +25,7 @@ public class CommonEditController {
         this.commonWindowController = commonWindowController;
     }
 
-    private final String ERROR="Taki element istnieje już w bazie";
+    private final String ADD_ERROR="Taka wartość istnieje już w bazie";
     private final String DELETE_ERROR="Nie można bezpiecznie usunąć elementu";
 
     @FXML private VBox mainVBox;
@@ -72,32 +72,29 @@ public class CommonEditController {
         if(function.equals("delete")){
             if(tempClass==YearModel.class){
                 if(commonDao.queryForFirstWithFullLike(RegisterModel.class,columnNameDelete,tempValue)==null){
-                    this.errorLabel.setText("Można usuwać");
                     commonDao.delete(returnBaseModelObject(tempClass,tempId,tempValue));
                     this.commonWindowController.getCommonDataModel().init();
                     CommonTools.closePaneWindow(mainVBox);
                 }
                 else{
-                    this.errorLabel.setText("Nie można usuwać");
+                    this.errorLabel.setText(DELETE_ERROR);
                 }
             }
             else if(tempClass==UnitModel.class){
                 if(commonDao.queryForFirstWithFullLike(RangeModel.class,columnNameDelete,tempValue)==null){
-                    this.errorLabel.setText("Można usuwać");
                     commonDao.delete(returnBaseModelObject(tempClass,tempId,tempValue));
                     this.commonWindowController.getCommonDataModel().init();
                     CommonTools.closePaneWindow(mainVBox);
                 }else{
-                    this.errorLabel.setText("Nie można usuwać");
+                    this.errorLabel.setText(DELETE_ERROR);
                 }
             }else {
                 if (commonDao.queryForFirst(InstrumentModel.class, columnNameDelete, tempId) == null) {
-                    this.errorLabel.setText("Można usuwać");
                     commonDao.delete(returnBaseModelObject(tempClass,tempId,tempValue));
                     this.commonWindowController.getCommonDataModel().init();
                     CommonTools.closePaneWindow(mainVBox);
                 } else {
-                    this.errorLabel.setText("Nie można usuwać");
+                    this.errorLabel.setText(DELETE_ERROR);
                 }
             }
         }
@@ -109,14 +106,13 @@ public class CommonEditController {
             List<BaseModel> dataList=commonDao.selectAndWithLikeStatement(tempClass,columnNameEdit,tempValue);
             if(dataList.size()>0 ) {
                 if (dataList.get(0).getId() != tempId) {
-                    this.errorLabel.setText("Taka wartość istnieje już w bazie tłoku");
+                    this.errorLabel.setText(ADD_ERROR);
                 }
                 else {
                     CommonTools.closePaneWindow(mainVBox);
                 }
             }
             else{
-                this.errorLabel.setText("można edytować");
                 commonDao.createOrUpdateBaseModel(returnBaseModelObject(tempClass,tempId,tempValue));
                 this.commonWindowController.getCommonDataModel().init();
                 CommonTools.closePaneWindow(mainVBox);
