@@ -5,12 +5,13 @@ import javafx.beans.property.*;
 public class InstrumentFxModel {
 
     private IntegerProperty idInstrument=new SimpleIntegerProperty();
+    private StringProperty concatIdInstrument=new SimpleStringProperty();
     private StringProperty name=new SimpleStringProperty();
     private StringProperty type=new SimpleStringProperty();
     private StringProperty producer=new SimpleStringProperty();
     private StringProperty serialNumber=new SimpleStringProperty();
     private StringProperty identificationNumber=new SimpleStringProperty();
-    private StringProperty length=new SimpleStringProperty();;
+    private StringProperty length=new SimpleStringProperty();
     private StringProperty diameter=new SimpleStringProperty();;
     private StringProperty range=new SimpleStringProperty();
     private ApplicantFxModel applicant=new ApplicantFxModel();
@@ -18,9 +19,10 @@ public class InstrumentFxModel {
     //Konstruktory
     public InstrumentFxModel() {
     }
-    public InstrumentFxModel(int idInstrument, String name, String type, String producer,
+    public InstrumentFxModel(int idInstrument, String concatIdInstrument, String name, String type, String producer,
                              String serialNumber, String identificationNumber, String range, String length, String diameter, ApplicantFxModel applicant) {
         this.idInstrument = new SimpleIntegerProperty(idInstrument);
+        this.concatIdInstrument=new SimpleStringProperty(concatIdInstrument);
         this.name = new SimpleStringProperty(name);
         this.type =  new SimpleStringProperty(type);
         this.producer =  new SimpleStringProperty(producer);
@@ -41,6 +43,15 @@ public class InstrumentFxModel {
     }
     public void setIdInstrument(int idInstrument) {
         this.idInstrument.set(idInstrument);
+    }
+    public String getConcatIdInstrument() {
+        return concatIdInstrument.get();
+    }
+    public StringProperty concatIdInstrumentProperty() {
+        return concatIdInstrument;
+    }
+    public void setConcatIdInstrument(String concatIdInstrument) {
+        this.concatIdInstrument.set(concatIdInstrument);
     }
     public String getName() {
         return name.get();

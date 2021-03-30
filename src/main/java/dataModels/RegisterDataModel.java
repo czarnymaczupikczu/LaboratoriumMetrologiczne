@@ -36,7 +36,7 @@ public class RegisterDataModel {
                             "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,\n" +
                             "STORAGE.entryDate, u1.initials, \n" +
                             "STORAGE.spendDate, u3.initials, STORAGE.instrumentRemarks,\n" +
-                            "REGISTER.cardNumber, REGISTER.calibrationDate, u2.initials, \n" +
+                            "REGISTER.cardNumber, REGISTER.calibrationDate, u2.login,\n" +
                             "REGISTER.certificateNumber, REGISTER.documentKind, REGISTER.agreementNumber, REGISTER.state, REGISTER.registerRemarks \n"+
                             "from REGISTER \n" +
                             "join STORAGE on REGISTER.storage=STORAGE.idStorage \n" +
@@ -53,13 +53,11 @@ public class RegisterDataModel {
                     new RawRowMapper<RegisterFxModel>() {
                         @Override
                         public RegisterFxModel mapRow(String[] columns, String[] res) throws SQLException {
-                            System.out.println(res[0]+ " "+res[1]+" "+res[2]+" "+ res[3]+" "+res[4]+" "+res[5]+" "+res[6]);
                             return createRegisterFxModel(res);
                         }
                     });
             int i=1;
             for (RegisterFxModel registerFxModel: rawResults){
-                //registerFxModel.setStorageIndex(i);
                 registerList.add(registerFxModel);
                 i=i+1;
             }
@@ -67,7 +65,6 @@ public class RegisterDataModel {
             ShowAlert.display(e.getMessage());
         }
     }
-
     public String createSQLStatement(String registerState, String registerYear){
         String sqlStatement = null;
         if(registerState.equals(registerYear)){   //Wszystkie i wszystkie

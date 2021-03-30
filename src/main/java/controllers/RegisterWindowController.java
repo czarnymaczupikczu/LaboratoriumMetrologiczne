@@ -42,6 +42,7 @@ public class RegisterWindowController {
     @FXML private TableColumn<RegisterFxModel, String> lengthColumn;
     @FXML private TableColumn<RegisterFxModel, String> diameterColumn;
     @FXML private TableColumn<RegisterFxModel, String> applicantColumn;
+    @FXML private TableColumn<RegisterFxModel, String> calibrateUserColumn;
     @FXML private TableColumn<RegisterFxModel, String> certificateNumberColumn;
     @FXML private TableColumn<RegisterFxModel, String> documentKindColumn;
     @FXML private TableColumn<RegisterFxModel, String> agreementNumberColumn;
@@ -52,9 +53,7 @@ public class RegisterWindowController {
     @FXML private Label cityLabel;
     @FXML private Label streetLabel;
     @FXML private Label entryLabel;
-    @FXML private Label calibrationLabel;
     @FXML private Label spendLabel;
-    @FXML private Label cardNumberLabel;
     @FXML private TextArea instrumentRemarksTextArea;
     @FXML private TextArea calibrationRemarksTextArea;
 
@@ -78,6 +77,7 @@ public class RegisterWindowController {
         this.lengthColumn.setCellValueFactory(cellData -> cellData.getValue().getStorage().getInstrument().lengthProperty());
         this.diameterColumn.setCellValueFactory(cellData -> cellData.getValue().getStorage().getInstrument().diameterProperty());
         this.applicantColumn.setCellValueFactory(cellData -> cellData.getValue().getStorage().getInstrument().getApplicant().shortNameProperty());
+        this.calibrateUserColumn.setCellValueFactory(cellData -> cellData.getValue().calibrationUserProperty());
         this.certificateNumberColumn.setCellValueFactory(cellData -> cellData.getValue().certificateNumberProperty());
         this.documentKindColumn.setCellValueFactory(cellData -> cellData.getValue().documentKindProperty());
         this.agreementNumberColumn.setCellValueFactory(cellData -> cellData.getValue().agreementNumberProperty());
@@ -99,9 +99,7 @@ public class RegisterWindowController {
         this.cityLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().postCodeProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().cityProperty()));
         this.streetLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().streetProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().numberProperty()));
         this.entryLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().entryUserProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().entryDateProperty()));
-        this.calibrationLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().calibrationUserProperty(), " ", this.registerDataModel.getCurrentRegisterElement().calibrationDateProperty()));
         this.spendLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().spendUserProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().spendDateProperty()));
-        this.cardNumberLabel.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().cardNumberProperty());
         this.instrumentRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().instrumentRemarksProperty());
         this.calibrationRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().calibrationRemarksProperty());
     }
@@ -114,9 +112,6 @@ public class RegisterWindowController {
         this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setNumber(registerElement.getStorage().getInstrument().getApplicant().getNumber());
         this.registerDataModel.getCurrentRegisterElement().getStorage().setEntryDate(registerElement.getStorage().getEntryDate());
         this.registerDataModel.getCurrentRegisterElement().getStorage().setEntryUser(registerElement.getStorage().getEntryUser());
-        this.registerDataModel.getCurrentRegisterElement().setCalibrationDate(registerElement.getCalibrationDate());
-        this.registerDataModel.getCurrentRegisterElement().setCalibrationUser(registerElement.getCalibrationUser());
-        this.registerDataModel.getCurrentRegisterElement().setCardNumber(registerElement.getCardNumber());
         if (registerElement.getStorage().spendUserProperty().isNull().getValue()) {
             this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendDate("");
             this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendUser("");

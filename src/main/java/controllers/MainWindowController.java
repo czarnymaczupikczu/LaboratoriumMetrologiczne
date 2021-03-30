@@ -35,12 +35,14 @@ public class MainWindowController {
     private StorageWindowController storageWindowController;
     private RegisterWindowController registerAP131WindowController;
     private RegisterWindowController registerWindowController;
+    private InstrumentsWindowController instrumentsWindowController;
     private ApplicantsWindowController applicantsWindowController;
     private AdminWindowController adminWindowController;
     //Poszczególne okna
-    private VBox storageWindowVbox;
-    private VBox registerAP131WindowVbox;
-    private VBox registerWindowVbox;
+    private VBox storageWindowVBox;
+    private VBox registerAP131WindowVBox;
+    private VBox registerWindowVBox;
+    private VBox instrumentsWindowVBox;
     private VBox applicantsWindowVBox;
     private VBox adminWindowVBox;
 
@@ -65,15 +67,19 @@ public class MainWindowController {
     }
     @FXML
     void setStorageWindow() {
-        mainWindowBorderPane.setCenter(storageWindowVbox);
+        mainWindowBorderPane.setCenter(storageWindowVBox);
     }
     @FXML
     void setRegister1Window() {
-        mainWindowBorderPane.setCenter(registerAP131WindowVbox);
+        mainWindowBorderPane.setCenter(registerAP131WindowVBox);
     }
     @FXML
     void setRegister2Window() {
-        mainWindowBorderPane.setCenter(registerWindowVbox);
+        mainWindowBorderPane.setCenter(registerWindowVBox);
+    }
+    @FXML
+    void setInstrumentsWindow(){
+        mainWindowBorderPane.setCenter(instrumentsWindowVBox);
     }
     @FXML
     void setApplicantsWindow(){
@@ -90,7 +96,7 @@ public class MainWindowController {
     public void setStorage (String fxmlPath){
         FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
         try {
-            this.storageWindowVbox=loader.load();
+            this.storageWindowVBox=loader.load();
             this.storageWindowController=loader.getController();
             this.storageWindowController.setMainController(this);
             this.storageWindowController.init();
@@ -101,7 +107,7 @@ public class MainWindowController {
     public void setRegisterAP131 (String fxmlPath){
         FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
         try {
-            this.registerAP131WindowVbox=loader.load();
+            this.registerAP131WindowVBox=loader.load();
             this.registerAP131WindowController=loader.getController();
             this.registerAP131WindowController.getRegisterDataModel().setRegisterType(REJESTR_AP131);
             this.registerAP131WindowController.setMainController(this);
@@ -113,11 +119,22 @@ public class MainWindowController {
     public void setRegister (String fxmlPath){
         FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
         try {
-            this.registerWindowVbox=loader.load();
+            this.registerWindowVBox=loader.load();
             this.registerWindowController=loader.getController();
             this.registerWindowController.getRegisterDataModel().setRegisterType(REJESTR_POZA);
             this.registerWindowController.setMainController(this);
             this.registerWindowController.init();
+        } catch (IOException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }
+    }
+    public void setInstruments (String fxmlPath){
+        FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
+        try {
+            this.instrumentsWindowVBox=loader.load();
+            this.instrumentsWindowController=loader.getController();
+            this.instrumentsWindowController.setMainController(this);
+            this.instrumentsWindowController.init();
         } catch (IOException e) {
             CommonTools.displayAlert(e.getMessage());
         }

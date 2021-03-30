@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -14,65 +13,89 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="registerMainVBox" alignment="CENTER" prefHeight="660.0" prefWidth="1190.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterWindowController">
-   <children>
-      <HBox alignment="CENTER_LEFT" maxHeight="40.0" prefHeight="40.0" spacing="10.0" style="-fx-border-color: black; -fx-border-width: 1  0 0 0;">
-         <children>
-            <Label text="  Szukaj:" />
-            <TextField fx:id="searchTextField" prefWidth="300.0" />
-            <Label text="Stan:" />
-            <ComboBox fx:id="registerStateComboBox" prefWidth="130.0" />
-            <Label text="Rok:" />
-            <ComboBox fx:id="registerYearComboBox" prefWidth="130.0" />
-            <Button mnemonicParsing="false" onAction="#loadRegisterList" prefWidth="125.0" text="Wczytaj listę" />
-            <Button mnemonicParsing="false" prefWidth="125.0" text="Eksport do XLS" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="5.0" />
-         </VBox.margin>
-         <padding>
-            <Insets top="5.0" />
-         </padding>
-      </HBox>
-      <TableView fx:id="registerTableView" prefHeight="1000.0" prefWidth="1190.0">
+<VBox fx:id="mainVBox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1190.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InstrumentsWindowController">
+    <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="800.0">
+            <children>
+                <Label alignment="CENTER" text="Szukaj:" textAlignment="CENTER">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin></Label>
+                <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="372.0">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="2.0" right="5.0" top="5.0" />
+                    </HBox.margin>
+                </TextField>
+            <Button fx:id="loadInstrumentListButton" mnemonicParsing="false" onAction="#getInstrumentList" prefWidth="125.0" text="Wczytaj listę">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="exportToExcelButton" mnemonicParsing="false" onAction="#exportToExcel" prefWidth="125.0" text="Eksport do XLS">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            </children>
+        </HBox>
+      <TableView fx:id="instrumentTableView" prefHeight="428.0" prefWidth="1186.0">
+          <placeholder>
+              <Label text="Brak wyników. Proszę wczytać dane." />
+          </placeholder>
         <columns>
-          <TableColumn fx:id="idRegisterColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" resizable="false" text="Lp." />
-            <TableColumn fx:id="cardNumberColumn" maxWidth="90.0" minWidth="66.0" text="Nr &#10;karty" />
-            <TableColumn fx:id="calibrationDateColumn" maxWidth="90.0" minWidth="86.0" prefWidth="90.0" resizable="false" text="Data &#10;wzorcowania" />
-          <TableColumn fx:id="nameColumn" maxWidth="450.0" minWidth="96.0" prefWidth="200.0" text="Nazwa" />
-            <TableColumn fx:id="typeColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Typ" />
-            <TableColumn fx:id="producerColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Producent" />
-            <TableColumn fx:id="serialNumberColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Nr fabryczny" />
-            <TableColumn fx:id="identificationNumberColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Nr identyfikacyjny" />
-            <TableColumn fx:id="rangeColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Zakres" />
+          <TableColumn fx:id="idInstrumentColumn" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" text="Lp." />
+          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Nazwa" />
+            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Typ" />
+            <TableColumn fx:id="producerColumn" prefWidth="75.0" text="Producent" />
+            <TableColumn fx:id="serialNumberColumn" prefWidth="75.0" text="Nr fabryczny" />
+            <TableColumn fx:id="identificationNumberColumn" prefWidth="75.0" text="Nr identyfikacyjny" />
+            <TableColumn fx:id="rangeColumn" prefWidth="75.0" text="Zakres" />
             <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Wymiary [mm]">
                <columns>
                   <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" resizable="false" text="l" />
                   <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" resizable="false" text="⌀" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="applicantColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Zleceniodawca" />
-            <TableColumn fx:id="calibrateUserColumn" maxWidth="90.0" minWidth="78.0" text="Wzorcujący" />
-            <TableColumn maxWidth="-1.0" minWidth="180.0" prefWidth="-1.0" text="Świadectwo wzorcowania/&#10; Protokół odmowy wzorcowania">
-               <columns>
-                  <TableColumn fx:id="certificateNumberColumn" maxWidth="140.0" minWidth="76.0" text="Numer" />
-                  <TableColumn fx:id="documentKindColumn" maxWidth="70.0" minWidth="46.0" prefWidth="50.0" text="ŚW/PO" />
-                  <TableColumn fx:id="agreementNumberColumn" maxWidth="90.0" minWidth="46.0" prefWidth="50.0" text="Umowa" />
-               </columns>
-            </TableColumn>
-            <TableColumn fx:id="stateColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" text="Stan" />
+            <TableColumn fx:id="applicantColumn" prefWidth="75.0" text="Zleceniodawca" />
         </columns>
-         <VBox.margin>
-            <Insets bottom="5.0" />
-         </VBox.margin>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
+         <VBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </VBox.margin>
       </TableView>
+    <TableView fx:id="registerTableView" prefHeight="270.0" prefWidth="1186.0">
+        <placeholder>
+            <Label text="" />
+        </placeholder>
+        <columns>
+            <TableColumn fx:id="idColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Lp." />
+            <TableColumn fx:id="cardNumberColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Nr karty" />
+            <TableColumn fx:id="calibrationDateColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Data wzorcowania" />
+            <TableColumn fx:id="calibrateUserColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Wzorcował" />
+            <TableColumn maxWidth="-1.0" minWidth="180.0" prefWidth="-1.0" text="Świadectwo wzorcowania/&#10; Protokół odmowy wzorcowania">
+               <columns>
+                  <TableColumn fx:id="certificateNumberColumn" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" text="Numer" />
+                  <TableColumn fx:id="documentKindColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="ŚW/PO" />
+                  <TableColumn fx:id="agreementNumberColumn" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" text="Umowa" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="entryDateColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Data przyjęcia" />
+            <TableColumn fx:id="entryUserColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Przyjął" />
+            <TableColumn fx:id="spendDateColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Data wydania" />
+            <TableColumn fx:id="spendUserColumn" maxWidth="500.0" minWidth="100.0" prefWidth="200.0" text="Wydał" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+        <VBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </VBox.margin>
+    </TableView>
       <GridPane alignment="CENTER_LEFT" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #8a8a8a;">
          <columnConstraints>
             <ColumnConstraints fx:id="applicantGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
-            <ColumnConstraints fx:id="historyGridPaneColumn" hgrow="SOMETIMES" percentWidth="20.0" />
             <ColumnConstraints fx:id="remarksGridPaneColumn" hgrow="NEVER" percentWidth="20.0" />
             <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
          </columnConstraints>
@@ -86,17 +109,12 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label id="label-bottom" text="Magazyn" GridPane.columnIndex="1">
+            <Label id="label-bottom" text="Uwagi dotyczące przyrządu" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label id="label-bottom" text="Uwagi dotyczące przyrządu" GridPane.columnIndex="2">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label id="label-bottom" text="Uwagi dotyczące wzorcowania" GridPane.columnIndex="3">
+            <Label id="label-bottom" text="Uwagi dotyczące wzorcowania" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -156,42 +174,7 @@
                   <Insets bottom="5.0" left="5.0" />
                </GridPane.margin>
             </HBox>
-            <HBox id="hBox-bottom" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <VBox alignment="TOP_RIGHT" prefHeight="95.0" prefWidth="74.0">
-                     <children>
-                        <Label text="Przyjęcie:">
-                           <VBox.margin>
-                              <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label text="Wydanie:">
-                           <VBox.margin>
-                              <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                           </VBox.margin>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="95.0" prefWidth="153.0">
-                     <children>
-                        <Label fx:id="entryLabel" text="Label">
-                           <VBox.margin>
-                              <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label fx:id="spendLabel" text="Label">
-                           <VBox.margin>
-                              <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                           </VBox.margin>
-                        </Label>
-                     </children>
-                  </VBox>
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="5.0" left="5.0" />
-               </GridPane.margin>
-            </HBox>
-            <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
@@ -199,7 +182,7 @@
                   <TextArea fx:id="instrumentRemarksTextArea" editable="false" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <HBox id="hBox-bottom" alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
                   <TextArea fx:id="calibrationRemarksTextArea" editable="false" HBox.hgrow="ALWAYS" />
                </children>
@@ -209,5 +192,5 @@
             </HBox>
          </children>
       </GridPane>
-   </children>
+    </children>
 </VBox>

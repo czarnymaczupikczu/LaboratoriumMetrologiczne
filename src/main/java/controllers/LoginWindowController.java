@@ -74,6 +74,7 @@ public class LoginWindowController {
                 mainController.setStorage(STORAGE_WINDOW);
                 mainController.setRegisterAP131(REGISTER_WINDOW);
                 mainController.setRegister(REGISTER_WINDOW);
+                mainController.setInstruments(INSTRUMENTS_WINDOW);
                 mainController.setApplicants(APPLICANTS_WINDOW);
                 if(mainController.getMainDataModel().getUser().getPermissionLevel().equals("user")){
                     mainController.disableAdministrationToggleButton();

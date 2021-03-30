@@ -70,7 +70,7 @@
                   </ToggleButton>
                   <ToggleButton mnemonicParsing="false" onAction="#setRegister1Window" prefHeight="30.0" prefWidth="150.0" text="REJESTR AP" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton mnemonicParsing="false" onAction="#setRegister2Window" prefHeight="30.0" prefWidth="150.0" text="REJESTR POZA AP" toggleGroup="$mainWindowToggleGroup" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="PRZYRZĄDY" toggleGroup="$mainWindowToggleGroup" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setInstrumentsWindow" prefHeight="30.0" prefWidth="150.0" text="PRZYRZĄDY" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton mnemonicParsing="false" onAction="#setApplicantsWindow" prefHeight="30.0" prefWidth="150.0" text="ZLECENIODAWCY" toggleGroup="$mainWindowToggleGroup" />
                   <ToggleButton fx:id="administrationToggleButton" mnemonicParsing="false" onAction="#setAdminWindow" prefHeight="30.0" prefWidth="150.0" text="ADMINISTRACJA" toggleGroup="$mainWindowToggleGroup" />
                </children>
