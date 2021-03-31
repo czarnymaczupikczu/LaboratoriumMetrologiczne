@@ -5,26 +5,20 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RawRowMapper;
 import dbModels.InstrumentModel;
-import dbModels.RegisterModel;
 import fxModels.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import utils.Converter;
 import utils.DatabaseTools;
 import utils.ShowAlert;
-import utils.database.CommonDao;
-
 import java.sql.SQLException;
-import java.util.List;
 
 public class InstrumentsDataModel {
     private ObservableList<InstrumentFxModel> instrumentsList= FXCollections.observableArrayList();
     private ObjectProperty<InstrumentFxModel> currentInstrument= new SimpleObjectProperty<>(new InstrumentFxModel());
     private FilteredList<InstrumentFxModel> filteredInstrumentsList= new FilteredList<>(instrumentsList, p->true);
-
 
     public void listInitialize(){
         instrumentsList.clear();
@@ -35,7 +29,7 @@ public class InstrumentsDataModel {
                             "INSTRUMENTS.idInstrument,NAMES.instrumentName,TYPES.typeName, PRODUCERS.producerName, \n" +
                             "INSTRUMENTS.serialNumber, INSTRUMENTS.identificationNumber,INSTRUMENTS.length, \n" +
                             "INSTRUMENTS.diameter,RANGES.rangeName,\n" +
-                            "APPLICANTS.idApplicant, GROUP_CONCAT(APPLICANTS.shortName,', '), APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,INSTRUMENTS.diameter,GROUP_CONCAT(INSTRUMENTS.idInstrument,', ')\n" +
+                            "APPLICANTS.idApplicant, GROUP_CONCAT(APPLICANTS.shortName,', '), APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,GROUP_CONCAT(INSTRUMENTS.idInstrument,',')\n" +
                             "from INSTRUMENTS \n" +
                             "join APPLICANTS on INSTRUMENTS.applicant=APPLICANTS.idApplicant \n" +
                             "join NAMES on INSTRUMENTS.name=NAMES.idName \n" +
@@ -43,8 +37,7 @@ public class InstrumentsDataModel {
                             "join PRODUCERS on INSTRUMENTS.producer=PRODUCERS.idProducer \n" +
                             "join RANGES on INSTRUMENTS.range=RANGES.idRange \n" +
                             "GROUP BY INSTRUMENTS.serialNumber, INSTRUMENTS.identificationNumber \n" +
-                            ";",
-                            //"ORDER BY INSTRUMENTS.idInstrument;",
+                            "ORDER BY INSTRUMENTS.idInstrument;",
                     new RawRowMapper<InstrumentFxModel>() {
                         @Override
                         public InstrumentFxModel mapRow(String[] columns, String[] res) throws SQLException {
@@ -72,7 +65,6 @@ public class InstrumentsDataModel {
             }
         });
     }
-
     public InstrumentFxModel createInstrumentFxModel(String[] results){
         InstrumentFxModel tempInstrumentObject = new InstrumentFxModel();
         tempInstrumentObject.setIdInstrument(Integer.parseInt(results[0]));
@@ -100,9 +92,6 @@ public class InstrumentsDataModel {
         tempApplicantObject.setStatus(results[16]);
         return tempApplicantObject;
     }
-
-
-
 
     public ObservableList<InstrumentFxModel> getInstrumentsList() {
         return instrumentsList;

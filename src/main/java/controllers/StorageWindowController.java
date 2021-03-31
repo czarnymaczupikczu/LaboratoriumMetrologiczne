@@ -34,7 +34,7 @@ public class StorageWindowController {
     private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
     private final String ENTRY_DATE="Data przyjęcia";
     private final String CALIBRATION_DATE="Data wzorcowania";
-    private final String LEFT_DATE="Data wydania";
+    private final String SPEND_DATE="Data wydania";
 
     //ComboBox
     @FXML private ComboBox<String> storageStateComboBox;
@@ -146,8 +146,8 @@ public class StorageWindowController {
     }
 
     @FXML
-    void editLeftDate() {
-        loadEditDateWindow(LEFT_DATE);
+    void editSpendDate() {
+        loadEditDateWindow(SPEND_DATE);
     }
     private void loadEditDateWindow(String dateType){
         this.editDateWindowController=FxmlTools.openVBoxWindow(EDIT_DATE_WINDOW);

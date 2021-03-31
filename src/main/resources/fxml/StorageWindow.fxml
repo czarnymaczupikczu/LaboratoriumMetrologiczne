@@ -84,13 +84,13 @@
             <ContextMenu>
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#editEntryDate" text="Edytuj datę przyjęcia" />
-                  <MenuItem fx:id="spendDateItem" mnemonicParsing="false" onAction="#editLeftDate" text="Edytuj datę wydania" />
+                  <MenuItem fx:id="spendDateItem" mnemonicParsing="false" onAction="#editSpendDate" text="Edytuj datę wydania" />
                   <MenuItem mnemonicParsing="false" onAction="#editInstrument" text="Edytuj przyrząd" />
               </items>
             </ContextMenu>
          </contextMenu>
       </TableView>
-      <GridPane alignment="CENTER_LEFT" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #8a8a8a;">
+      <GridPane alignment="CENTER_LEFT" maxHeight="120.0" minHeight="120.0" prefHeight="120.0" style="-fx-background-color: #dadada;">
          <columnConstraints>
             <ColumnConstraints fx:id="applicantGridPaneColumn" hgrow="SOMETIMES" percentWidth="35.0" />
             <ColumnConstraints fx:id="historyGridPaneColumn" hgrow="SOMETIMES" percentWidth="20.0" />

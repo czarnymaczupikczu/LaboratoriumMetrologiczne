@@ -51,6 +51,7 @@ public class InstrumentsWindowController {
     @FXML private TableColumn<ShortRegisterFxModel, String> entryUserColumn;
     @FXML private TableColumn<ShortRegisterFxModel, String> spendDateColumn;
     @FXML private TableColumn<ShortRegisterFxModel, String> spendUserColumn;
+    @FXML private TableColumn<ShortRegisterFxModel, String> shortRegisterApplicantColumn;
 //Applicant Labels
     @FXML private Label shortNameLabel;
     @FXML private Label fullNameLabel;
@@ -82,7 +83,7 @@ public class InstrumentsWindowController {
         this.instrumentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 this.instrumentsDataModel.setCurrentInstrument(newValue);
-                this.shortRegisterDataModel.listInitialize(newValue.getIdInstrument());
+                this.shortRegisterDataModel.listInitialize(newValue.getConcatIdInstrument());
 
             }
         });
@@ -101,6 +102,7 @@ public class InstrumentsWindowController {
         this.certificateNumberColumn.setCellValueFactory(cellData->cellData.getValue().certificateNumberProperty());
         this.documentKindColumn.setCellValueFactory(cellData->cellData.getValue().documentKindProperty());
         this.agreementNumberColumn.setCellValueFactory(cellData->cellData.getValue().agreementNumberProperty());
+        this.shortRegisterApplicantColumn.setCellValueFactory(cellData->cellData.getValue().getApplicantFxModel().shortNameProperty());
         this.registerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                // this.shortRegisterDataModel.listInitialize();

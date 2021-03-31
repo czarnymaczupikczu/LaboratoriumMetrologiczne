@@ -15,13 +15,13 @@ import utils.DatabaseTools;
 import utils.ShowAlert;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShortRegisterDataModel {
-
     private ObservableList<ShortRegisterFxModel> registerList= FXCollections.observableArrayList();
     private ObjectProperty<ShortRegisterFxModel> currentRegisterElement=new SimpleObjectProperty<>(new ShortRegisterFxModel());
-
-    public void listInitialize(int idInstrument){
+    public void listInitialize(String concatIdInstrument){
         registerList.clear();
         try {
             Dao<RegisterModel,Integer> registerDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), RegisterModel.class);
@@ -32,7 +32,7 @@ public class ShortRegisterDataModel {
                             "STORAGE.spendDate, u3.login,\n" +
                             "REGISTER.certificateNumber, REGISTER.documentKind, REGISTER.agreementNumber, \n"+
                             "STORAGE.instrumentRemarks,STORAGE.calibrationRemarks, \n" +
-                            "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status\n" +
+                            "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status \n" +
                             "from REGISTER \n" +
                             "join STORAGE on REGISTER.storage=STORAGE.idStorage \n" +
                             "join INSTRUMENTS on STORAGE.instrument=INSTRUMENTS.idInstrument\n" +
@@ -44,7 +44,7 @@ public class ShortRegisterDataModel {
                             "join USERS u1 on STORAGE.entryUser=u1.idUser\n" +
                             "join USERS u2 on REGISTER.calibrationUser=u2.idUser\n" +
                             "left join USERS u3 on STORAGE.spendUser=u3.idUser \n"+
-                            "WHERE REGISTER.state ='ON' AND INSTRUMENTS.idInstrument="+idInstrument+";",
+                            "WHERE REGISTER.state ='ON' AND ("+ decodeConcatIdInstrument(concatIdInstrument)+");",
                     new RawRowMapper<ShortRegisterFxModel>() {
                         @Override
                         public ShortRegisterFxModel mapRow(String[] columns, String[] res) throws SQLException {
@@ -78,7 +78,7 @@ public class ShortRegisterDataModel {
         tempRegisterObject.setApplicantFxModel(createApplicantFxModel(results));
         return tempRegisterObject;
     }
-    public ApplicantFxModel createApplicantFxModel(String[] results){
+    private ApplicantFxModel createApplicantFxModel(String[] results){
         ApplicantFxModel tempApplicantObject = new ApplicantFxModel();
         tempApplicantObject.setIdApplicant(Integer.parseInt(results[12]));
         tempApplicantObject.setShortName(results[13]);
@@ -90,7 +90,32 @@ public class ShortRegisterDataModel {
         tempApplicantObject.setStatus(results[19]);
         return tempApplicantObject;
     }
-
+    private String decodeConcatIdInstrument(String concatIdInstrument){
+        String condition1="INSTRUMENTS.idInstrument=";
+        String condition2=" OR INSTRUMENTS.idInstrument=";
+        String endCondition="";
+        int start=0;
+        int end=concatIdInstrument.length();
+        List<Integer> datalist=new ArrayList<>();
+        while((end=concatIdInstrument.indexOf(",",start))>-1){
+            datalist.add(Integer.parseInt(concatIdInstrument.substring(start,end)));
+            start=end+1;
+        }
+        end=concatIdInstrument.length();
+        System.out.println("Start= "+start+" end= "+ end);
+        datalist.add(Integer.parseInt(concatIdInstrument.substring(start, end)));
+        for(int i=0;i<datalist.size();i++){
+            if (i==0){
+                endCondition=condition1+datalist.get(i);
+                System.out.println(datalist.get(i));
+            }
+            else{
+                endCondition=endCondition+condition2+datalist.get(i);
+            }
+        }
+        System.out.println(endCondition);
+        return endCondition;
+    }
     public ObservableList<ShortRegisterFxModel> getRegisterList() {
         return registerList;
     }
