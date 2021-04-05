@@ -13,4 +13,11 @@ public class ShowAlert {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    public static void commonAlert(String headerText, String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("****** Błąd ******");
+        alert.setHeaderText(headerText);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

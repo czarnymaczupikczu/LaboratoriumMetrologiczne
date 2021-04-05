@@ -50,18 +50,18 @@ public class EditUserWindowController {
 
     @FXML
     private void initialize(){
-        permissionComboBox.getItems().addAll("admin","user","halfAdmin");
+        permissionComboBox.getItems().addAll("admin","manager","worker");
     }
 
     @FXML
-    void saveUser() {
+    void save() {
         CommonDao commonDao=new CommonDao();
         if(function.equals("delete")){
             if(commonDao.selectOrStatement(StorageModel.class,ENTRY_USER,selectedUserId,SPEND_USER,selectedUserId).isEmpty() &&
                 commonDao.selectAndStatement(RegisterModel.class,CALIBRATION_USER,selectedUserId).isEmpty()){
                 commonDao.deleteUser(this.userWindowController.getUserDataModel().getSelectedUser());
+                cancel();
                 this.userWindowController.getUserDataModel().init();
-                CommonTools.closePaneWindow(mainVBox);
             }
             else{
                 this.errorLabel.setText(DELETE_ERROR);
@@ -73,6 +73,8 @@ public class EditUserWindowController {
                 if(userModel!=null){
                     if(userModel.getIdUser()==this.selectedUserId){
                         commonDao.createOrUpdate(setFormToUserModel());
+                        cancel();
+                        this.userWindowController.getUserDataModel().init();
                     }
                     else{
                         this.errorLabel.setText(ADD_ERROR);
@@ -80,12 +82,14 @@ public class EditUserWindowController {
                 }
                 else{
                     commonDao.createOrUpdate(setFormToUserModel());
+                    cancel();
+                    this.userWindowController.getUserDataModel().init();
                 }
             }
         }
     }
     @FXML
-    void cancelSaveUser() {
+    void cancel() {
         CommonTools.closePaneWindow(mainVBox);
     }
 

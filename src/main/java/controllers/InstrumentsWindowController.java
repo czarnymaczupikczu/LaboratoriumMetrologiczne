@@ -26,7 +26,7 @@ public class InstrumentsWindowController {
     @FXML private TextField searchTextField;
     @FXML private Button loadInstrumentListButton;
     @FXML private Button exportToExcelButton;
-//TableView z przyrządami
+    //TableView z przyrządami
     @FXML private TableView<InstrumentFxModel> instrumentTableView;
     @FXML private TableColumn<InstrumentFxModel, Integer> idInstrumentColumn;
     @FXML private TableColumn<InstrumentFxModel, String> nameColumn;
@@ -38,7 +38,7 @@ public class InstrumentsWindowController {
     @FXML private TableColumn<InstrumentFxModel, String> lengthColumn;
     @FXML private TableColumn<InstrumentFxModel, String> diameterColumn;
     @FXML private TableColumn<InstrumentFxModel, String> applicantColumn;
-//TableView z wzorcowaniami
+    //TableView z wzorcowaniami
     @FXML private TableView<ShortRegisterFxModel> registerTableView;
     @FXML private TableColumn<ShortRegisterFxModel, Integer> idColumn;
     @FXML private TableColumn<ShortRegisterFxModel, String> cardNumberColumn;
@@ -52,7 +52,7 @@ public class InstrumentsWindowController {
     @FXML private TableColumn<ShortRegisterFxModel, String> spendDateColumn;
     @FXML private TableColumn<ShortRegisterFxModel, String> spendUserColumn;
     @FXML private TableColumn<ShortRegisterFxModel, String> shortRegisterApplicantColumn;
-//Applicant Labels
+    //Applicant Labels
     @FXML private Label shortNameLabel;
     @FXML private Label fullNameLabel;
     @FXML private Label cityLabel;
@@ -105,7 +105,7 @@ public class InstrumentsWindowController {
         this.shortRegisterApplicantColumn.setCellValueFactory(cellData->cellData.getValue().getApplicantFxModel().shortNameProperty());
         this.registerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-               // this.shortRegisterDataModel.listInitialize();
+                // this.shortRegisterDataModel.listInitialize();
                 this.shortRegisterDataModel.setCurrentRegisterElement(newValue);
                 bindingLabels();
             }

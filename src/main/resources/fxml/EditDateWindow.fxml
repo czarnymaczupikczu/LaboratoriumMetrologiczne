@@ -26,7 +26,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="25.0">
          <children>
-            <Label fx:id="editDateErrorLabel" />
+            <Label fx:id="editDateErrorLabel" textFill="RED" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="10.0">

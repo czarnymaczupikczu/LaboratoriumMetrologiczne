@@ -41,7 +41,7 @@
             <Button mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
+            <Button mnemonicParsing="false" onAction="#spendInstrument" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" />
@@ -86,6 +86,8 @@
                   <MenuItem mnemonicParsing="false" onAction="#editEntryDate" text="Edytuj datę przyjęcia" />
                   <MenuItem fx:id="spendDateItem" mnemonicParsing="false" onAction="#editSpendDate" text="Edytuj datę wydania" />
                   <MenuItem mnemonicParsing="false" onAction="#editInstrument" text="Edytuj przyrząd" />
+                  <MenuItem mnemonicParsing="false" onAction="#editInstrumentRemarks" text="Edytuj uwagi dotyczące przyrządu" />
+                  <MenuItem fx:id="calibrationRemarksItem" mnemonicParsing="false" onAction="#editCalibrationRemarks" text="Edytuj uwagi dotyczące wzorcowania" />
               </items>
             </ContextMenu>
          </contextMenu>

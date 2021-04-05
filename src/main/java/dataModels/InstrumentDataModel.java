@@ -10,6 +10,8 @@ import utils.database.CommonDao;
 
 import java.util.List;
 
+import static dbModels.InstrumentModel.ID_INSTRUMENT;
+
 public class InstrumentDataModel {
 
     //Listy do ComboBoxów trochę przerost formy nad tręścią ale w sumie pożyteczna sprawa
@@ -158,5 +160,9 @@ public class InstrumentDataModel {
         }else{
             return null;
         }
+    }
+    public void searchForInstrument(Integer value){
+        CommonDao commonDao=new CommonDao();
+        findInstrument=commonDao.queryForFirst(InstrumentModel.class, ID_INSTRUMENT, value);
     }
 }

@@ -27,9 +27,13 @@ public class ApplicantsWindowController {
         this.mainController = mainController;
     }
 
-    private InstrumentWindowController instrumentWindowController;
-    public void setInstrumentWindowController(InstrumentWindowController instrumentWindowController) {
-        this.instrumentWindowController = instrumentWindowController;
+    private NewInstrumentWindowController newInstrumentWindowController;
+    public void setInstrumentWindowController(NewInstrumentWindowController newInstrumentWindowController) {
+        this.newInstrumentWindowController = newInstrumentWindowController;
+    }
+    private EditInstrumentWindowController editInstrumentWindowController;
+    public void setEditInstrumentWindowController(EditInstrumentWindowController editInstrumentWindowController) {
+        this.editInstrumentWindowController = editInstrumentWindowController;
     }
 
     private NewApplicantWindowController newApplicantWindowController;
@@ -121,8 +125,14 @@ public class ApplicantsWindowController {
 
     @FXML
     void choseApplicant() {
-        this.instrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
-        this.instrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
+        if(this.newApplicantWindowController!=null) {
+            this.newInstrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
+            this.newInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
+        }
+        else if(this.editInstrumentWindowController!=null){
+            this.editInstrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
+            this.editInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
+        }
         CommonTools.closePaneWindow(applicantMainVBox);
     }
 
@@ -189,9 +199,7 @@ public class ApplicantsWindowController {
     @FXML
     void mouseClicked(MouseEvent event) {
         if(event.getClickCount()==2 && (this.choseApplicantButton.visibleProperty().get()==true)){
-            instrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
-            instrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
-            CommonTools.closePaneWindow(applicantMainVBox);
+            choseApplicant();
         }
     }
     @FXML

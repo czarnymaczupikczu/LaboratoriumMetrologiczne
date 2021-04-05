@@ -260,6 +260,28 @@ public class CommonDao {
         }
         return null;
     }
+    public <T, I> T queryForFirst(Class<T> cls,String columnName1, String value1, String columnName2, Integer value2){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return  dao.queryForFirst(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnName2,value2).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
+    public <T, I> T queryForFirst(Class<T> cls,String columnName1, String value1,String columnName2, String value2, String columnName3, Integer value3){
+        try {
+            Dao<T,I> dao=getDao(cls);
+            return  dao.queryForFirst(dao.queryBuilder().where().eq(columnName1,value1).and().eq(columnName2,value2).and().eq(columnName3,value3).prepare());
+        } catch (SQLException e) {
+            CommonTools.displayAlert(e.getMessage());
+        }finally{
+            this.closeDbConnection();
+        }
+        return null;
+    }
 
 
 

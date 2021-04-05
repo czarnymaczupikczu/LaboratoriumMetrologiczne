@@ -17,10 +17,15 @@ import java.util.List;
 public class NewInstrumentDataWindowController {
     public NewInstrumentDataWindowController(){System.out.println("Konstruktor klasy NewInstrumentDataWindowController");}
     //Kontroler okna poziom wyżej, potrzebny żeby mieć dostęp do InstrumentDataModel (inicjalizacja Comboboxów itd)
-    private InstrumentWindowController instrumentWindowController;
-    public void setInstrumentWindowController(InstrumentWindowController instrumentWindowController) {
-        this.instrumentWindowController = instrumentWindowController;
+    private NewInstrumentWindowController newInstrumentWindowController;
+    public void setInstrumentWindowController(NewInstrumentWindowController newInstrumentWindowController) {
+        this.newInstrumentWindowController = newInstrumentWindowController;
     }
+    private EditInstrumentWindowController editInstrumentWindowController;
+    public void setEditInstrumentWindowController(EditInstrumentWindowController editInstrumentWindowController) {
+        this.editInstrumentWindowController = editInstrumentWindowController;
+    }
+
     //Stała tekstowa informująca do errorLabel
     public static final String ERROR_TEXT="Taka wartość występuje już w bazie danych";
 
@@ -34,7 +39,7 @@ public class NewInstrumentDataWindowController {
         this.headLabel.setText(headLabel);
         if (this.cls== RangeModel.class) {
             addButton.disableProperty().bind(newRangeTextField1.textProperty().isEmpty().or(newRangeTextField2.textProperty().isEmpty()).or(newRangeUnitComboBox.valueProperty().isNull()));
-            newRangeUnitComboBox.setItems(instrumentWindowController.getInstrumentDataModel().getUnitObservableList());
+            newRangeUnitComboBox.setItems(newInstrumentWindowController.getInstrumentDataModel().getUnitObservableList());
         }else
         {
             addButton.disableProperty().bind(newValueTextField.textProperty().isEmpty());
@@ -88,17 +93,17 @@ public class NewInstrumentDataWindowController {
         }else{
             if (cls==NameModel.class) {
                 commonDao.createBaseModel(new NameModel(0, value));
-                instrumentWindowController.getInstrumentDataModel().nameListInit();
+                newInstrumentWindowController.getInstrumentDataModel().nameListInit();
             }else if (cls== TypeModel.class){
                 commonDao.createBaseModel(new TypeModel(0, value));
-                instrumentWindowController.getInstrumentDataModel().typeListInit();
+                newInstrumentWindowController.getInstrumentDataModel().typeListInit();
             }else if (cls== ProducerModel.class){
                 commonDao.createBaseModel(new ProducerModel(0, value));
-                instrumentWindowController.getInstrumentDataModel().producerListInit();
+                newInstrumentWindowController.getInstrumentDataModel().producerListInit();
             }
             else if (cls== RangeModel.class){
                 commonDao.createBaseModel(new RangeModel(0, value));
-                instrumentWindowController.getInstrumentDataModel().rangeListInit();
+                newInstrumentWindowController.getInstrumentDataModel().rangeListInit();
             }
             CommonTools.closePaneWindow(mainVBox);
         }

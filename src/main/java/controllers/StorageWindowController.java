@@ -5,6 +5,7 @@ import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import utils.Converter;
 import utils.FxmlTools;
 
 
@@ -26,15 +27,21 @@ public class StorageWindowController {
         return storageDataModel;
     }
 
-    private InstrumentWindowController instrumentWindowController;
+    private NewInstrumentWindowController newInstrumentWindowController;
+    private EditInstrumentWindowController editInstrumentWindowController;
     private EditDateWindowController editDateWindowController;
+    private EditRemarksWindowController editRemarksWindowController;
 
     //Stałe tekstowe
-    private final String INSTRUMENT_WINDOW="/fxml/InstrumentWindow.fxml";
+    private final String NEW_INSTRUMENT_WINDOW = "/fxml/NewInstrumentWindow.fxml";
+    private final String EDIT_INSTRUMENT_WINDOW="/fxml/EditInstrumentWindow.fxml";
     private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
+    private final String EDIT_REMARKS_WINDOW="/fxml/EditRemarksWindow.fxml";
     private final String ENTRY_DATE="Data przyjęcia";
     private final String CALIBRATION_DATE="Data wzorcowania";
     private final String SPEND_DATE="Data wydania";
+    private final String INSTRUMENT_REMARKS="Uwagi dotyczące przyrządu";
+    private final String CALIBRATION_REMARKS="Uwagi dotyczące wzorcowania";
 
     //ComboBox
     @FXML private ComboBox<String> storageStateComboBox;
@@ -56,6 +63,7 @@ public class StorageWindowController {
     @FXML private TableColumn<StorageFxModel, String> spendDateColumn;
     //MenuItem
     @FXML private MenuItem spendDateItem;
+    @FXML private MenuItem calibrationRemarksItem;
     //Labels
     @FXML private Label shortNameLabel;
     @FXML private Label fullNameLabel;
@@ -74,6 +82,9 @@ public class StorageWindowController {
         initializeTableView();
         bindingLabels();
         addFilter();
+        if(this.mainController.getMainDataModel().getUser().getPermissionLevel().equals("worker")){
+            this.calibrationRemarksItem.setDisable(true);
+        }
     }
     private void initializeTableView(){
         this.storageTableView.setItems(this.storageDataModel.getFilteredStorageList());
@@ -101,6 +112,8 @@ public class StorageWindowController {
                 this.storageDataModel.getStorageSelectedItemsList().addAll(this.storageTableView.getSelectionModel().getSelectedItems());
             }
         });
+        this.instrumentRemarksTextArea.setWrapText(true);
+        this.calibrationRemarksTextArea.setWrapText(true);
     }
     private void initializeComboBoxes(){
         this.storageStateComboBox.getItems().addAll(mainController.getMainDataModel().getStorageStateComboBoxList());
@@ -133,8 +146,16 @@ public class StorageWindowController {
     }
     @FXML
     void addInstrument() {
-        this.instrumentWindowController=FxmlTools.openVBoxWindow(INSTRUMENT_WINDOW);
-        this.instrumentWindowController.setMainController(this.mainController);
+        this.newInstrumentWindowController =FxmlTools.openVBoxWindow(NEW_INSTRUMENT_WINDOW);
+        this.newInstrumentWindowController.setMainController(this.mainController);
+        if(this.mainController.getMainDataModel().getUser().getPermissionLevel().equals("worker")){
+            this.newInstrumentWindowController.disabelTextArea();
+        }
+        this.newInstrumentWindowController.setStorageWindowController(this);
+    }
+    @FXML
+    void spendInstrument(){
+
     }
     @FXML
     void editEntryDate() {
@@ -142,7 +163,28 @@ public class StorageWindowController {
     }
     @FXML
     void editInstrument() {
-        System.out.println(this.storageDataModel.getCurrentStorage().getInstrument().getName());
+        this.editInstrumentWindowController=FxmlTools.openVBoxWindow(EDIT_INSTRUMENT_WINDOW);
+        this.editInstrumentWindowController.setMainController(this.mainController);
+        this.editInstrumentWindowController.setStorageWindowController(this);
+        this.editInstrumentWindowController.getInstrumentDataModel().searchForInstrument(this.getStorageDataModel().getCurrentStorage().getInstrument().getIdInstrument());
+        this.editInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant()));
+        this.editInstrumentWindowController.setInstrumentDataToForm(this.editInstrumentWindowController.getInstrumentDataModel().getFindInstrument());
+    }
+    @FXML
+    void editInstrumentRemarks(){
+        this.editRemarksWindowController=FxmlTools.openVBoxWindow(EDIT_REMARKS_WINDOW);
+        this.editRemarksWindowController.setStorageWindowController(this);
+        this.editRemarksWindowController.setDateType(INSTRUMENT_REMARKS);
+        this.editRemarksWindowController.setEditRemarksTextArea(this.getStorageDataModel().getCurrentStorage().getInstrumentRemarks());
+        this.editRemarksWindowController.setEditRemarksWindowLabel(INSTRUMENT_REMARKS);
+    }
+    @FXML
+    void editCalibrationRemarks(){
+        this.editRemarksWindowController=FxmlTools.openVBoxWindow(EDIT_REMARKS_WINDOW);
+        this.editRemarksWindowController.setStorageWindowController(this);
+        this.editRemarksWindowController.setDateType(CALIBRATION_REMARKS);
+        this.editRemarksWindowController.setEditRemarksTextArea(this.getStorageDataModel().getCurrentStorage().getCalibrationRemarks());
+        this.editRemarksWindowController.setEditRemarksWindowLabel(CALIBRATION_REMARKS);
     }
 
     @FXML

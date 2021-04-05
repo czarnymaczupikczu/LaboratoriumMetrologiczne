@@ -39,9 +39,9 @@ public class EditDateWindowController {
         this.dateType = dateType;
     }
     //Stałe tekstowe
-    private final String ENTRY_DATE_ERROR="Podałeś nieprawidłową datę przyjęcia";
-    private final String CALIBRATION_DATE_ERROR="Podałeś nieprawidłową datę wzorcowania";
-    private final String SPEND_DATE_ERROR="Podałeś nieprawidłową datę wydania";
+    private final String ENTRY_DATE_ERROR="Nieprawidłowa data przyjęcia";
+    private final String CALIBRATION_DATE_ERROR="Nieprawidłowa data wzorcowania";
+    private final String SPEND_DATE_ERROR="Nieprawidłowa data wydania";
 
     @FXML private VBox editDateWindowMainVBox;
     @FXML private Label editDateWindowLabel;
@@ -88,20 +88,18 @@ public class EditDateWindowController {
                 this.editDateErrorLabel.setText(ENTRY_DATE_ERROR);
                 break;
             }
-
             if(this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().size()==storageModelList.size()){
                 String newEntryDateString=newEntryDate.toString();
                 for(int k=0;k<storageModelList.size();k++){
                     storageModelList.get(k).setEntryDate(newEntryDateString);
                     storageDao.createOrUpdate(storageModelList.get(k));
                 }
+                editDateWindowCancel();
             }
             else {
                 this.editDateErrorLabel.setText(ENTRY_DATE_ERROR);
             }
         }
-        System.out.println("List1 "+this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().size());
-        System.out.println("List2 "+storageModelList.size());
     }
     private void saveSpendData(){
         List<StorageModel> storageModelList=new ArrayList<>();
@@ -111,7 +109,8 @@ public class EditDateWindowController {
             List<LocalDate> calibrationDatesList =decodeCalibrationDates(tempStorageFx.getCalibrationDates());
             LocalDate newSpendDate=this.editDateWindowDatePicker.getValue();
             LocalDate entryDate=Converter.getConverter().fromString(tempStorageFx.getEntryDate());
-            if(checkSpendDate(newSpendDate,calibrationDatesList,entryDate)){
+            String oldSpendDate=tempStorageFx.getSpendDate();
+            if(!oldSpendDate.isEmpty() && checkSpendDate(newSpendDate,calibrationDatesList,entryDate)){
                 storageModelList.add(storageDao.queryForFirst(StorageModel.class,"idStorage",tempStorageFx.getIdStorage()));
             }
             else{
@@ -125,13 +124,12 @@ public class EditDateWindowController {
                     storageModelList.get(k).setSpendDate(newSpendDateString);
                     storageDao.createOrUpdate(storageModelList.get(k));
                 }
+                editDateWindowCancel();
             }
             else {
                 this.editDateErrorLabel.setText(SPEND_DATE_ERROR);
             }
         }
-        System.out.println("List1 "+this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().size());
-        System.out.println("List2 "+storageModelList.size());
     }
     private void saveCalibrationDate(){
 
@@ -160,9 +158,9 @@ public class EditDateWindowController {
         Boolean temp=true;
         if (newSpendDate != null) {
             if(calibrationDatesList.isEmpty()){ //nie był wzorcowany
-                    if(newSpendDate.isBefore(entryDate)){
-                        temp =false;
-                    }
+                if(newSpendDate.isBefore(entryDate)){
+                    temp =false;
+                }
             }
             else{
                 for(int j=0;j<calibrationDatesList.size();j++){
