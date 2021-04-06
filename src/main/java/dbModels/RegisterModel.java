@@ -27,7 +27,7 @@ public class RegisterModel implements ComplexModel{
     @DatabaseField(generatedId = true,columnName = ID_REGISTER)
     private Integer idRegister;
     @DatabaseField(columnName = REGISTER_KIND)
-    private Integer registerKind;  //W zakresie akredytacji lub poza zakresem
+    private String registerKind;  //W zakresie akredytacji lub poza zakresem
     @DatabaseField(columnName = ID_REGISTER_BY_YEAR)
     private Integer idRegisterByYear;
     @DatabaseField(foreign = true,foreignAutoRefresh = true,columnName = STORAGE,maxForeignAutoRefreshLevel = 4)
@@ -52,7 +52,7 @@ public class RegisterModel implements ComplexModel{
     //Konstruktory
     public RegisterModel() {
     }
-    public RegisterModel(Integer idRegister, Integer registerKind, Integer idRegisterByYear, StorageModel storage, String cardNumber, String calibrationDate, UserModel calibrationUser, String certificateNumber, String documentKind, String agreementNumber, String state, String registerRemarks) {
+    public RegisterModel(Integer idRegister, String registerKind, Integer idRegisterByYear, StorageModel storage, String cardNumber, String calibrationDate, UserModel calibrationUser, String certificateNumber, String documentKind, String agreementNumber, String state, String registerRemarks) {
         this.idRegister = idRegister;
         this.registerKind = registerKind;
         this.idRegisterByYear = idRegisterByYear;
@@ -74,10 +74,10 @@ public class RegisterModel implements ComplexModel{
     public void setIdRegister(Integer idRegister) {
         this.idRegister = idRegister;
     }
-    public Integer getRegisterKind() {
+    public String getRegisterKind() {
         return registerKind;
     }
-    public void setRegisterKind(Integer registerKind) {
+    public void setRegisterKind(String registerKind) {
         this.registerKind = registerKind;
     }
     public Integer getIdRegisterByYear() {

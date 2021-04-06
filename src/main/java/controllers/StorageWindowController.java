@@ -31,10 +31,12 @@ public class StorageWindowController {
     private EditInstrumentWindowController editInstrumentWindowController;
     private EditDateWindowController editDateWindowController;
     private EditRemarksWindowController editRemarksWindowController;
+    private CalibrateInstrumentWindowController calibrateInstrumentWindowController;
 
     //Stałe tekstowe
     private final String NEW_INSTRUMENT_WINDOW = "/fxml/NewInstrumentWindow.fxml";
     private final String EDIT_INSTRUMENT_WINDOW="/fxml/EditInstrumentWindow.fxml";
+    private final String CALIBRATE_INSTRUMENT_WINDOW="/fxml/CalibrateInstrumentWindow.fxml";
     private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
     private final String EDIT_REMARKS_WINDOW="/fxml/EditRemarksWindow.fxml";
     private final String ENTRY_DATE="Data przyjęcia";
@@ -42,6 +44,8 @@ public class StorageWindowController {
     private final String SPEND_DATE="Data wydania";
     private final String INSTRUMENT_REMARKS="Uwagi dotyczące przyrządu";
     private final String CALIBRATION_REMARKS="Uwagi dotyczące wzorcowania";
+    private final String ACCREDITED_REGISTER="AP131";
+    private final String NON_ACCREDITED_REGISTER="PozaAP";
 
     //ComboBox
     @FXML private ComboBox<String> storageStateComboBox;
@@ -155,6 +159,20 @@ public class StorageWindowController {
     }
     @FXML
     void spendInstrument(){
+
+    }
+    @FXML
+    void accreditedCalibration(){
+        this.calibrateInstrumentWindowController=FxmlTools.openVBoxWindow(CALIBRATE_INSTRUMENT_WINDOW);
+        this.calibrateInstrumentWindowController.setRegisterKind(ACCREDITED_REGISTER);
+        this.calibrateInstrumentWindowController.setStorageWindowController(this);
+        this.calibrateInstrumentWindowController.setMainController(this.mainController);
+        this.storageDataModel.initializeCurrentStorageModel();
+        this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument());
+
+    }
+    @FXML
+    void nonAccreditedCalibration(){
 
     }
     @FXML

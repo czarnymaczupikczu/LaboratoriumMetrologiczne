@@ -13,7 +13,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="42.0" spacing="5.0" style="-fx-background-color: #00519b;">
          <children>
-            <Label id="label-head" text="Wzorcowanie przyrządu w zakresie akredytacji AP131" textFill="WHITE">
+            <Label id="label-head" fx:id="mainLabel" text="Wzorcowanie przyrządu w zakresie akredytacji AP131" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font></Label>

@@ -20,6 +20,7 @@ public class InstrumentsDataModel {
     private ObjectProperty<InstrumentFxModel> currentInstrument= new SimpleObjectProperty<>(new InstrumentFxModel());
     private FilteredList<InstrumentFxModel> filteredInstrumentsList= new FilteredList<>(instrumentsList, p->true);
 
+
     public void listInitialize(){
         instrumentsList.clear();
         try {

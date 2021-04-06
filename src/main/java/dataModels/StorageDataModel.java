@@ -18,15 +18,20 @@ import javafx.collections.transformation.FilteredList;
 import org.w3c.dom.ls.LSOutput;
 import utils.DatabaseTools;
 import utils.ShowAlert;
+import utils.database.CommonDao;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import static dbModels.StorageModel.ID_STORAGE;
 
 public class StorageDataModel {
     private ObservableList<StorageFxModel> storageList= FXCollections.observableArrayList();
     private ObjectProperty<StorageFxModel> currentStorage= new SimpleObjectProperty<>(new StorageFxModel());
     private ObservableList<StorageFxModel> storageSelectedItemsList=FXCollections.observableArrayList();
     private FilteredList<StorageFxModel> filteredStorageList= new FilteredList<>(storageList,p->true);
+    private StorageModel currentStorageModel=new StorageModel();
+
 
     public void listInitialize(String storageState, String storageYear) {
         storageList.clear();
@@ -71,6 +76,10 @@ public class StorageDataModel {
         } catch (SQLException e) {
             ShowAlert.display(e.getMessage());
         }
+    }
+    public void initializeCurrentStorageModel(){
+        CommonDao commonDao=new CommonDao();
+        currentStorageModel=commonDao.queryForFirst(StorageModel.class,ID_STORAGE,this.currentStorage.get().getIdStorage());
     }
     public void addFilterToObservableList(String newValue){
         filteredStorageList.setPredicate(item -> {
@@ -153,6 +162,9 @@ public class StorageDataModel {
         tempApplicantObject.setStatus(results[17]);
         return tempApplicantObject;
     }
+
+
+    //Settery i gettery
     public ObservableList<StorageFxModel> getStorageList() {
         return storageList;
     }
@@ -179,5 +191,11 @@ public class StorageDataModel {
     }
     public void setFilteredStorageList(FilteredList<StorageFxModel> filteredStorageList) {
         this.filteredStorageList = filteredStorageList;
+    }
+    public StorageModel getCurrentStorageModel() {
+        return currentStorageModel;
+    }
+    public void setCurrentStorageModel(StorageModel currentStorageModel) {
+        this.currentStorageModel = currentStorageModel;
     }
 }

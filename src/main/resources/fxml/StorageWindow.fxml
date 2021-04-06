@@ -39,8 +39,8 @@
       <HBox alignment="CENTER_LEFT" depthTest="DISABLE" maxHeight="30.0" prefHeight="30.0" spacing="5.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;">
          <children>
             <Button mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
+            <Button mnemonicParsing="false" onAction="#accreditedCalibration" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
+            <Button mnemonicParsing="false" onAction="#nonAccreditedCalibration" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
             <Button mnemonicParsing="false" onAction="#spendInstrument" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
          </children>
          <VBox.margin>
