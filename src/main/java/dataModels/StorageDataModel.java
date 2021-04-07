@@ -5,10 +5,12 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RawRowMapper;
 import com.j256.ormlite.stmt.QueryBuilder;
+import dbModels.RegisterModel;
 import dbModels.StorageModel;
 import fxModels.ApplicantFxModel;
 import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
+import fxModels.VeryShortRegisterFxModel;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -31,6 +33,7 @@ public class StorageDataModel {
     private ObservableList<StorageFxModel> storageSelectedItemsList=FXCollections.observableArrayList();
     private FilteredList<StorageFxModel> filteredStorageList= new FilteredList<>(storageList,p->true);
     private StorageModel currentStorageModel=new StorageModel();
+    private VeryShortRegisterFxModel veryShortRegisterFxModel;
 
 
     public void listInitialize(String storageState, String storageYear) {
@@ -163,7 +166,20 @@ public class StorageDataModel {
         return tempApplicantObject;
     }
 
+    public void initializeVeryShortRegisterFxModel(String registerKind){
 
+        try {
+            Dao<RegisterModel,Integer> registerDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), RegisterModel.class);
+            GenericRawResults<String[]> rawResults=registerDao.queryRaw(
+                    "Select \n" +
+                            "MAX(REGISTER.idRegister),REGISTER.idRegisterByYear, REGISTER.cardNumber, REGISTER.calibrationDate \n" +
+                            "FROM REGISTER WHERE REGISTER.registerKind LIKE '"+registerKind+"';");
+            this.veryShortRegisterFxModel= new VeryShortRegisterFxModel(rawResults.getResults().get(0));
+
+        } catch (SQLException e) {
+            ShowAlert.display(e.getMessage());
+        }
+    }
     //Settery i gettery
     public ObservableList<StorageFxModel> getStorageList() {
         return storageList;
@@ -197,5 +213,11 @@ public class StorageDataModel {
     }
     public void setCurrentStorageModel(StorageModel currentStorageModel) {
         this.currentStorageModel = currentStorageModel;
+    }
+    public VeryShortRegisterFxModel getVeryShortRegisterFxModel() {
+        return veryShortRegisterFxModel;
+    }
+    public void setVeryShortRegisterFxModel(VeryShortRegisterFxModel veryShortRegisterFxModel) {
+        this.veryShortRegisterFxModel = veryShortRegisterFxModel;
     }
 }

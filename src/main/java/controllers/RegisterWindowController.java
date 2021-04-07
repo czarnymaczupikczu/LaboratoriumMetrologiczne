@@ -92,6 +92,8 @@ public class RegisterWindowController {
                 this.registerDataModel.getRegisterSelectedItemsList().addAll(this.registerTableView.getSelectionModel().getSelectedItems());
             }
         });
+        this.instrumentRemarksTextArea.setWrapText(true);
+        this.calibrationRemarksTextArea.setWrapText(true);
     }
     private void bindingLabels() {
         this.shortNameLabel.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().shortNameProperty());

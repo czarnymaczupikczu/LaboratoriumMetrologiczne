@@ -3,6 +3,7 @@ package controllers;
 import dataModels.InstrumentDataModel;
 import dbModels.InstrumentModel;
 import dbModels.RegisterModel;
+import fxModels.StorageFxModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -28,6 +29,9 @@ public class CalibrateInstrumentWindowController {
         this.storageWindowController = storageWindowController;
     }
 
+    private final String TITLE_MESSAGE="Nieprawidłowa data wzorcowania";
+    private final String WINDOW_MESSAGE="Data wzorcowania jest wcześniejsza niż ostatnia w rejestrze";
+    private final String EMPTY_DATE_MESSAGE="Nie wybrałeś prawidłowo daty wzorcowania";
     private String registerKind="";
     public void setRegisterKind(String registerKind) {
         this.registerKind = registerKind;
@@ -57,10 +61,32 @@ public class CalibrateInstrumentWindowController {
     }
     @FXML
     void save() {
-        registerModel=setFormDataToRegister();
-        CommonDao commonDao=new CommonDao();
-        commonDao.create(registerModel);
-        System.out.println(registerModel.getIdRegister());
+        if(this.calibrationDatePicker.getValue()!=null) {
+            this.storageWindowController.getStorageDataModel().initializeVeryShortRegisterFxModel(this.registerKind);
+            if (this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getCalibrationDate().isAfter(this.calibrationDatePicker.getValue())) {
+                CommonTools.displayMessage(TITLE_MESSAGE, WINDOW_MESSAGE);
+            } else {
+                this.registerModel = setFormDataToRegister();
+                this.registerModel.setIdRegisterByYear(this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getIdRegisterByYear() + 1);
+                if (this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getCardNumber().contains(this.mainController.getMainDataModel().getYear().getYear())) {
+                    //To ten sam rok
+                    this.registerModel.setCardNumber(getCardNumber(this.registerModel.getIdRegisterByYear(), this.registerKind, this.mainController.getMainDataModel().getYear().getYear()));
+                } else {
+                    //Pierwszy wpis w nowym roku :)
+                    this.registerModel.setCardNumber(getCardNumber(1, this.registerKind, this.mainController.getMainDataModel().getYear().getYear()));
+                }
+                this.registerModel.setCertificateNumber(getCertificateNumber(this.registerKind, this.registerModel.getCardNumber()));
+                if (this.storageWindowController.getStorageDataModel().getCurrentStorage().getInstrument().getApplicant().getFullName().contains("ENERGOPOMIAR")) {
+                    this.registerModel.setAgreementNumber("EP");
+                }
+                CommonDao commonDao = new CommonDao();
+                commonDao.create(registerModel);
+                cancel();
+            }
+        }
+        else{
+            CommonTools.displayMessage(TITLE_MESSAGE, EMPTY_DATE_MESSAGE);
+        }
     }
 
     @FXML
@@ -72,7 +98,7 @@ public class CalibrateInstrumentWindowController {
     void todayOnAction() {
         calibrationDatePicker.setValue(LocalDate.now());
     }
-    public void setInstrumentDataToForm(InstrumentModel instrument){
+    public void setInstrumentDataToForm(InstrumentModel instrument, StorageFxModel storageFxModel){
         this.nameLabel.setText(instrument.getName().getInstrumentName());
         this.typeLabel.setText(instrument.getType().getTypeName());
         this.producerLabel.setText(instrument.getProducer().getProducerName());
@@ -82,6 +108,11 @@ public class CalibrateInstrumentWindowController {
         this.diameterLabel.setText(instrument.getDiameter());
         this.rangeLabel.setText(instrument.getRange().getRangeName());
         this.applicantLabel.setText(instrument.getApplicant().getShortName());
+        this.instrumentRemarks.setText(storageFxModel.getInstrumentRemarks());
+        this.instrumentRemarks.setEditable(false);
+        this.calibrationRemarks.setText(storageFxModel.getCalibrationRemarks());
+        this.calibrationRemarks.setEditable(false);
+
     }
     public void setMainLabel(String label){
         this.mainLabel.setText(label);
@@ -95,4 +126,37 @@ public class CalibrateInstrumentWindowController {
         temp.setState("ON");
         return temp;
     }
+
+    private String getCardNumber(Integer idRegisterByYear,String registerKind,String year){
+        if(registerKind.equals("AP131")){
+            return idRegisterByYear+"-"+year;
+        }
+        else{
+            if(idRegisterByYear <= 9){
+                return "000"+String.valueOf(idRegisterByYear)+"-"+year;
+            }else if(idRegisterByYear > 9 && idRegisterByYear <= 99){
+                return "00"+ String.valueOf(idRegisterByYear)+"-"+year;
+            }else if (idRegisterByYear > 99 && idRegisterByYear <=999){
+                return "0"+String.valueOf(idRegisterByYear)+"-"+year;
+            }else{
+                return String.valueOf(idRegisterByYear)+"-"+year;
+            }
+        }
+
+    }
+    private String getCertificateNumber(String registerKind, String cardNumber) {
+        Integer month=this.calibrationDatePicker.getValue().getMonthValue();
+        if(registerKind.equals("AP131")){
+            return cardNumber+"-P";
+        }
+        else{
+            if (month <= 9) {
+                return "0" + String.valueOf(month)+"-"+cardNumber;
+            } else {
+                return String.valueOf(month)+"-"+cardNumber;
+            }
+        }
+    }
+
+
 }

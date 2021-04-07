@@ -5,6 +5,7 @@ import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import utils.CommonTools;
 import utils.Converter;
 import utils.FxmlTools;
 
@@ -46,7 +47,10 @@ public class StorageWindowController {
     private final String CALIBRATION_REMARKS="Uwagi dotyczące wzorcowania";
     private final String ACCREDITED_REGISTER="AP131";
     private final String NON_ACCREDITED_REGISTER="PozaAP";
-
+    private final String TITLE_MESSAGE="Ponowne wzorcowanie!";
+    private final String WINDOW_MESSAGE="Czy chcesz wzorcować ten przyrząd ponownie ?";
+    private final String ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu w zakresie akredytacji AP131";
+    private final String NON_ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu poza zakresem akredytacji";
     //ComboBox
     @FXML private ComboBox<String> storageStateComboBox;
     @FXML private ComboBox<String> storageYearComboBox;
@@ -163,17 +167,29 @@ public class StorageWindowController {
     }
     @FXML
     void accreditedCalibration(){
-        this.calibrateInstrumentWindowController=FxmlTools.openVBoxWindow(CALIBRATE_INSTRUMENT_WINDOW);
-        this.calibrateInstrumentWindowController.setRegisterKind(ACCREDITED_REGISTER);
-        this.calibrateInstrumentWindowController.setStorageWindowController(this);
-        this.calibrateInstrumentWindowController.setMainController(this.mainController);
-        this.storageDataModel.initializeCurrentStorageModel();
-        this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument());
-
+        if(this.storageDataModel.getCurrentStorage().getIdStorage()>0 && this.storageDataModel.getCurrentStorage().getSpendUser().equals("")) {
+            if(!this.storageDataModel.getCurrentStorage().getCalibrationUsers().equals("")) {
+                if (CommonTools.display(TITLE_MESSAGE, WINDOW_MESSAGE)) {
+                    calibrateInstrument(ACCREDITED_REGISTER,ACCREDITED_MAIN_LABEL);
+                }
+            }
+            else{
+                calibrateInstrument(ACCREDITED_REGISTER,ACCREDITED_MAIN_LABEL);
+            }
+        }
     }
     @FXML
     void nonAccreditedCalibration(){
-
+        if(this.storageDataModel.getCurrentStorage().getIdStorage()>0 && this.storageDataModel.getCurrentStorage().getSpendUser().equals("")) {
+            if(!this.storageDataModel.getCurrentStorage().getCalibrationUsers().equals("")) {
+                if (CommonTools.display(TITLE_MESSAGE, WINDOW_MESSAGE)) {
+                    calibrateInstrument(NON_ACCREDITED_REGISTER,NON_ACCREDITED_MAIN_LABEL);
+                }
+            }
+            else{
+                calibrateInstrument(NON_ACCREDITED_REGISTER,NON_ACCREDITED_MAIN_LABEL);
+            }
+        }
     }
     @FXML
     void editEntryDate() {
@@ -216,5 +232,14 @@ public class StorageWindowController {
             this.editDateWindowController.setDateType(dateType);
             this.editDateWindowController.setEditDateWindowLabel(dateType);
         }
+    }
+    private void calibrateInstrument(String registerKind,String label){
+        this.calibrateInstrumentWindowController = FxmlTools.openVBoxWindow(CALIBRATE_INSTRUMENT_WINDOW);
+        this.calibrateInstrumentWindowController.setRegisterKind(registerKind);
+        this.calibrateInstrumentWindowController.setMainLabel(label);
+        this.calibrateInstrumentWindowController.setStorageWindowController(this);
+        this.calibrateInstrumentWindowController.setMainController(this.mainController);
+        this.storageDataModel.initializeCurrentStorageModel();
+        this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument(),this.storageDataModel.getCurrentStorage());
     }
 }

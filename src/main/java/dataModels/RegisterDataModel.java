@@ -35,7 +35,7 @@ public class RegisterDataModel {
                             "INSTRUMENTS.diameter,RANGES.rangeName,\n" +
                             "APPLICANTS.idApplicant, APPLICANTS.shortName, APPLICANTS.fullName, APPLICANTS.postCode, APPLICANTS.city, APPLICANTS.street, APPLICANTS.number, APPLICANTS.status,\n" +
                             "STORAGE.entryDate, u1.initials, \n" +
-                            "STORAGE.spendDate, u3.initials, STORAGE.instrumentRemarks,\n" +
+                            "STORAGE.spendDate, u3.initials, STORAGE.instrumentRemarks, STORAGE.calibrationRemarks,\n" +
                             "REGISTER.cardNumber, REGISTER.calibrationDate, u2.login,\n" +
                             "REGISTER.certificateNumber, REGISTER.documentKind, REGISTER.agreementNumber, REGISTER.state, REGISTER.registerRemarks \n"+
                             "from REGISTER \n" +
@@ -84,14 +84,14 @@ public class RegisterDataModel {
         tempRegisterObject.setIdRegister(Integer.parseInt(results[0]));
         tempRegisterObject.setIdRegisterByYear(Integer.parseInt(results[1]));
         tempRegisterObject.setStorage(createShortStorageFxModel(results));
-        tempRegisterObject.setCardNumber(results[25]);
-        tempRegisterObject.setCalibrationDate(results[26]);
-        tempRegisterObject.setCalibrationUser(results[27]);
-        tempRegisterObject.setCertificateNumber(results[28]);
-        tempRegisterObject.setDocumentKind(results[29]);
-        tempRegisterObject.setAgreementNumber(results[30]);
-        tempRegisterObject.setState(results[31]);
-        tempRegisterObject.setRegisterRemarks(results[32]);
+        tempRegisterObject.setCardNumber(results[26]);
+        tempRegisterObject.setCalibrationDate(results[27]);
+        tempRegisterObject.setCalibrationUser(results[28]);
+        tempRegisterObject.setCertificateNumber(results[29]);
+        tempRegisterObject.setDocumentKind(results[30]);
+        tempRegisterObject.setAgreementNumber(results[31]);
+        tempRegisterObject.setState(results[32]);
+        tempRegisterObject.setRegisterRemarks(results[33]);
         return tempRegisterObject;
    }
 
@@ -105,6 +105,7 @@ public class RegisterDataModel {
         tempStorageObject.setSpendDate(results[22]);
         tempStorageObject.setSpendUser(results[23]);
         tempStorageObject.setInstrumentRemarks(results[24]);
+        tempStorageObject.setCalibrationRemarks(results[25]);
         return tempStorageObject;
     }
     public InstrumentFxModel createInstrumentFxModel(String[] results){
