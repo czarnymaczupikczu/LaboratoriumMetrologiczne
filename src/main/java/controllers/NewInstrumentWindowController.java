@@ -190,9 +190,12 @@ public class NewInstrumentWindowController {
             lista=commonDao.selectAndStatement(InstrumentModel.class,IDENTIFICATION_NUMBER,iNumber,APPLICANT,idApplicant);
         }
         if(lista.isEmpty()){
+
             commonDao.create(instrument);
+            System.out.println("Pusta "+ instrument.getIdInstrument());
         }else{
             instrument.setIdInstrument(lista.get(lista.size()-1).getIdInstrument());
+            System.out.println("Pełna "+ instrument.getIdInstrument());
         }
     }
     private void addInstrumentToStorage(InstrumentModel instrument){
