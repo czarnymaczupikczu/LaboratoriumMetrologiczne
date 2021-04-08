@@ -8,6 +8,13 @@ import fxModels.ShortRegisterFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class InstrumentsWindowController {
     public InstrumentsWindowController(){
@@ -137,8 +144,42 @@ public class InstrumentsWindowController {
     }
 
     @FXML
-    void exportToExcel() {
-
+    private void exportToExcel() throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet spreadsheet = workbook.createSheet("Arkusz1");
+        Row row = spreadsheet.createRow(0);
+        //Nazwy kolumn
+        row.createCell(0).setCellValue("Lp. ");
+        row.createCell(1).setCellValue("Nazwa");
+        row.createCell(2).setCellValue("Typ");
+        row.createCell(3).setCellValue("Producent");
+        row.createCell(4).setCellValue("Nr fabryczny");
+        row.createCell(5).setCellValue("Nr identyfikacyjny");
+        row.createCell(6).setCellValue("Zakres pomiarowy");
+        row.createCell(7).setCellValue("Długość");
+        row.createCell(8).setCellValue("Średnica");
+        row.createCell(9).setCellValue("Zleceniodawca");
+        int i = 0;
+        for (InstrumentFxModel instrumentElement : this.instrumentsDataModel.getFilteredInstrumentsList()) {
+            row = spreadsheet.createRow(i + 1);
+            row.createCell(0).setCellValue(i+1);
+            row.createCell(1).setCellValue(instrumentElement.getName());
+            row.createCell(2).setCellValue(instrumentElement.getType());
+            row.createCell(3).setCellValue(instrumentElement.getProducer());
+            row.createCell(4).setCellValue(instrumentElement.getSerialNumber());
+            row.createCell(5).setCellValue(instrumentElement.getIdentificationNumber());
+            row.createCell(6).setCellValue(instrumentElement.getRange());
+            row.createCell(7).setCellValue(instrumentElement.getLength());
+            row.createCell(8).setCellValue(instrumentElement.getDiameter());
+            row.createCell(9).setCellValue(instrumentElement.getApplicant().getShortName());
+            i++;
+        }
+        for (int j = 0; j < 10; j++) {
+            spreadsheet.autoSizeColumn(j);
+        }
+        FileOutputStream fileOut = new FileOutputStream("Przyrządy.xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
     }
 
     @FXML

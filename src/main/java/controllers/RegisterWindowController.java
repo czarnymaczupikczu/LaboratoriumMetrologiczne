@@ -195,13 +195,15 @@ public class RegisterWindowController {
         row.createCell(5).setCellValue("Producent");
         row.createCell(6).setCellValue("Nr fabryczny");
         row.createCell(7).setCellValue("Nr identyfikacyjny");
-        row.createCell(8).setCellValue("Zakres");
-        row.createCell(9).setCellValue("Zleceniodawca");
-        row.createCell(10).setCellValue("Wzorcujący");
-        row.createCell(11).setCellValue("Nr Świadectwa/Protokołu");
-        row.createCell(12).setCellValue("ŚW/PO");
-        row.createCell(13).setCellValue("Umowa");
-        row.createCell(14).setCellValue("Stan");
+        row.createCell(8).setCellValue("Zakres pomiarowy");
+        row.createCell(9).setCellValue("Długość");
+        row.createCell(10).setCellValue("Średnica");
+        row.createCell(11).setCellValue("Zleceniodawca");
+        row.createCell(12).setCellValue("Wzorcujący");
+        row.createCell(13).setCellValue("Nr Świadectwa/Protokołu");
+        row.createCell(14).setCellValue("ŚW/PO");
+        row.createCell(15).setCellValue("Umowa");
+        row.createCell(16).setCellValue("Stan");
 
         int i = 0;
         for (RegisterFxModel registerElement : this.registerDataModel.getFilteredRegisterList()) {
@@ -215,15 +217,17 @@ public class RegisterWindowController {
             row.createCell(6).setCellValue(registerElement.getStorage().getInstrument().getSerialNumber());
             row.createCell(7).setCellValue(registerElement.getStorage().getInstrument().getIdentificationNumber());
             row.createCell(8).setCellValue(registerElement.getStorage().getInstrument().getRange());
-            row.createCell(9).setCellValue(registerElement.getStorage().getInstrument().getApplicant().getShortName());
-            row.createCell(10).setCellValue(registerElement.getCalibrationUser());
-            row.createCell(11).setCellValue(registerElement.certificateNumberProperty().get());
-            row.createCell(12).setCellValue(registerElement.getDocumentKind());
-            row.createCell(13).setCellValue(registerElement.getAgreementNumber());
-            row.createCell(14).setCellValue(registerElement.getState());
+            row.createCell(9).setCellValue(registerElement.getStorage().getInstrument().getLength());
+            row.createCell(10).setCellValue(registerElement.getStorage().getInstrument().getDiameter());
+            row.createCell(11).setCellValue(registerElement.getStorage().getInstrument().getApplicant().getShortName());
+            row.createCell(12).setCellValue(registerElement.getCalibrationUser());
+            row.createCell(13).setCellValue(registerElement.certificateNumberProperty().get());
+            row.createCell(14).setCellValue(registerElement.getDocumentKind());
+            row.createCell(15).setCellValue(registerElement.getAgreementNumber());
+            row.createCell(16).setCellValue(registerElement.getState());
             i++;
         }
-        for (int j = 0; j < 14; j++) {
+        for (int j = 0; j < 17; j++) {
             spreadsheet.autoSizeColumn(j);
         }
         FileOutputStream fileOut = new FileOutputStream("Rejestr"+this.registerDataModel.getRegisterType()+".xlsx");

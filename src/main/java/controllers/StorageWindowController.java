@@ -254,8 +254,8 @@ public class StorageWindowController {
             this.calibrateInstrumentWindowController.setMainLabel(label);
             this.calibrateInstrumentWindowController.setStorageWindowController(this);
             this.calibrateInstrumentWindowController.setMainController(this.mainController);
-            this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument(), this.storageDataModel.getCurrentStorage());
             this.storageDataModel.initializeCurrentStorageModel();
+            this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument(), this.storageDataModel.getCurrentStorage());
         }
     }
     @FXML
@@ -271,10 +271,12 @@ public class StorageWindowController {
         row.createCell(4).setCellValue("Nr fabryczny");
         row.createCell(5).setCellValue("Nr identyfikacyjny");
         row.createCell(6).setCellValue("Zakres pomiarowy");
-        row.createCell(7).setCellValue("Zleceniodawca");
-        row.createCell(8).setCellValue("Data przyjęcia");
-        row.createCell(9).setCellValue("Data wzorcowania");
-        row.createCell(10).setCellValue("Data wydania");
+        row.createCell(7).setCellValue("Długość");
+        row.createCell(8).setCellValue("Średnica");
+        row.createCell(9).setCellValue("Zleceniodawca");
+        row.createCell(10).setCellValue("Data przyjęcia");
+        row.createCell(11).setCellValue("Data wzorcowania");
+        row.createCell(12).setCellValue("Data wydania");
 
         int i=0;
         for (StorageFxModel storageElement : this.storageDataModel.getFilteredStorageList()) {
@@ -286,13 +288,15 @@ public class StorageWindowController {
             row.createCell(4).setCellValue(storageElement.getInstrument().getSerialNumber());
             row.createCell(5).setCellValue(storageElement.getInstrument().getIdentificationNumber());
             row.createCell(6).setCellValue(storageElement.getInstrument().getRange());
-            row.createCell(7).setCellValue(storageElement.getInstrument().getApplicant().getShortName());
-            row.createCell(8).setCellValue(storageElement.getEntryDate());
-            row.createCell(9).setCellValue(storageElement.getCalibrationDates());
-            row.createCell(10).setCellValue(storageElement.getSpendDate());
+            row.createCell(7).setCellValue(storageElement.getInstrument().getLength());
+            row.createCell(8).setCellValue(storageElement.getInstrument().getDiameter());
+            row.createCell(9).setCellValue(storageElement.getInstrument().getApplicant().getShortName());
+            row.createCell(10).setCellValue(storageElement.getEntryDate());
+            row.createCell(11).setCellValue(storageElement.getCalibrationDates());
+            row.createCell(12).setCellValue(storageElement.getSpendDate());
             i++;
         }
-        for(int j=0;j<11;j++){
+        for(int j=0;j<13;j++){
             spreadsheet.autoSizeColumn(j);
         }
         FileOutputStream fileOut = new FileOutputStream("Magazyn.xlsx");
