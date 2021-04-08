@@ -1,15 +1,12 @@
 package controllers;
 
-import dataModels.InstrumentDataModel;
 import dbModels.InstrumentModel;
 import dbModels.RegisterModel;
 import fxModels.StorageFxModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import utils.CommonTools;
 import utils.database.CommonDao;
@@ -29,14 +26,13 @@ public class CalibrateInstrumentWindowController {
         this.storageWindowController = storageWindowController;
     }
 
-    private final String TITLE_MESSAGE="Nieprawidłowa data wzorcowania";
-    private final String WINDOW_MESSAGE="Data wzorcowania jest wcześniejsza niż ostatnia w rejestrze";
-    private final String EMPTY_DATE_MESSAGE="Nie wybrałeś prawidłowo daty wzorcowania";
+    private static final String TITLE_MESSAGE="Nieprawidłowa data wzorcowania";
+    private static final String WINDOW_MESSAGE="Data wzorcowania jest wcześniejsza niż ostatnia w rejestrze";
+    private static final String EMPTY_DATE_MESSAGE="Nie wybrałeś prawidłowo daty wzorcowania";
     private String registerKind="";
     public void setRegisterKind(String registerKind) {
         this.registerKind = registerKind;
     }
-    private RegisterModel registerModel=new RegisterModel();
 
     @FXML private VBox mainVBox;
     @FXML private Label mainLabel;
@@ -52,12 +48,17 @@ public class CalibrateInstrumentWindowController {
     @FXML private DatePicker calibrationDatePicker;
     @FXML private TextArea instrumentRemarks;
     @FXML private TextArea calibrationRemarks;
-    @FXML private Button saveButton;
+
 
 
     @FXML
     public void initialize(){
-
+        this.instrumentRemarks.setDisable(true);
+        this.instrumentRemarks.setWrapText(true);
+        this.instrumentRemarks.setStyle("-fx-opacity: 1.0;");
+        this.calibrationRemarks.setDisable(true);
+        this.calibrationRemarks.setWrapText(true);
+        this.calibrationRemarks.setStyle("-fx-opacity: 1.0;");
     }
     @FXML
     void save() {
@@ -66,18 +67,18 @@ public class CalibrateInstrumentWindowController {
             if (this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getCalibrationDate().isAfter(this.calibrationDatePicker.getValue())) {
                 CommonTools.displayMessage(TITLE_MESSAGE, WINDOW_MESSAGE);
             } else {
-                this.registerModel = setFormDataToRegister();
-                this.registerModel.setIdRegisterByYear(this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getIdRegisterByYear() + 1);
+                RegisterModel registerModel = setFormDataToRegister();
+                registerModel.setIdRegisterByYear(this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getIdRegisterByYear() + 1);
                 if (this.storageWindowController.getStorageDataModel().getVeryShortRegisterFxModel().getCardNumber().contains(this.mainController.getMainDataModel().getYear().getYear())) {
                     //To ten sam rok
-                    this.registerModel.setCardNumber(getCardNumber(this.registerModel.getIdRegisterByYear(), this.registerKind, this.mainController.getMainDataModel().getYear().getYear()));
+                    registerModel.setCardNumber(getCardNumber(registerModel.getIdRegisterByYear(), this.registerKind, this.mainController.getMainDataModel().getYear().getYear()));
                 } else {
                     //Pierwszy wpis w nowym roku :)
-                    this.registerModel.setCardNumber(getCardNumber(1, this.registerKind, this.mainController.getMainDataModel().getYear().getYear()));
+                    registerModel.setCardNumber(getCardNumber(1, this.registerKind, this.mainController.getMainDataModel().getYear().getYear()));
                 }
-                this.registerModel.setCertificateNumber(getCertificateNumber(this.registerKind, this.registerModel.getCardNumber()));
+                registerModel.setCertificateNumber(getCertificateNumber(this.registerKind, registerModel.getCardNumber()));
                 if (this.storageWindowController.getStorageDataModel().getCurrentStorage().getInstrument().getApplicant().getFullName().contains("ENERGOPOMIAR")) {
-                    this.registerModel.setAgreementNumber("EP");
+                    registerModel.setAgreementNumber("EP");
                 }
                 CommonDao commonDao = new CommonDao();
                 commonDao.create(registerModel);
@@ -112,7 +113,6 @@ public class CalibrateInstrumentWindowController {
         this.instrumentRemarks.setEditable(false);
         this.calibrationRemarks.setText(storageFxModel.getCalibrationRemarks());
         this.calibrationRemarks.setEditable(false);
-
     }
     public void setMainLabel(String label){
         this.mainLabel.setText(label);
@@ -133,27 +133,27 @@ public class CalibrateInstrumentWindowController {
         }
         else{
             if(idRegisterByYear <= 9){
-                return "000"+String.valueOf(idRegisterByYear)+"-"+year;
-            }else if(idRegisterByYear > 9 && idRegisterByYear <= 99){
-                return "00"+ String.valueOf(idRegisterByYear)+"-"+year;
-            }else if (idRegisterByYear > 99 && idRegisterByYear <=999){
-                return "0"+String.valueOf(idRegisterByYear)+"-"+year;
+                return "000"+idRegisterByYear+"-"+year;
+            }else if(idRegisterByYear <= 99){
+                return "00"+ idRegisterByYear+"-"+year;
+            }else if (idRegisterByYear <=999){
+                return "0"+idRegisterByYear+"-"+year;
             }else{
-                return String.valueOf(idRegisterByYear)+"-"+year;
+                return idRegisterByYear+"-"+year;
             }
         }
 
     }
     private String getCertificateNumber(String registerKind, String cardNumber) {
-        Integer month=this.calibrationDatePicker.getValue().getMonthValue();
+        int month=this.calibrationDatePicker.getValue().getMonthValue();
         if(registerKind.equals("AP131")){
             return cardNumber+"-P";
         }
         else{
             if (month <= 9) {
-                return "0" + String.valueOf(month)+"-"+cardNumber;
+                return "0" + month+"-"+cardNumber;
             } else {
-                return String.valueOf(month)+"-"+cardNumber;
+                return month+"-"+cardNumber;
             }
         }
     }

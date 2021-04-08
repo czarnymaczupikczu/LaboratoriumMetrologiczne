@@ -5,11 +5,14 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="420.0" spacing="6.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CalibrateInstrumentWindowController">
+<VBox fx:id="mainVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="420.0" spacing="6.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CalibrateInstrumentWindowController">
    <children>
       <HBox alignment="CENTER" prefHeight="42.0" spacing="5.0" style="-fx-background-color: #00519b;">
          <children>
@@ -19,100 +22,116 @@
                </font></Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
+      <GridPane style="-fx-border-color: black;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="186.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" prefWidth="224.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
             <Label text="Nazwa:">
                <font>
-                  <Font name="Calibri" size="14.0" />
-               </font></Label>
-            <Label fx:id="nameLabel" text="Label">
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="nameLabel" text="Label" GridPane.columnIndex="1">
                <font>
                   <Font size="14.0" />
                </font></Label>
-         </children>
-         <VBox.margin>
-            <Insets left="10.0" right="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label text="Typ:" />
-            <Label fx:id="typeLabel" text="Label">
+            <Label text="Typ:" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="typeLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Producent:" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="producerLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label text="Numer fabryczny:" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label text="Numer identyfikacyjny:" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="serialNumberLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="identificationLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Zakres pomiarowy:" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="rangeLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label text="Zleceniodawca:" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="applicantLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
          <VBox.margin>
-            <Insets left="10.0" right="10.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label text="Producent:" />
-            <Label fx:id="producerLabel" text="Label">
-               <font>
-                  <Font size="14.0" />
-               </font></Label>
-         </children>
-         <VBox.margin>
-            <Insets left="10.0" right="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label text="Numer fabryczny:" />
-            <Label fx:id="serialNumberLabel" text="Label">
-               <font>
-                  <Font size="14.0" />
-               </font></Label>
-         </children>
-         <VBox.margin>
-            <Insets left="10.0" right="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="116.0" spacing="10.0">
-         <children>
-            <Label text="Numer identyfikacyjny:" />
-            <Label fx:id="identificationLabel" text="Label">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-         <VBox.margin>
-            <Insets left="10.0" right="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label text="Zakres pomiarowy:" />
-            <Label fx:id="rangeLabel" text="Label">
-               <font>
-                  <Font size="14.0" />
-               </font></Label>
-         </children>
-         <VBox.margin>
-            <Insets left="10.0" right="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="159.0" spacing="10.0">
-         <children>
-            <Label text="Zleceniodawca:" />
-            <Label fx:id="applicantLabel" text="Label">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-         <VBox.margin>
-            <Insets left="10.0" right="10.0" />
-         </VBox.margin>
-      </HBox>
+      </GridPane>
       <Label text="Wymiary (dotyczy czujników temperatury):">
          <VBox.margin>
             <Insets left="10.0" />
          </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
       </Label>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -128,7 +147,10 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label text="Data wzorcowania:" />
+            <Label text="Data wzorcowania:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <DatePicker fx:id="calibrationDatePicker" prefWidth="150.0" />
             <Button mnemonicParsing="false" onAction="#todayOnAction" prefWidth="70.0" text="Dzisiaj" />
          </children>
@@ -140,6 +162,9 @@
          <VBox.margin>
             <Insets left="10.0" />
          </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
       </Label>
       <TextArea fx:id="instrumentRemarks" prefHeight="44.0">
          <VBox.margin>
@@ -150,6 +175,9 @@
          <VBox.margin>
             <Insets left="10.0" />
          </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
       </Label>
       <TextArea fx:id="calibrationRemarks" prefHeight="100.0">
          <VBox.margin>

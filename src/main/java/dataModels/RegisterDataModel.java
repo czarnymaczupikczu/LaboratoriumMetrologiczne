@@ -13,14 +13,32 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import utils.DatabaseTools;
 import utils.ShowAlert;
+import utils.database.CommonDao;
+
 import java.sql.SQLException;
+
+import static dbModels.RegisterModel.*;
 
 public class RegisterDataModel {
     private ObservableList<RegisterFxModel> registerList= FXCollections.observableArrayList();
-    private ObjectProperty<RegisterFxModel> currentRegisterElement=new SimpleObjectProperty<>(new RegisterFxModel());
-    private ObservableList<RegisterFxModel> registerSelectedItemsList=FXCollections.observableArrayList();
+    private final ObjectProperty<RegisterFxModel> currentRegisterElement=new SimpleObjectProperty<>(new RegisterFxModel());
+    //private ObservableList<RegisterFxModel> registerSelectedItemsList=FXCollections.observableArrayList();
     private FilteredList<RegisterFxModel>   filteredRegisterList=new FilteredList<>(registerList,p->true);
+
+    private RegisterModel currentRegisterModel=new RegisterModel();
+
+    public RegisterModel getCurrentRegisterModel() {
+        return currentRegisterModel;
+    }
+
     private String registerType;
+    public void setRegisterType(String registerType) {
+        this.registerType = registerType;
+    }
+
+    public String getRegisterType() {
+        return registerType;
+    }
 
     public void listInitialize(String registerState, String registerYear) {
         registerList.clear();
@@ -50,9 +68,9 @@ public class RegisterDataModel {
                             "join USERS u2 on REGISTER.calibrationUser=u2.idUser\n" +
                             "left join USERS u3 on STORAGE.spendUser=u3.idUser\n" +
                             createSQLStatement(registerState,registerYear)+";",
-                    new RawRowMapper<RegisterFxModel>() {
+                    new RawRowMapper<>() {
                         @Override
-                        public RegisterFxModel mapRow(String[] columns, String[] res) throws SQLException {
+                        public RegisterFxModel mapRow(String[] columns, String[] res)  {
                             return createRegisterFxModel(res);
                         }
                     });
@@ -66,7 +84,7 @@ public class RegisterDataModel {
         }
     }
     public String createSQLStatement(String registerState, String registerYear){
-        String sqlStatement = null;
+        String sqlStatement;
         if(registerState.equals(registerYear)){   //Wszystkie i wszystkie
             sqlStatement="WHERE REGISTER.registerKind='"+this.registerType+"'";
         }else if(registerState.equals("Wszystkie") && !registerYear.equals("Wszystkie")){
@@ -79,7 +97,11 @@ public class RegisterDataModel {
         }
         return sqlStatement;
     }
-   public RegisterFxModel createRegisterFxModel(String[] results){
+    public void initializeCurrentRegisterModel(){
+        CommonDao commonDao=new CommonDao();
+        this.currentRegisterModel=commonDao.queryForFirst(RegisterModel.class,ID_REGISTER,this.currentRegisterElement.get().getIdRegister());
+    }
+    public RegisterFxModel createRegisterFxModel(String[] results){
         RegisterFxModel tempRegisterObject=new RegisterFxModel();
         tempRegisterObject.setIdRegister(Integer.parseInt(results[0]));
         tempRegisterObject.setIdRegisterByYear(Integer.parseInt(results[1]));
@@ -94,7 +116,6 @@ public class RegisterDataModel {
         tempRegisterObject.setRegisterRemarks(results[33]);
         return tempRegisterObject;
    }
-
     public ShortStorageFxModel createShortStorageFxModel(String[] results){
         ShortStorageFxModel tempStorageObject = new ShortStorageFxModel();
         //Ustawianie poszczególnych pól w sumie zrobię to tak żeby każde pole było ustawione wprost
@@ -135,16 +156,10 @@ public class RegisterDataModel {
         return tempApplicantObject;
     }
      public void addFilterToObservableList(String newValue){
-        filteredRegisterList.setPredicate(item -> {
-            if (item.getStorage().getInstrument().getName().toUpperCase().contains(newValue.toUpperCase())||item.getStorage().getInstrument().getType().toUpperCase().contains(newValue.toUpperCase())||
-                    item.getStorage().getInstrument().getProducer().toUpperCase().contains(newValue.toUpperCase())||item.getStorage().getInstrument().getSerialNumber().toUpperCase().contains(newValue.toUpperCase())||
-                    item.getStorage().getInstrument().getIdentificationNumber().toUpperCase().contains(newValue.toUpperCase())||item.getStorage().getInstrument().getRange().toUpperCase().contains(newValue.toUpperCase())||
-                    item.getStorage().getInstrument().getApplicant().getShortName().toUpperCase().contains(newValue.toUpperCase())) {
-                return true;
-            } else {
-                return false;
-            }
-        });
+        filteredRegisterList.setPredicate(item -> item.getStorage().getInstrument().getName().toUpperCase().contains(newValue.toUpperCase()) || item.getStorage().getInstrument().getType().toUpperCase().contains(newValue.toUpperCase()) ||
+                item.getStorage().getInstrument().getProducer().toUpperCase().contains(newValue.toUpperCase()) || item.getStorage().getInstrument().getSerialNumber().toUpperCase().contains(newValue.toUpperCase()) ||
+                item.getStorage().getInstrument().getIdentificationNumber().toUpperCase().contains(newValue.toUpperCase()) || item.getStorage().getInstrument().getRange().toUpperCase().contains(newValue.toUpperCase()) ||
+                item.getStorage().getInstrument().getApplicant().getShortName().toUpperCase().contains(newValue.toUpperCase()));
     }
 
     public ObservableList<RegisterFxModel> getRegisterList() {
@@ -162,12 +177,12 @@ public class RegisterDataModel {
     public void setCurrentRegisterElement(RegisterFxModel currentRegisterElement) {
         this.currentRegisterElement.set(currentRegisterElement);
     }
-    public ObservableList<RegisterFxModel> getRegisterSelectedItemsList() {
+   /* public ObservableList<RegisterFxModel> getRegisterSelectedItemsList() {
         return registerSelectedItemsList;
     }
     public void setRegisterSelectedItemsList(ObservableList<RegisterFxModel> registerSelectedItemsList) {
         this.registerSelectedItemsList = registerSelectedItemsList;
-    }
+    }*/
     public FilteredList<RegisterFxModel> getFilteredRegisterList() {
         return filteredRegisterList;
     }
@@ -175,8 +190,6 @@ public class RegisterDataModel {
         this.filteredRegisterList = filteredRegisterList;
     }
 
-    public void setRegisterType(String registerType) {
-        this.registerType = registerType;
-    }
+
 
 }

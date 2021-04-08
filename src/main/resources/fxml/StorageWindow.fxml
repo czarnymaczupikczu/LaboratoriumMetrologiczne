@@ -27,7 +27,7 @@
             <Label text="Rok:" />
             <ComboBox fx:id="storageYearComboBox" prefWidth="130.0" />
             <Button mnemonicParsing="false" onAction="#loadStorageList" prefWidth="125.0" text="Wczytaj listę" />
-            <Button mnemonicParsing="false" prefWidth="125.0" text="Eksport do XLS" />
+            <Button mnemonicParsing="false" onAction="#exportToExcel" prefWidth="125.0" text="Eksport do XLS" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" />

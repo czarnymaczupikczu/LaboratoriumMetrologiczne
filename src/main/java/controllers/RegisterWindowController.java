@@ -5,7 +5,16 @@ import fxModels.RegisterFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import utils.CommonTools;
+import utils.FxmlTools;
+import utils.database.CommonDao;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class RegisterWindowController {
     public RegisterWindowController() {
@@ -19,10 +28,16 @@ public class RegisterWindowController {
     }
 
     //Pola prywatne
-    private RegisterDataModel registerDataModel = new RegisterDataModel();
+    private final RegisterDataModel registerDataModel = new RegisterDataModel();
     public RegisterDataModel getRegisterDataModel() {
         return registerDataModel;
     }
+
+    private static final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
+    private static final String EDIT_CERTIFICATE_NUMBER_WINDOW="/fxml/EditCertificateNumberWindow.fxml";
+    private static final String CALIBRATION_DATE="Data wzorcowania";
+    private static final String TITLE_MESSAGE="Anulowanie wzorcowania";
+    private static final String MESSAGE="Czy na pewno chcesz anulować wzorcowanie ?";
 
     @FXML private TextField searchTextField;
 
@@ -82,18 +97,26 @@ public class RegisterWindowController {
         this.documentKindColumn.setCellValueFactory(cellData -> cellData.getValue().documentKindProperty());
         this.agreementNumberColumn.setCellValueFactory(cellData -> cellData.getValue().agreementNumberProperty());
         this.stateColumn.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
-        this.registerTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //this.registerTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         this.registerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                if (this.registerTableView.getSelectionModel().getSelectedItems().size() < 2) { //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
+                this.registerDataModel.setCurrentRegisterElement(newValue);
+                bindingLabels();
+                System.out.println(this.registerDataModel.getRegisterList().indexOf(this.registerDataModel.getCurrentRegisterElement()));
+                System.out.println(this.registerDataModel.getFilteredRegisterList().indexOf(this.registerDataModel.getCurrentRegisterElement()));
+                /*if (this.registerTableView.getSelectionModel().getSelectedItems().size() < 2) { //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
                     updateBindings(newValue);
                 }
                 this.registerDataModel.getRegisterSelectedItemsList().clear();
-                this.registerDataModel.getRegisterSelectedItemsList().addAll(this.registerTableView.getSelectionModel().getSelectedItems());
+                this.registerDataModel.getRegisterSelectedItemsList().addAll(this.registerTableView.getSelectionModel().getSelectedItems());*/
             }
         });
         this.instrumentRemarksTextArea.setWrapText(true);
+        this.instrumentRemarksTextArea.setDisable(true);
+        this.instrumentRemarksTextArea.setStyle("-fx-opacity: 1.0;");
         this.calibrationRemarksTextArea.setWrapText(true);
+        this.calibrationRemarksTextArea.setDisable(true);
+        this.calibrationRemarksTextArea.setStyle("-fx-opacity: 1.0;");
     }
     private void bindingLabels() {
         this.shortNameLabel.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().shortNameProperty());
@@ -101,28 +124,13 @@ public class RegisterWindowController {
         this.cityLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().postCodeProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().cityProperty()));
         this.streetLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().streetProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().numberProperty()));
         this.entryLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().entryUserProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().entryDateProperty()));
+        if (registerDataModel.getCurrentRegisterElement().getStorage().getSpendUser()==null) {
+            this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendDate("");
+            this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendUser("");
+        }
         this.spendLabel.textProperty().bind(Bindings.concat(this.registerDataModel.getCurrentRegisterElement().getStorage().spendUserProperty(), " ", this.registerDataModel.getCurrentRegisterElement().getStorage().spendDateProperty()));
         this.instrumentRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().instrumentRemarksProperty());
         this.calibrationRemarksTextArea.textProperty().bind(this.registerDataModel.getCurrentRegisterElement().getStorage().calibrationRemarksProperty());
-    }
-    private void updateBindings(RegisterFxModel registerElement) {
-        this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setShortName(registerElement.getStorage().getInstrument().getApplicant().getShortName());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setFullName(registerElement.getStorage().getInstrument().getApplicant().getFullName());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setPostCode(registerElement.getStorage().getInstrument().getApplicant().getPostCode());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setCity(registerElement.getStorage().getInstrument().getApplicant().getCity());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setStreet(registerElement.getStorage().getInstrument().getApplicant().getStreet());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().getInstrument().getApplicant().setNumber(registerElement.getStorage().getInstrument().getApplicant().getNumber());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().setEntryDate(registerElement.getStorage().getEntryDate());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().setEntryUser(registerElement.getStorage().getEntryUser());
-        if (registerElement.getStorage().spendUserProperty().isNull().getValue()) {
-            this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendDate("");
-            this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendUser("");
-        } else {
-            this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendDate(registerElement.getStorage().getSpendDate());
-            this.registerDataModel.getCurrentRegisterElement().getStorage().setSpendUser(registerElement.getStorage().getSpendUser());
-        }
-        this.registerDataModel.getCurrentRegisterElement().getStorage().setInstrumentRemarks(registerElement.getStorage().getInstrumentRemarks());
-        this.registerDataModel.getCurrentRegisterElement().getStorage().setCalibrationRemarks(registerElement.getStorage().getCalibrationRemarks());
     }
     private void initializeComboBoxes() {
         this.registerStateComboBox.getItems().addAll(mainController.getMainDataModel().getRegisterStateComboBoxList());
@@ -131,15 +139,95 @@ public class RegisterWindowController {
         this.registerYearComboBox.setValue(mainController.getMainDataModel().getYearComboBoxList().get(mainController.getMainDataModel().getYearComboBoxList().size() - 1));
     }
     private void addFilter() {
-        searchTextField.textProperty().addListener((value, oldValue, newValue) -> {
-            registerDataModel.addFilterToObservableList(newValue);
-        });
+        searchTextField.textProperty().addListener((value, oldValue, newValue) -> registerDataModel.addFilterToObservableList(newValue));
     }
-
     @FXML
     void loadRegisterList() {
         System.out.println(registerStateComboBox.getValue() + " " + registerYearComboBox.getValue());
         registerDataModel.listInitialize(registerStateComboBox.getValue(), registerYearComboBox.getValue());
 
+    }
+
+    @FXML
+    void cancelCalibration() {
+        this.registerDataModel.initializeCurrentRegisterModel();
+        if(CommonTools.display(TITLE_MESSAGE,MESSAGE)){
+            this.registerDataModel.getCurrentRegisterModel().setState("OFF");
+            CommonDao commonDao=new CommonDao();
+            commonDao.createOrUpdate(this.registerDataModel.getCurrentRegisterModel());
+        }
+    }
+
+    @FXML
+    void editCalibrationDate() {
+        loadEditDateWindow();
+    }
+
+    @FXML
+    void editCertificateNumber() {
+        EditCertificateNumberWindowController editCertificateNumberWindowController = FxmlTools.openVBoxWindow(EDIT_CERTIFICATE_NUMBER_WINDOW);
+        if(editCertificateNumberWindowController !=null){
+            editCertificateNumberWindowController.setRegisterWindowController(this);
+            this.registerDataModel.initializeCurrentRegisterModel();
+            editCertificateNumberWindowController.init();
+        }
+    }
+    private void loadEditDateWindow(){
+        EditDateWindowController editDateWindowController = FxmlTools.openVBoxWindow(EDIT_DATE_WINDOW);
+        if(editDateWindowController !=null){
+            editDateWindowController.setRegisterWindowController(this);
+            editDateWindowController.setDateType(CALIBRATION_DATE);
+            editDateWindowController.setEditDateWindowLabel(CALIBRATION_DATE);
+            this.registerDataModel.initializeCurrentRegisterModel();
+        }
+    }
+    @FXML
+    private void exportToExcel() throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet spreadsheet = workbook.createSheet("Arkusz1");
+        Row row = spreadsheet.createRow(0);
+        //Nazwy kolumn
+        row.createCell(0).setCellValue("Lp. ");
+        row.createCell(1).setCellValue("Nr karty");
+        row.createCell(2).setCellValue("Data wzorcowania");
+        row.createCell(3).setCellValue("Nazwa");
+        row.createCell(4).setCellValue("Typ");
+        row.createCell(5).setCellValue("Producent");
+        row.createCell(6).setCellValue("Nr fabryczny");
+        row.createCell(7).setCellValue("Nr identyfikacyjny");
+        row.createCell(8).setCellValue("Zakres");
+        row.createCell(9).setCellValue("Zleceniodawca");
+        row.createCell(10).setCellValue("Wzorcujący");
+        row.createCell(11).setCellValue("Nr Świadectwa/Protokołu");
+        row.createCell(12).setCellValue("ŚW/PO");
+        row.createCell(13).setCellValue("Umowa");
+        row.createCell(14).setCellValue("Stan");
+
+        int i = 0;
+        for (RegisterFxModel registerElement : this.registerDataModel.getFilteredRegisterList()) {
+            row = spreadsheet.createRow(i + 1);
+            row.createCell(0).setCellValue(i+1);
+            row.createCell(1).setCellValue(registerElement.getCardNumber());
+            row.createCell(2).setCellValue(registerElement.getCalibrationDate());
+            row.createCell(3).setCellValue(registerElement.getStorage().getInstrument().getName());
+            row.createCell(4).setCellValue(registerElement.getStorage().getInstrument().getType());
+            row.createCell(5).setCellValue(registerElement.getStorage().getInstrument().getProducer());
+            row.createCell(6).setCellValue(registerElement.getStorage().getInstrument().getSerialNumber());
+            row.createCell(7).setCellValue(registerElement.getStorage().getInstrument().getIdentificationNumber());
+            row.createCell(8).setCellValue(registerElement.getStorage().getInstrument().getRange());
+            row.createCell(9).setCellValue(registerElement.getStorage().getInstrument().getApplicant().getShortName());
+            row.createCell(10).setCellValue(registerElement.getCalibrationUser());
+            row.createCell(11).setCellValue(registerElement.certificateNumberProperty().get());
+            row.createCell(12).setCellValue(registerElement.getDocumentKind());
+            row.createCell(13).setCellValue(registerElement.getAgreementNumber());
+            row.createCell(14).setCellValue(registerElement.getState());
+            i++;
+        }
+        for (int j = 0; j < 14; j++) {
+            spreadsheet.autoSizeColumn(j);
+        }
+        FileOutputStream fileOut = new FileOutputStream("Rejestr"+this.registerDataModel.getRegisterType()+".xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
     }
 }

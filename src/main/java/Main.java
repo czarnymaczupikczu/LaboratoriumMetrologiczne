@@ -2,18 +2,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import utils.DatabaseTools;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends Application {
 
-    private final String LOGIN_WINDOW="/fxml/LoginWindow.fxml";
+    private static final String LOGIN_WINDOW="/fxml/LoginWindow.fxml";
 
     public static void main(String[] args) {
         Application.launch(args);

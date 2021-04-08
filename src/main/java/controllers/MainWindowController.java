@@ -24,15 +24,14 @@ public class MainWindowController {
     }
 
     private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
-    private final String REJESTR_AP131="AP131";
-    private final String REJESTR_POZA="PozaAP";
+    private static final String REJESTR_AP131="AP131";
+    private static final String REJESTR_POZA="PozaAP";
 
-    private MainDataModel mainDataModel=new MainDataModel();
+    private final MainDataModel mainDataModel=new MainDataModel();
     public MainDataModel getMainDataModel() {
         return mainDataModel;
     }
-    //Kontrolery poszczególnych okien
-    private StorageWindowController storageWindowController;
+
     private RegisterWindowController registerAP131WindowController;
     private RegisterWindowController registerWindowController;
     private InstrumentsWindowController instrumentsWindowController;
@@ -47,14 +46,9 @@ public class MainWindowController {
     private VBox adminWindowVBox;
 
     @FXML private ImageView mainWindowImageView;
-    @FXML private VBox mainVBox;
     @FXML private BorderPane mainWindowBorderPane;
     @FXML private ToggleButton administrationToggleButton;
     @FXML private Label userLabel;
-
-    public BorderPane getMainWindowBorderPane() {
-        return mainWindowBorderPane;
-    }
 
     @FXML
     public void initialize(){
@@ -97,9 +91,10 @@ public class MainWindowController {
         FXMLLoader loader= FxmlTools.getLoader(fxmlPath);
         try {
             this.storageWindowVBox=loader.load();
-            this.storageWindowController=loader.getController();
-            this.storageWindowController.setMainController(this);
-            this.storageWindowController.init();
+            //Kontrolery poszczególnych okien
+            StorageWindowController storageWindowController = loader.getController();
+            storageWindowController.setMainController(this);
+            storageWindowController.init();
         } catch (IOException e) {
             CommonTools.displayAlert(e.getMessage());
         }

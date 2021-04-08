@@ -82,7 +82,7 @@ public class StorageDataModel {
     }
     public void initializeCurrentStorageModel(){
         CommonDao commonDao=new CommonDao();
-        currentStorageModel=commonDao.queryForFirst(StorageModel.class,ID_STORAGE,this.currentStorage.get().getIdStorage());
+        this.currentStorageModel=commonDao.queryForFirst(StorageModel.class,ID_STORAGE,this.currentStorage.get().getIdStorage());
     }
     public void addFilterToObservableList(String newValue){
         filteredStorageList.setPredicate(item -> {

@@ -27,7 +27,7 @@
             <Label text="Rok:" />
             <ComboBox fx:id="registerYearComboBox" prefWidth="130.0" />
             <Button mnemonicParsing="false" onAction="#loadRegisterList" prefWidth="125.0" text="Wczytaj listę" />
-            <Button mnemonicParsing="false" prefWidth="125.0" text="Eksport do XLS" />
+            <Button mnemonicParsing="false" onAction="#exportToExcel" prefWidth="125.0" text="Eksport do XLS" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" />
@@ -73,9 +73,9 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem mnemonicParsing="false" text="Edytuj datę wzorcowania" />
-                  <MenuItem mnemonicParsing="false" text="Edytuj numer świadectwa" />
-                  <MenuItem mnemonicParsing="false" text="Anuluj wzorcowanie" />
+                <MenuItem mnemonicParsing="false" onAction="#editCalibrationDate" text="Edytuj datę wzorcowania" />
+                  <MenuItem mnemonicParsing="false" onAction="#editCertificateNumber" text="Edytuj numer świadectwa" />
+                  <MenuItem mnemonicParsing="false" onAction="#cancelCalibration" text="Anuluj wzorcowanie" />
               </items>
             </ContextMenu>
          </contextMenu>

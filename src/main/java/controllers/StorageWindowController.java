@@ -5,10 +5,15 @@ import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utils.CommonTools;
 import utils.Converter;
 import utils.FxmlTools;
-
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class StorageWindowController {
@@ -23,7 +28,7 @@ public class StorageWindowController {
     }
 
     //Pola prywatne
-    private StorageDataModel storageDataModel=new StorageDataModel();
+    private final StorageDataModel storageDataModel=new StorageDataModel();
     public StorageDataModel getStorageDataModel() {
         return storageDataModel;
     }
@@ -35,22 +40,21 @@ public class StorageWindowController {
     private CalibrateInstrumentWindowController calibrateInstrumentWindowController;
 
     //Stałe tekstowe
-    private final String NEW_INSTRUMENT_WINDOW = "/fxml/NewInstrumentWindow.fxml";
-    private final String EDIT_INSTRUMENT_WINDOW="/fxml/EditInstrumentWindow.fxml";
-    private final String CALIBRATE_INSTRUMENT_WINDOW="/fxml/CalibrateInstrumentWindow.fxml";
-    private final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
-    private final String EDIT_REMARKS_WINDOW="/fxml/EditRemarksWindow.fxml";
-    private final String ENTRY_DATE="Data przyjęcia";
-    private final String CALIBRATION_DATE="Data wzorcowania";
-    private final String SPEND_DATE="Data wydania";
-    private final String INSTRUMENT_REMARKS="Uwagi dotyczące przyrządu";
-    private final String CALIBRATION_REMARKS="Uwagi dotyczące wzorcowania";
-    private final String ACCREDITED_REGISTER="AP131";
-    private final String NON_ACCREDITED_REGISTER="PozaAP";
+    private static final String NEW_INSTRUMENT_WINDOW = "/fxml/NewInstrumentWindow.fxml";
+    private static final String EDIT_INSTRUMENT_WINDOW="/fxml/EditInstrumentWindow.fxml";
+    private static final String CALIBRATE_INSTRUMENT_WINDOW="/fxml/CalibrateInstrumentWindow.fxml";
+    private static final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
+    private static final String EDIT_REMARKS_WINDOW="/fxml/EditRemarksWindow.fxml";
+    private static final String ENTRY_DATE="Data przyjęcia";
+    private static final String SPEND_DATE="Data wydania";
+    private static final String INSTRUMENT_REMARKS="Uwagi dotyczące przyrządu";
+    private static final String CALIBRATION_REMARKS="Uwagi dotyczące wzorcowania";
+    private static final String ACCREDITED_REGISTER="AP131";
+    private static final String NON_ACCREDITED_REGISTER="PozaAP";
     private final String TITLE_MESSAGE="Ponowne wzorcowanie!";
     private final String WINDOW_MESSAGE="Czy chcesz wzorcować ten przyrząd ponownie ?";
-    private final String ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu w zakresie akredytacji AP131";
-    private final String NON_ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu poza zakresem akredytacji";
+    private static final String ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu w zakresie akredytacji AP131";
+    private static final String NON_ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu poza zakresem akredytacji";
     //ComboBox
     @FXML private ComboBox<String> storageStateComboBox;
     @FXML private ComboBox<String> storageYearComboBox;
@@ -121,7 +125,11 @@ public class StorageWindowController {
             }
         });
         this.instrumentRemarksTextArea.setWrapText(true);
+        this.instrumentRemarksTextArea.setDisable(true);
+        this.instrumentRemarksTextArea.setStyle("-fx-opacity: 1.0;");
         this.calibrationRemarksTextArea.setWrapText(true);
+        this.calibrationRemarksTextArea.setDisable(true);
+        this.calibrationRemarksTextArea.setStyle("-fx-opacity: 1.0;");
     }
     private void initializeComboBoxes(){
         this.storageStateComboBox.getItems().addAll(mainController.getMainDataModel().getStorageStateComboBoxList());
@@ -143,9 +151,7 @@ public class StorageWindowController {
         this.spendDateItem.disableProperty().bind(this.storageDataModel.getCurrentStorage().spendDateProperty().isEmpty());
     }
     private void addFilter(){
-        searchTextField.textProperty().addListener((value,oldValue, newValue) ->{
-            storageDataModel.addFilterToObservableList(newValue);
-        } );
+        searchTextField.textProperty().addListener((value,oldValue, newValue) -> storageDataModel.addFilterToObservableList(newValue));
     }
     //Przyciski
     @FXML
@@ -155,11 +161,13 @@ public class StorageWindowController {
     @FXML
     void addInstrument() {
         this.newInstrumentWindowController =FxmlTools.openVBoxWindow(NEW_INSTRUMENT_WINDOW);
-        this.newInstrumentWindowController.setMainController(this.mainController);
-        if(this.mainController.getMainDataModel().getUser().getPermissionLevel().equals("worker")){
-            this.newInstrumentWindowController.disabelTextArea();
+        if(this.newInstrumentWindowController!=null) {
+            this.newInstrumentWindowController.setMainController(this.mainController);
+            if (this.mainController.getMainDataModel().getUser().getPermissionLevel().equals("worker")) {
+                this.newInstrumentWindowController.disabelTextArea();
+            }
+            this.newInstrumentWindowController.setStorageWindowController(this);
         }
-        this.newInstrumentWindowController.setStorageWindowController(this);
     }
     @FXML
     void spendInstrument(){
@@ -198,27 +206,33 @@ public class StorageWindowController {
     @FXML
     void editInstrument() {
         this.editInstrumentWindowController=FxmlTools.openVBoxWindow(EDIT_INSTRUMENT_WINDOW);
-        this.editInstrumentWindowController.setMainController(this.mainController);
-        this.editInstrumentWindowController.setStorageWindowController(this);
-        this.editInstrumentWindowController.getInstrumentDataModel().searchForInstrument(this.getStorageDataModel().getCurrentStorage().getInstrument().getIdInstrument());
-        this.editInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant()));
-        this.editInstrumentWindowController.setInstrumentDataToForm(this.editInstrumentWindowController.getInstrumentDataModel().getFindInstrument());
+        if(this.editInstrumentWindowController!=null) {
+            this.editInstrumentWindowController.setMainController(this.mainController);
+            this.editInstrumentWindowController.setStorageWindowController(this);
+            this.editInstrumentWindowController.getInstrumentDataModel().searchForInstrument(this.getStorageDataModel().getCurrentStorage().getInstrument().getIdInstrument());
+            this.editInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant()));
+            this.editInstrumentWindowController.setInstrumentDataToForm(this.editInstrumentWindowController.getInstrumentDataModel().getFindInstrument());
+        }
     }
     @FXML
     void editInstrumentRemarks(){
         this.editRemarksWindowController=FxmlTools.openVBoxWindow(EDIT_REMARKS_WINDOW);
-        this.editRemarksWindowController.setStorageWindowController(this);
-        this.editRemarksWindowController.setDateType(INSTRUMENT_REMARKS);
-        this.editRemarksWindowController.setEditRemarksTextArea(this.getStorageDataModel().getCurrentStorage().getInstrumentRemarks());
-        this.editRemarksWindowController.setEditRemarksWindowLabel(INSTRUMENT_REMARKS);
+        if(this.editRemarksWindowController!=null) {
+            this.editRemarksWindowController.setStorageWindowController(this);
+            this.editRemarksWindowController.setDateType(INSTRUMENT_REMARKS);
+            this.editRemarksWindowController.setEditRemarksTextArea(this.getStorageDataModel().getCurrentStorage().getInstrumentRemarks());
+            this.editRemarksWindowController.setEditRemarksWindowLabel(INSTRUMENT_REMARKS);
+        }
     }
     @FXML
     void editCalibrationRemarks(){
         this.editRemarksWindowController=FxmlTools.openVBoxWindow(EDIT_REMARKS_WINDOW);
-        this.editRemarksWindowController.setStorageWindowController(this);
-        this.editRemarksWindowController.setDateType(CALIBRATION_REMARKS);
-        this.editRemarksWindowController.setEditRemarksTextArea(this.getStorageDataModel().getCurrentStorage().getCalibrationRemarks());
-        this.editRemarksWindowController.setEditRemarksWindowLabel(CALIBRATION_REMARKS);
+        if (this.editRemarksWindowController!=null) {
+            this.editRemarksWindowController.setStorageWindowController(this);
+            this.editRemarksWindowController.setDateType(CALIBRATION_REMARKS);
+            this.editRemarksWindowController.setEditRemarksTextArea(this.getStorageDataModel().getCurrentStorage().getCalibrationRemarks());
+            this.editRemarksWindowController.setEditRemarksWindowLabel(CALIBRATION_REMARKS);
+        }
     }
 
     @FXML
@@ -235,11 +249,54 @@ public class StorageWindowController {
     }
     private void calibrateInstrument(String registerKind,String label){
         this.calibrateInstrumentWindowController = FxmlTools.openVBoxWindow(CALIBRATE_INSTRUMENT_WINDOW);
-        this.calibrateInstrumentWindowController.setRegisterKind(registerKind);
-        this.calibrateInstrumentWindowController.setMainLabel(label);
-        this.calibrateInstrumentWindowController.setStorageWindowController(this);
-        this.calibrateInstrumentWindowController.setMainController(this.mainController);
-        this.storageDataModel.initializeCurrentStorageModel();
-        this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument(),this.storageDataModel.getCurrentStorage());
+        if (this.calibrateInstrumentWindowController != null) {
+            this.calibrateInstrumentWindowController.setRegisterKind(registerKind);
+            this.calibrateInstrumentWindowController.setMainLabel(label);
+            this.calibrateInstrumentWindowController.setStorageWindowController(this);
+            this.calibrateInstrumentWindowController.setMainController(this.mainController);
+            this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument(), this.storageDataModel.getCurrentStorage());
+            this.storageDataModel.initializeCurrentStorageModel();
+        }
+    }
+    @FXML
+    private void exportToExcel() throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet spreadsheet = workbook.createSheet("Arkusz1");
+        Row row = spreadsheet.createRow(0);
+        //Nazwy kolumn
+        row.createCell(0).setCellValue("Lp.");
+        row.createCell(1).setCellValue("Nazwa");
+        row.createCell(2).setCellValue("Typ");
+        row.createCell(3).setCellValue("Producent");
+        row.createCell(4).setCellValue("Nr fabryczny");
+        row.createCell(5).setCellValue("Nr identyfikacyjny");
+        row.createCell(6).setCellValue("Zakres pomiarowy");
+        row.createCell(7).setCellValue("Zleceniodawca");
+        row.createCell(8).setCellValue("Data przyjęcia");
+        row.createCell(9).setCellValue("Data wzorcowania");
+        row.createCell(10).setCellValue("Data wydania");
+
+        int i=0;
+        for (StorageFxModel storageElement : this.storageDataModel.getFilteredStorageList()) {
+            row = spreadsheet.createRow(i + 1);
+            row.createCell(0).setCellValue(i+1);
+            row.createCell(1).setCellValue(storageElement.getInstrument().getName());
+            row.createCell(2).setCellValue(storageElement.getInstrument().getType());
+            row.createCell(3).setCellValue(storageElement.getInstrument().getProducer());
+            row.createCell(4).setCellValue(storageElement.getInstrument().getSerialNumber());
+            row.createCell(5).setCellValue(storageElement.getInstrument().getIdentificationNumber());
+            row.createCell(6).setCellValue(storageElement.getInstrument().getRange());
+            row.createCell(7).setCellValue(storageElement.getInstrument().getApplicant().getShortName());
+            row.createCell(8).setCellValue(storageElement.getEntryDate());
+            row.createCell(9).setCellValue(storageElement.getCalibrationDates());
+            row.createCell(10).setCellValue(storageElement.getSpendDate());
+            i++;
+        }
+        for(int j=0;j<11;j++){
+            spreadsheet.autoSizeColumn(j);
+        }
+        FileOutputStream fileOut = new FileOutputStream("Magazyn.xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
     }
 }
