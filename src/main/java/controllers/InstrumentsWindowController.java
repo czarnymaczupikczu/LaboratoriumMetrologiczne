@@ -1,6 +1,5 @@
 package controllers;
 
-import dataModels.InstrumentDataModel;
 import dataModels.InstrumentsDataModel;
 import dataModels.ShortRegisterDataModel;
 import fxModels.InstrumentFxModel;
@@ -27,12 +26,10 @@ public class InstrumentsWindowController {
         this.mainController = mainController;
     }
 
-    private InstrumentsDataModel instrumentsDataModel=new InstrumentsDataModel();
-    private ShortRegisterDataModel shortRegisterDataModel=new ShortRegisterDataModel();
+    private final InstrumentsDataModel instrumentsDataModel=new InstrumentsDataModel();
+    private final ShortRegisterDataModel shortRegisterDataModel=new ShortRegisterDataModel();
 
     @FXML private TextField searchTextField;
-    @FXML private Button loadInstrumentListButton;
-    @FXML private Button exportToExcelButton;
     //TableView z przyrządami
     @FXML private TableView<InstrumentFxModel> instrumentTableView;
     @FXML private TableColumn<InstrumentFxModel, Integer> idInstrumentColumn;
@@ -128,9 +125,7 @@ public class InstrumentsWindowController {
         this.calibrationRemarksTextArea.textProperty().bind(this.shortRegisterDataModel.getCurrentRegisterElement().calibrationRemarksProperty());
     }
     private void addFilter() {
-        searchTextField.textProperty().addListener((value, oldValue, newValue) -> {
-            instrumentsDataModel.addFilterToObservableList(newValue);
-        });
+        searchTextField.textProperty().addListener((value, oldValue, newValue) -> instrumentsDataModel.addFilterToObservableList(newValue));
     }
 
 

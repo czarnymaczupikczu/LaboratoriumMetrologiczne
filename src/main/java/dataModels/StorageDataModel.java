@@ -4,32 +4,28 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RawRowMapper;
-import com.j256.ormlite.stmt.QueryBuilder;
 import dbModels.RegisterModel;
 import dbModels.StorageModel;
 import fxModels.ApplicantFxModel;
 import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
 import fxModels.VeryShortRegisterFxModel;
-import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import org.w3c.dom.ls.LSOutput;
 import utils.DatabaseTools;
 import utils.ShowAlert;
 import utils.database.CommonDao;
-
 import java.sql.SQLException;
-import java.util.List;
+
 
 import static dbModels.StorageModel.ID_STORAGE;
 
 public class StorageDataModel {
     private ObservableList<StorageFxModel> storageList= FXCollections.observableArrayList();
-    private ObjectProperty<StorageFxModel> currentStorage= new SimpleObjectProperty<>(new StorageFxModel());
+    private final ObjectProperty<StorageFxModel> currentStorage= new SimpleObjectProperty<>(new StorageFxModel());
     private ObservableList<StorageFxModel> storageSelectedItemsList=FXCollections.observableArrayList();
     private FilteredList<StorageFxModel> filteredStorageList= new FilteredList<>(storageList,p->true);
     private StorageModel currentStorageModel=new StorageModel();
@@ -38,7 +34,7 @@ public class StorageDataModel {
 
     public void listInitialize(String storageState, String storageYear) {
         storageList.clear();
-        Dao<StorageModel,Integer> storageDao= null;
+        Dao<StorageModel,Integer> storageDao;
         try {
             storageDao = DaoManager.createDao(DatabaseTools.getConnectionSource(), StorageModel.class);
             GenericRawResults<StorageFxModel> rawResults=storageDao.queryRaw(
@@ -66,7 +62,7 @@ public class StorageDataModel {
                         "group by idStorage;",
                 new RawRowMapper<StorageFxModel>() {
                     @Override
-                    public StorageFxModel mapRow(String[] columns, String[] res) throws SQLException {
+                    public StorageFxModel mapRow(String[] columns, String[] res)  {
                         return createStorageFxModel(res);
                     }
                 });
@@ -84,20 +80,18 @@ public class StorageDataModel {
         CommonDao commonDao=new CommonDao();
         this.currentStorageModel=commonDao.queryForFirst(StorageModel.class,ID_STORAGE,this.currentStorage.get().getIdStorage());
     }
+    public void initializeCurrentStorageModel(int idStorage){
+        CommonDao commonDao=new CommonDao();
+        this.currentStorageModel=commonDao.queryForFirst(StorageModel.class,ID_STORAGE,idStorage);
+    }
     public void addFilterToObservableList(String newValue){
-        filteredStorageList.setPredicate(item -> {
-            if (item.getInstrument().getName().toUpperCase().contains(newValue.toUpperCase())||item.getInstrument().getType().toUpperCase().contains(newValue.toUpperCase())||
-                    item.getInstrument().getProducer().toUpperCase().contains(newValue.toUpperCase())||item.getInstrument().getSerialNumber().toUpperCase().contains(newValue.toUpperCase())||
-                    item.getInstrument().getIdentificationNumber().toUpperCase().contains(newValue.toUpperCase())||item.getInstrument().getRange().toUpperCase().contains(newValue.toUpperCase())||
-                    item.getInstrument().getApplicant().getShortName().toUpperCase().contains(newValue.toUpperCase())) {
-                return true;
-            } else {
-                return false;
-            }
-        });
+        filteredStorageList.setPredicate(item -> item.getInstrument().getName().toUpperCase().contains(newValue.toUpperCase()) || item.getInstrument().getType().toUpperCase().contains(newValue.toUpperCase()) ||
+                item.getInstrument().getProducer().toUpperCase().contains(newValue.toUpperCase()) || item.getInstrument().getSerialNumber().toUpperCase().contains(newValue.toUpperCase()) ||
+                item.getInstrument().getIdentificationNumber().toUpperCase().contains(newValue.toUpperCase()) || item.getInstrument().getRange().toUpperCase().contains(newValue.toUpperCase()) ||
+                item.getInstrument().getApplicant().getShortName().toUpperCase().contains(newValue.toUpperCase()));
     }
     public String createSQLStatement(String storageState, String storageYear){
-        String sqlStatement = null;
+        String sqlStatement;
         if(storageState.equals(storageYear)){   //Wszystkie i wszystkie
             sqlStatement="";
         }else if(storageState.equals("Wszystkie") && !storageYear.equals("Wszystkie")){

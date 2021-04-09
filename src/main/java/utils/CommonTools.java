@@ -7,11 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.apache.poi.hssf.util.HSSFColor;
+
 
 import static javafx.scene.paint.Color.WHITE;
 
@@ -31,7 +29,12 @@ public class CommonTools {
         alert.showAndWait();
     }
     public static String deleteWhiteSpaces(String s){
-        return s.replaceAll("\\s+","");
+        if(s!=null) {
+            return s.replaceAll("\\s+", "");
+        }
+        else{
+            return "";
+        }
     }
     static boolean answer;
     public static boolean display(String title, String message){
@@ -79,9 +82,7 @@ public class CommonTools {
         Label label = new Label();
         label.setText(message);
         Button yesButton = new Button("Ok");
-        yesButton.setOnAction(e -> {
-            window.close();
-        });
+        yesButton.setOnAction(e -> window.close());
         VBox vBox = new VBox(10);
         HBox hBox = new HBox(10);
 

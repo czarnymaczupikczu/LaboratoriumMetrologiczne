@@ -1,7 +1,6 @@
 package controllers;
 
 
-import controllers.RegisterWindowController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;

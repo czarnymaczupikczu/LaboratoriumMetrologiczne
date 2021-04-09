@@ -105,7 +105,7 @@ public class CommonEditController {
             tempValue=this.mainTextField.getText();
             List<BaseModel> dataList=commonDao.selectAndWithLikeStatement(tempClass,columnNameEdit,tempValue);
             if(dataList.size()>0 ) {
-                if (dataList.get(0).getId() != tempId) {
+                if (dataList.get(0).getId().equals(tempId)) {
                     this.errorLabel.setText(ADD_ERROR);
                 }
                 else {

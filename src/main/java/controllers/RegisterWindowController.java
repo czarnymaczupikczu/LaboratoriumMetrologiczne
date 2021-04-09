@@ -72,11 +72,16 @@ public class RegisterWindowController {
     @FXML private TextArea instrumentRemarksTextArea;
     @FXML private TextArea calibrationRemarksTextArea;
 
+    @FXML private MenuItem editCertificateNumberItem;
+
     public void init() {
         initializeComboBoxes();
         initializeTableView();
         bindingLabels();
         addFilter();
+        if(this.mainController.getMainDataModel().getUser().getPermissionLevel().equals("worker")){
+            this.editCertificateNumberItem.setDisable(true);
+        }
     }
     private void initializeTableView() {
         this.registerTableView.setItems(this.registerDataModel.getFilteredRegisterList());
@@ -102,8 +107,6 @@ public class RegisterWindowController {
             if (newValue != null) {
                 this.registerDataModel.setCurrentRegisterElement(newValue);
                 bindingLabels();
-                System.out.println(this.registerDataModel.getRegisterList().indexOf(this.registerDataModel.getCurrentRegisterElement()));
-                System.out.println(this.registerDataModel.getFilteredRegisterList().indexOf(this.registerDataModel.getCurrentRegisterElement()));
                 /*if (this.registerTableView.getSelectionModel().getSelectedItems().size() < 2) { //Gdy jest multiple selection to zostaje ciągle ten sam obiekt
                     updateBindings(newValue);
                 }

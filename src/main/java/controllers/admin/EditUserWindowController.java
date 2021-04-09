@@ -34,8 +34,8 @@ public class EditUserWindowController {
         this.selectedUserId = selectedUserId;
     }
 
-    private final String DELETE_ERROR="Nie można bezpiecznie usunąć elementu";
-    private final String ADD_ERROR="Uzytkownik o takim loginie istnieje już w bazie";
+    private static final String DELETE_ERROR="Nie można bezpiecznie usunąć elementu";
+    private static final String ADD_ERROR="Uzytkownik o takim loginie istnieje już w bazie";
 
     @FXML private VBox mainVBox;
     @FXML private Label userLabel;

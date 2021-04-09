@@ -2,7 +2,6 @@ package controllers;
 
 import dataModels.InstrumentDataModel;
 import dbModels.InstrumentModel;
-import dbModels.StorageModel;
 import dbModels.instrument.*;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -10,22 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import utils.CommonTools;
-import utils.ShowAlert;
 import utils.database.CommonDao;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static dbModels.InstrumentModel.*;
-import static dbModels.StorageModel.INSTRUMENT;
-import static dbModels.StorageModel.SPEND_DATE;
 import static dbModels.instrument.NameModel.INSTRUMENT_NAME;
 import static dbModels.instrument.ProducerModel.PRODUCER_NAME;
 import static dbModels.instrument.RangeModel.RANGE_NAME;
@@ -58,7 +50,7 @@ public class EditInstrumentWindowController {
         this.storageWindowController = storageWindowController;
     }
 
-    private InstrumentDataModel instrumentDataModel= new InstrumentDataModel();
+    private final InstrumentDataModel instrumentDataModel= new InstrumentDataModel();
     public InstrumentDataModel getInstrumentDataModel() {
         return instrumentDataModel;
     }
@@ -93,40 +85,50 @@ public class EditInstrumentWindowController {
     @FXML
     private void addNewNameOnAction() {
         this.newInstrumentDataWindowController=loadVBoxWindow(NEW_INSTRUMENT_DATA_WINDOW);
-        this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
-        this.newInstrumentDataWindowController.init(INSTRUMENT_NAME, NameModel.class,NEW_NAME);
+        if(this.newInstrumentDataWindowController!=null) {
+            this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
+            this.newInstrumentDataWindowController.init(INSTRUMENT_NAME, NameModel.class, NEW_NAME);
+        }
     }
     @FXML
     private void addNewTypeOnAction() {
         this.newInstrumentDataWindowController=loadVBoxWindow(NEW_INSTRUMENT_DATA_WINDOW);
-        this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
-        this.newInstrumentDataWindowController.init(TYPE_NAME, TypeModel.class,NEW_TYPE);
+        if(this.newInstrumentDataWindowController!=null) {
+            this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
+            this.newInstrumentDataWindowController.init(TYPE_NAME, TypeModel.class, NEW_TYPE);
+        }
     }
     @FXML
     private void addNewProducerOnAction() {
         this.newInstrumentDataWindowController=loadVBoxWindow(NEW_INSTRUMENT_DATA_WINDOW);
-        this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
-        this.newInstrumentDataWindowController.init(PRODUCER_NAME, ProducerModel.class,NEW_PRODUCER);
+        if(this.newInstrumentDataWindowController!=null) {
+            this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
+            this.newInstrumentDataWindowController.init(PRODUCER_NAME, ProducerModel.class, NEW_PRODUCER);
+        }
     }
     @FXML
     private void addNewRangeOnAction() {
         this.newInstrumentDataWindowController=loadVBoxWindow(NEW_INSTRUMENT_RANGE_WINDOW);
-        this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
-        this.newInstrumentDataWindowController.init(RANGE_NAME, RangeModel.class,NEW_RANGE);
+        if(this.newInstrumentDataWindowController!=null) {
+            this.newInstrumentDataWindowController.setEditInstrumentWindowController(this);
+            this.newInstrumentDataWindowController.init(RANGE_NAME, RangeModel.class, NEW_RANGE);
+        }
     }
     @FXML
     void applicantComboBoxOnAction() {
         this.applicantsWindowController=loadVBoxWindow(APPLICANTS_WINDOW);
-        this.applicantsWindowController.setEditInstrumentWindowController(this);
-        this.applicantsWindowController.getApplicantsDataModel().listInitializeApplicantsActive();
-        this.applicantsWindowController.hideButton();
+        if(this.applicantsWindowController!=null) {
+            this.applicantsWindowController.setEditInstrumentWindowController(this);
+            this.applicantsWindowController.getApplicantsDataModel().listInitializeApplicantsActive();
+            this.applicantsWindowController.hideButton();
+        }
     }
     @FXML
     void save() {
         createFormInstrument();
         if (isValidInstrumentData(this.instrumentDataModel.getFormInstrument())){
             addInstrumentToInstruments(this.instrumentDataModel.getFormInstrument());
-        };
+        }
     }
     @FXML
     private void cancel() {
@@ -155,20 +157,21 @@ public class EditInstrumentWindowController {
         String sNumber=this.serialNumberTextField.getText();
         String iNumber=this.identificationNumberTextField.getText();
         Integer idApplicant = instrument.getApplicant().getIdApplicant();
-        InstrumentModel tempInstrument=new InstrumentModel();
+        InstrumentModel tempInstrument = null;
         if(!sNumber.isEmpty() && !iNumber.isEmpty()) {
             tempInstrument = commonDao.queryForFirst(InstrumentModel.class, SERIAL_NUMBER, sNumber, IDENTIFICATION_NUMBER, iNumber, APPLICANT, idApplicant);
-        }else if(!sNumber.isEmpty() && iNumber.isEmpty()){
+        }else if(!sNumber.isEmpty()){
             tempInstrument=commonDao.queryForFirst(InstrumentModel.class,SERIAL_NUMBER,sNumber,APPLICANT,idApplicant);
-        }else if(sNumber.isEmpty() && !iNumber.isEmpty()){
+        }else if(!iNumber.isEmpty()){
             tempInstrument=commonDao.queryForFirst(InstrumentModel.class,IDENTIFICATION_NUMBER,iNumber,APPLICANT,idApplicant);
         }
         if(tempInstrument==null){
-            //commonDao.createOrUpdate(tempInstrument);
-            System.out.println("Nie ma takiego w bazie");
+            commonDao.createOrUpdate(instrument);
+            cancel();
         }else{
-            //instrument.setIdInstrument(tempInstrument.getIdInstrument());
-            System.out.println("Jest taki w bazie");
+            this.storageWindowController.getStorageDataModel().getCurrentStorageModel().setInstrument(tempInstrument);
+            commonDao.createOrUpdate(this.storageWindowController.getStorageDataModel().getCurrentStorageModel());
+            cancel();
         }
     }
     private <T> T loadVBoxWindow(String resource){
@@ -199,13 +202,7 @@ public class EditInstrumentWindowController {
             final TextField editor = comboBox.getEditor();
             final String selected = comboBox.getSelectionModel().getSelectedItem();
             if (selected == null || !selected.equals(editor.getText())) {
-                filteredList.setPredicate(item -> {
-                    if (item.toUpperCase().startsWith(newValue.toUpperCase())) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
+                filteredList.setPredicate(item -> item.toUpperCase().startsWith(newValue.toUpperCase()));
             }
         });
         comboBox.setItems(filteredList);

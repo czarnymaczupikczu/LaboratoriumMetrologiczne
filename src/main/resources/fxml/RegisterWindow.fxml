@@ -38,28 +38,28 @@
       </HBox>
       <TableView fx:id="registerTableView" prefHeight="1000.0" prefWidth="1190.0">
         <columns>
-          <TableColumn fx:id="idRegisterColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" resizable="false" text="Lp." />
-            <TableColumn fx:id="cardNumberColumn" maxWidth="90.0" minWidth="66.0" text="Nr &#10;karty" />
-            <TableColumn fx:id="calibrationDateColumn" maxWidth="90.0" minWidth="86.0" prefWidth="90.0" resizable="false" text="Data &#10;wzorcowania" />
-          <TableColumn fx:id="nameColumn" maxWidth="450.0" minWidth="96.0" prefWidth="200.0" text="Nazwa" />
-            <TableColumn fx:id="typeColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Typ" />
-            <TableColumn fx:id="producerColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Producent" />
-            <TableColumn fx:id="serialNumberColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Nr fabryczny" />
-            <TableColumn fx:id="identificationNumberColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Nr identyfikacyjny" />
-            <TableColumn fx:id="rangeColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Zakres" />
+          <TableColumn fx:id="idRegisterColumn" maxWidth="50.0" minWidth="45.0" prefWidth="50.0" text="Lp." />
+            <TableColumn fx:id="cardNumberColumn" maxWidth="90.0" minWidth="65.0" text="Nr &#10;karty" />
+            <TableColumn fx:id="calibrationDateColumn" maxWidth="90.0" minWidth="85.0" prefWidth="90.0" text="Data &#10;wzorcowania" />
+          <TableColumn fx:id="nameColumn" maxWidth="450.0" minWidth="94.0" prefWidth="200.0" text="Nazwa" />
+            <TableColumn fx:id="typeColumn" maxWidth="150.0" minWidth="84.0" prefWidth="100.0" text="Typ" />
+            <TableColumn fx:id="producerColumn" maxWidth="150.0" minWidth="84.0" prefWidth="100.0" text="Producent" />
+            <TableColumn fx:id="serialNumberColumn" maxWidth="150.0" minWidth="84.0" prefWidth="100.0" text="Nr fabryczny" />
+            <TableColumn fx:id="identificationNumberColumn" maxWidth="150.0" minWidth="84.0" prefWidth="100.0" text="Nr identyfikacyjny" />
+            <TableColumn fx:id="rangeColumn" maxWidth="150.0" minWidth="84.0" prefWidth="100.0" text="Zakres" />
             <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Wymiary [mm]">
                <columns>
-                  <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" resizable="false" text="l" />
-                  <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" resizable="false" text="⌀" />
+                  <TableColumn fx:id="lengthColumn" maxWidth="50.0" minWidth="45.0" prefWidth="50.0" text="l" />
+                  <TableColumn fx:id="diameterColumn" maxWidth="50.0" minWidth="45.0" prefWidth="50.0" text="⌀" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="applicantColumn" maxWidth="150.0" minWidth="86.0" prefWidth="100.0" text="Zleceniodawca" />
-            <TableColumn fx:id="calibrateUserColumn" maxWidth="90.0" minWidth="78.0" text="Wzorcujący" />
+            <TableColumn fx:id="applicantColumn" maxWidth="150.0" minWidth="84.0" prefWidth="100.0" text="Zleceniodawca" />
+            <TableColumn fx:id="calibrateUserColumn" maxWidth="90.0" minWidth="76.0" text="Wzorcujący" />
             <TableColumn maxWidth="-1.0" minWidth="180.0" prefWidth="-1.0" text="Świadectwo wzorcowania/&#10; Protokół odmowy wzorcowania">
                <columns>
-                  <TableColumn fx:id="certificateNumberColumn" maxWidth="140.0" minWidth="76.0" text="Numer" />
-                  <TableColumn fx:id="documentKindColumn" maxWidth="70.0" minWidth="46.0" prefWidth="50.0" text="ŚW/PO" />
-                  <TableColumn fx:id="agreementNumberColumn" maxWidth="90.0" minWidth="46.0" prefWidth="50.0" text="Umowa" />
+                  <TableColumn fx:id="certificateNumberColumn" maxWidth="140.0" minWidth="74.0" text="Numer" />
+                  <TableColumn fx:id="documentKindColumn" maxWidth="70.0" minWidth="45.0" prefWidth="50.0" text="ŚW/PO" />
+                  <TableColumn fx:id="agreementNumberColumn" maxWidth="90.0" minWidth="45.0" prefWidth="50.0" text="Umowa" />
                </columns>
             </TableColumn>
             <TableColumn fx:id="stateColumn" maxWidth="50.0" minWidth="46.0" prefWidth="50.0" text="Stan" />
@@ -74,7 +74,7 @@
             <ContextMenu>
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#editCalibrationDate" text="Edytuj datę wzorcowania" />
-                  <MenuItem mnemonicParsing="false" onAction="#editCertificateNumber" text="Edytuj numer świadectwa" />
+                  <MenuItem fx:id="editCertificateNumberItem" mnemonicParsing="false" onAction="#editCertificateNumber" text="Edytuj numer świadectwa" />
                   <MenuItem mnemonicParsing="false" onAction="#cancelCalibration" text="Anuluj wzorcowanie" />
               </items>
             </ContextMenu>

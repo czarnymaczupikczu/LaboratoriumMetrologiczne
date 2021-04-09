@@ -218,15 +218,17 @@ public class EditDateWindowController {
     public void setEditDateWindowLabel(String label) {
         this.editDateWindowLabel.setText(label);
     }
-    public List<LocalDate> decodeCalibrationDates(String calibrationDates){
+    public static List<LocalDate> decodeCalibrationDates(String calibrationDates){
         List<LocalDate> calibrationDatesList=new ArrayList<>();
-        int start=0;
-        int end=10;
-        while(end<=calibrationDates.length()){
-            calibrationDatesList.add(Converter.getConverter().fromString(calibrationDates.substring(start,end)));
-            System.out.println(calibrationDates.substring(start,end));
-            start=end+2;
-            end=start+10;
+        if(calibrationDates.length()>0) {
+            int start = 0;
+            int end = 10;
+            while (end <= calibrationDates.length()) {
+                calibrationDatesList.add(Converter.getConverter().fromString(calibrationDates.substring(start, end)));
+                System.out.println(calibrationDates.substring(start, end));
+                start = end + 2;
+                end = start + 10;
+            }
         }
         return calibrationDatesList;
     }

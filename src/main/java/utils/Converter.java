@@ -17,7 +17,7 @@ public class Converter {
     public static StringConverter<LocalDate> converter;
     public static StringConverter<LocalDate> getConverter(){
         converter = new StringConverter<LocalDate>() {
-            DateTimeFormatter dateFormatter =
+            final DateTimeFormatter dateFormatter =
                     DateTimeFormatter.ofPattern("yyyy-MM-dd");
             @Override
             public String toString(LocalDate date) {

@@ -34,8 +34,7 @@ public class FxmlTools {
         return null;
     }
     public static FXMLLoader getLoader(String fxmlPath) {
-        FXMLLoader loader = new FXMLLoader(FxmlTools.class.getResource(fxmlPath));
-        return loader;
+        return new FXMLLoader(FxmlTools.class.getResource(fxmlPath));
     }
     public static <T> T openVBoxWindow(String fxmlPath, String title){
         try {

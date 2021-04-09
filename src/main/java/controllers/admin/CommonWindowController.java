@@ -1,8 +1,6 @@
 package controllers.admin;
 
 import dataModels.CommonDataModel;
-import dbModels.instrument.BaseModel;
-import dbModels.instrument.NameModel;
 import fxModels.CommonFxModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,8 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import utils.CommonTools;
 import utils.FxmlTools;
-
-import java.lang.reflect.Type;
 
 public class CommonWindowController {
 
@@ -26,9 +22,9 @@ public class CommonWindowController {
     private CommonEditController commonEditController;
 
     private final String COMMON_EDIT_WINDOW="/fxml/admin/CommonEditWindow.fxml";
-    private final String NEW_ELEMENT="Dodanie nowe elementu";
-    private final String EDIT_ELEMENT="Edycja elementu";
-    private final String DELETE_ELEMENT="Usuwanie elementu";
+    private static final String NEW_ELEMENT="Dodanie nowe elementu";
+    private static final String EDIT_ELEMENT="Edycja elementu";
+    private static final String DELETE_ELEMENT="Usuwanie elementu";
 
     @FXML private VBox commonWindowVBox;
     @FXML private TableView<CommonFxModel> commonTableView;
@@ -58,30 +54,36 @@ public class CommonWindowController {
     @FXML
     void addNew() {
         this.commonEditController=FxmlTools.openVBoxWindow(COMMON_EDIT_WINDOW);
-        this.commonEditController.setMainLabel(NEW_ELEMENT);
-        this.commonDataModel.setFunction("new");
-        this.commonEditController.setCommonWindowController(this);
-        this.commonDataModel.getCurrentElement().setId(0);
+        if(this.commonEditController!=null) {
+            this.commonEditController.setMainLabel(NEW_ELEMENT);
+            this.commonDataModel.setFunction("new");
+            this.commonEditController.setCommonWindowController(this);
+            this.commonDataModel.getCurrentElement().setId(0);
+        }
     }
     @FXML
     void edit() {
         if(this.commonDataModel.getCurrentElement().getValue()!=null){
             this.commonEditController=FxmlTools.openVBoxWindow(COMMON_EDIT_WINDOW);
-            this.commonEditController.setMainTextField(this.commonDataModel.getCurrentElement().getValue());
-            this.commonEditController.setMainLabel(EDIT_ELEMENT);
-            this.commonDataModel.setFunction("edit");
-            this.commonEditController.setCommonWindowController(this);
+            if(this.commonEditController!=null) {
+                this.commonEditController.setMainTextField(this.commonDataModel.getCurrentElement().getValue());
+                this.commonEditController.setMainLabel(EDIT_ELEMENT);
+                this.commonDataModel.setFunction("edit");
+                this.commonEditController.setCommonWindowController(this);
+            }
         }
     }
     @FXML
     void delete() {
         if(this.commonDataModel.getCurrentElement().getValue()!=null){
             this.commonEditController=FxmlTools.openVBoxWindow(COMMON_EDIT_WINDOW);
-            this.commonEditController.setMainTextField(this.commonDataModel.getCurrentElement().getValue());
-            this.commonEditController.setMainTextFieldEditable(false);
-            this.commonEditController.setMainLabel(DELETE_ELEMENT);
-            this.commonDataModel.setFunction("delete");
-            this.commonEditController.setCommonWindowController(this);
+            if(this.commonEditController!=null) {
+                this.commonEditController.setMainTextField(this.commonDataModel.getCurrentElement().getValue());
+                this.commonEditController.setMainTextFieldEditable(false);
+                this.commonEditController.setMainLabel(DELETE_ELEMENT);
+                this.commonDataModel.setFunction("delete");
+                this.commonEditController.setCommonWindowController(this);
+            }
         }
     }
 

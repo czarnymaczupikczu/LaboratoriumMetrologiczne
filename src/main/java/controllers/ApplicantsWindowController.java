@@ -38,14 +38,14 @@ public class ApplicantsWindowController {
 
     private NewApplicantWindowController newApplicantWindowController;
 
-    private ApplicantsDataModel applicantsDataModel=new ApplicantsDataModel();
+    private final ApplicantsDataModel applicantsDataModel=new ApplicantsDataModel();
     public ApplicantsDataModel getApplicantsDataModel() {
         return applicantsDataModel;
     }
 
     private final String NEW_APPLICANTS_WINDOW="/fxml/NewApplicantWindow.fxml";
-    private final String EDIT_APPLICANT_LABEL="Edycja zleceniodawcy";
-    private final String DELETE_APPLICANT_LABEL="Usuwanie zleceniodawcy";
+    private static final String EDIT_APPLICANT_LABEL="Edycja zleceniodawcy";
+    private static final String DELETE_APPLICANT_LABEL="Usuwanie zleceniodawcy";
 
     @FXML private VBox applicantMainVBox;
     @FXML private TextField searchTextField;
@@ -92,9 +92,7 @@ public class ApplicantsWindowController {
         this.applicantTableView.prefHeightProperty().bind(applicantMainVBox.heightProperty().multiply(0.85));
     }
     private void addFilter(){
-        searchTextField.textProperty().addListener((value,oldValue, newValue) ->{
-            applicantsDataModel.addFilterToObservableList(newValue);
-        } );
+        searchTextField.textProperty().addListener((value,oldValue, newValue) -> applicantsDataModel.addFilterToObservableList(newValue));
     }
     private void updateBindings(ApplicantFxModel applicant){
         this.applicantsDataModel.getCurrentApplicantElement().setIdApplicant(applicant.getIdApplicant());
@@ -120,7 +118,9 @@ public class ApplicantsWindowController {
     @FXML
     void addApplicant() {
         this.newApplicantWindowController= FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
-        this.newApplicantWindowController.setApplicantsWindowController(this);
+        if(this.newApplicantWindowController!=null) {
+            this.newApplicantWindowController.setApplicantsWindowController(this);
+        }
     }
 
     @FXML
@@ -140,21 +140,25 @@ public class ApplicantsWindowController {
     void editApplicant() {
         if(!this.applicantsDataModel.getCurrentApplicantElement().getCity().isEmpty()) {
             this.newApplicantWindowController = FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
-            this.newApplicantWindowController.setApplicantsWindowController(this);
-            this.newApplicantWindowController.setApplicantToForm(this.applicantsDataModel.getCurrentApplicantElement());
-            this.newApplicantWindowController.setSelectedApplicantId(this.applicantsDataModel.getCurrentApplicantElement().getIdApplicant());
-            this.newApplicantWindowController.setApplicantLabel(EDIT_APPLICANT_LABEL);
+            if(this.newApplicantWindowController!=null) {
+                this.newApplicantWindowController.setApplicantsWindowController(this);
+                this.newApplicantWindowController.setApplicantToForm(this.applicantsDataModel.getCurrentApplicantElement());
+                this.newApplicantWindowController.setSelectedApplicantId(this.applicantsDataModel.getCurrentApplicantElement().getIdApplicant());
+                this.newApplicantWindowController.setApplicantLabel(EDIT_APPLICANT_LABEL);
+            }
         }
     }
     @FXML
     void deleteApplicant(){
         if(!this.applicantsDataModel.getCurrentApplicantElement().getCity().isEmpty()) {
-            this.newApplicantWindowController = FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
-            this.newApplicantWindowController.setApplicantsWindowController(this);
-            this.newApplicantWindowController.setApplicantToForm(this.applicantsDataModel.getCurrentApplicantElement());
-            this.newApplicantWindowController.setSelectedApplicantId(this.applicantsDataModel.getCurrentApplicantElement().getIdApplicant());
-            this.newApplicantWindowController.setApplicantLabel(DELETE_APPLICANT_LABEL);
-            this.newApplicantWindowController.setFunction("delete");
+            if(this.newApplicantWindowController!=null) {
+                this.newApplicantWindowController = FxmlTools.openVBoxWindow(NEW_APPLICANTS_WINDOW);
+                this.newApplicantWindowController.setApplicantsWindowController(this);
+                this.newApplicantWindowController.setApplicantToForm(this.applicantsDataModel.getCurrentApplicantElement());
+                this.newApplicantWindowController.setSelectedApplicantId(this.applicantsDataModel.getCurrentApplicantElement().getIdApplicant());
+                this.newApplicantWindowController.setApplicantLabel(DELETE_APPLICANT_LABEL);
+                this.newApplicantWindowController.setFunction("delete");
+            }
         }
     }
     @FXML
@@ -198,7 +202,7 @@ public class ApplicantsWindowController {
 
     @FXML
     void mouseClicked(MouseEvent event) {
-        if(event.getClickCount()==2 && (this.choseApplicantButton.visibleProperty().get()==true)){
+        if(event.getClickCount()==2 && (this.choseApplicantButton.visibleProperty().get())){
             choseApplicant();
         }
     }

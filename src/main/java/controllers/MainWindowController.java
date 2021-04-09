@@ -26,6 +26,8 @@ public class MainWindowController {
     private final String LOGO_EP_PATH=getClass().getResource("/images/logoEP.png").toExternalForm();
     private static final String REJESTR_AP131="AP131";
     private static final String REJESTR_POZA="PozaAP";
+    private static final String TITLE_MESSAGE="O programie";
+    private static final String MESSAGE="Wersja programu: 4.0 Autor: Grzegorz Szymczyk";
 
     private final MainDataModel mainDataModel=new MainDataModel();
     public MainDataModel getMainDataModel() {
@@ -155,5 +157,9 @@ public class MainWindowController {
         } catch (IOException e) {
             CommonTools.displayAlert(e.getMessage());
         }
+    }
+    @FXML
+    void aboutProgram(){
+        CommonTools.displayMessage(TITLE_MESSAGE,MESSAGE);
     }
 }

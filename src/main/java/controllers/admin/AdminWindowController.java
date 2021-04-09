@@ -1,12 +1,10 @@
 package controllers.admin;
 
-import controllers.LoginWindowController;
+
 import controllers.MainWindowController;
 import dbModels.YearModel;
 import dbModels.instrument.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.VBox;
 import utils.CommonTools;
 import utils.FxmlTools;
 
@@ -45,74 +43,85 @@ public class AdminWindowController {
     }
 
 
-    @FXML
-    private VBox adminWindowVBox;
-
 
     @FXML
     void nameEdit() {
         this.commonWindowController= FxmlTools.openVBoxWindow(COMMON_WINDOW);
-        this.commonWindowController.getCommonDataModel().setCls(NameModel.class);
-        this.commonWindowController.getCommonDataModel().init();
-        this.commonWindowController.setLabel("Nazwy przyrządów");
-        this.commonWindowController.getCommonDataModel().setColumnNameEdit(INSTRUMENT_NAME);
-        this.commonWindowController.getCommonDataModel().setColumnNameDelete("name");
+        if(this.commonWindowController!=null) {
+            this.commonWindowController.getCommonDataModel().setCls(NameModel.class);
+            this.commonWindowController.getCommonDataModel().init();
+            this.commonWindowController.setLabel("Nazwy przyrządów");
+            this.commonWindowController.getCommonDataModel().setColumnNameEdit(INSTRUMENT_NAME);
+            this.commonWindowController.getCommonDataModel().setColumnNameDelete("name");
+        }
     }
 
     @FXML
     void producerEdit() {
         this.commonWindowController= FxmlTools.openVBoxWindow(COMMON_WINDOW);
-        this.commonWindowController.getCommonDataModel().setCls(ProducerModel.class);
-        this.commonWindowController.getCommonDataModel().init();
-        this.commonWindowController.setLabel("Producenci przyrządów");
-        this.commonWindowController.getCommonDataModel().setColumnNameEdit(PRODUCER_NAME);
-        this.commonWindowController.getCommonDataModel().setColumnNameDelete("producer");
+        if(this.commonWindowController!=null) {
+            this.commonWindowController.getCommonDataModel().setCls(ProducerModel.class);
+            this.commonWindowController.getCommonDataModel().init();
+            this.commonWindowController.setLabel("Producenci przyrządów");
+            this.commonWindowController.getCommonDataModel().setColumnNameEdit(PRODUCER_NAME);
+            this.commonWindowController.getCommonDataModel().setColumnNameDelete("producer");
+        }
     }
 
     @FXML
     void rangeEdit() {
         this.commonWindowController= FxmlTools.openVBoxWindow(COMMON_WINDOW);
-        this.commonWindowController.getCommonDataModel().setCls(RangeModel.class);
-        this.commonWindowController.getCommonDataModel().init();
-        this.commonWindowController.setLabel("Zakresy przyrządów");
-        this.commonWindowController.getCommonDataModel().setColumnNameEdit(RANGE_NAME);
-        this.commonWindowController.getCommonDataModel().setColumnNameDelete("range");
+        if(this.commonWindowController!=null) {
+            this.commonWindowController.getCommonDataModel().setCls(RangeModel.class);
+            this.commonWindowController.getCommonDataModel().init();
+            this.commonWindowController.setLabel("Zakresy przyrządów");
+            this.commonWindowController.getCommonDataModel().setColumnNameEdit(RANGE_NAME);
+            this.commonWindowController.getCommonDataModel().setColumnNameDelete("range");
+        }
     }
 
     @FXML
     void typeEdit() {
         this.commonWindowController= FxmlTools.openVBoxWindow(COMMON_WINDOW);
-        this.commonWindowController.getCommonDataModel().setCls(TypeModel.class);
-        this.commonWindowController.getCommonDataModel().init();
-        this.commonWindowController.setLabel("Typy przyrządów");
-        this.commonWindowController.getCommonDataModel().setColumnNameEdit(TYPE_NAME);
-        this.commonWindowController.getCommonDataModel().setColumnNameDelete("type");
+        if(this.commonWindowController!=null) {
+            this.commonWindowController.getCommonDataModel().setCls(TypeModel.class);
+            this.commonWindowController.getCommonDataModel().init();
+            this.commonWindowController.setLabel("Typy przyrządów");
+            this.commonWindowController.getCommonDataModel().setColumnNameEdit(TYPE_NAME);
+            this.commonWindowController.getCommonDataModel().setColumnNameDelete("type");
+        }
     }
 
     @FXML
     void unitEdit() {
         this.commonWindowController= FxmlTools.openVBoxWindow(COMMON_WINDOW);
-        this.commonWindowController.getCommonDataModel().setCls(UnitModel.class);
-        this.commonWindowController.getCommonDataModel().init();
-        this.commonWindowController.setLabel("Jednostki");
-        this.commonWindowController.getCommonDataModel().setColumnNameEdit(UNIT_NAME);
-        this.commonWindowController.getCommonDataModel().setColumnNameDelete("rangeName");
+        if(this.commonWindowController!=null) {
+            this.commonWindowController.getCommonDataModel().setCls(UnitModel.class);
+            this.commonWindowController.getCommonDataModel().init();
+            this.commonWindowController.setLabel("Jednostki");
+            this.commonWindowController.getCommonDataModel().setColumnNameEdit(UNIT_NAME);
+            this.commonWindowController.getCommonDataModel().setColumnNameDelete("rangeName");
+        }
     }
 
     @FXML
     void userEdit() {
         this.userWindowController=FxmlTools.openVBoxWindow(USERS_WINDOW);
-        this.userWindowController.getUserDataModel().init();
+        if(this.userWindowController!=null) {
+            this.userWindowController.getUserDataModel().init();
+        }
     }
 
     @FXML
     void yearEdit() {
         this.commonWindowController= FxmlTools.openVBoxWindow(COMMON_WINDOW);
-        this.commonWindowController.getCommonDataModel().setCls(YearModel.class);
-        this.commonWindowController.getCommonDataModel().init();
-        this.commonWindowController.setLabel("Lata");
-        this.commonWindowController.getCommonDataModel().setColumnNameEdit(YEAR);
-        this.commonWindowController.getCommonDataModel().setColumnNameDelete("cardNumber");
+        if(this.commonWindowController!=null) {
+            this.commonWindowController.getCommonDataModel().setCls(YearModel.class);
+            this.commonWindowController.getCommonDataModel().init();
+            this.commonWindowController.setLabel("Lata");
+            this.commonWindowController.getCommonDataModel().setColumnNameEdit(YEAR);
+            this.commonWindowController.getCommonDataModel().setColumnNameDelete("cardNumber");
+        }
     }
 
     @FXML
@@ -140,8 +149,10 @@ public class AdminWindowController {
             CommonTools.displayAlert(e.getMessage());
         } finally {
             try {
-                is.close();
-                os.close();
+                if(is!=null && os!=null) {
+                    is.close();
+                    os.close();
+                }
             } catch (IOException e) {
                 CommonTools.displayAlert(e.getMessage());
             }

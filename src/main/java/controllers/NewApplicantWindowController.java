@@ -48,7 +48,6 @@ public class NewApplicantWindowController {
     @FXML private ComboBox<String> statusComboBox;
     @FXML private Label applicantLabel;
     @FXML private Label errorLabel;
-    @FXML private Button saveApplicantButton;
 
     @FXML
     private void initialize(){

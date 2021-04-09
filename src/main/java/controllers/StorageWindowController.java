@@ -38,11 +38,13 @@ public class StorageWindowController {
     private EditDateWindowController editDateWindowController;
     private EditRemarksWindowController editRemarksWindowController;
     private CalibrateInstrumentWindowController calibrateInstrumentWindowController;
+    private SpendInstrumentWindowController spendInstrumentWindowController;
 
     //Stałe tekstowe
     private static final String NEW_INSTRUMENT_WINDOW = "/fxml/NewInstrumentWindow.fxml";
     private static final String EDIT_INSTRUMENT_WINDOW="/fxml/EditInstrumentWindow.fxml";
     private static final String CALIBRATE_INSTRUMENT_WINDOW="/fxml/CalibrateInstrumentWindow.fxml";
+    private static final String SPEND_INSTRUMENT_WINDOW="/fxml/SpendInstrumentWindow.fxml";
     private static final String EDIT_DATE_WINDOW="/fxml/EditDateWindow.fxml";
     private static final String EDIT_REMARKS_WINDOW="/fxml/EditRemarksWindow.fxml";
     private static final String ENTRY_DATE="Data przyjęcia";
@@ -53,6 +55,8 @@ public class StorageWindowController {
     private static final String NON_ACCREDITED_REGISTER="PozaAP";
     private final String TITLE_MESSAGE="Ponowne wzorcowanie!";
     private final String WINDOW_MESSAGE="Czy chcesz wzorcować ten przyrząd ponownie ?";
+    private static final String SPEND_TITLE_MESSAGE="Przyrząd nie był wzorcowany";
+    private static final String SPEND_WINDOW_MESSAGE="Czy chcesz wydać przyrząd bez wzorcowania ?";
     private static final String ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu w zakresie akredytacji AP131";
     private static final String NON_ACCREDITED_MAIN_LABEL="Wzorcowanie przyrządu poza zakresem akredytacji";
     //ComboBox
@@ -171,7 +175,21 @@ public class StorageWindowController {
     }
     @FXML
     void spendInstrument(){
-
+        if(this.storageDataModel.getStorageSelectedItemsList().size()>0) {
+            if (this.storageDataModel.getStorageSelectedItemsList().get(0).getSpendDate().equals("")) {
+                if (this.storageDataModel.getStorageSelectedItemsList().get(0).getCalibrationDates().equals("")) {
+                    if(CommonTools.display(SPEND_TITLE_MESSAGE,SPEND_WINDOW_MESSAGE)){
+                        spendInstrument(this.storageDataModel.getStorageSelectedItemsList().get(0));
+                    }
+                    else{
+                        this.spendInstrumentWindowController.cancel(); //Zamykamy okienko
+                    }
+                }
+                else{
+                    spendInstrument(this.storageDataModel.getStorageSelectedItemsList().get(0));
+                }
+            }
+        }
     }
     @FXML
     void accreditedCalibration(){
@@ -212,6 +230,7 @@ public class StorageWindowController {
             this.editInstrumentWindowController.getInstrumentDataModel().searchForInstrument(this.getStorageDataModel().getCurrentStorage().getInstrument().getIdInstrument());
             this.editInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant()));
             this.editInstrumentWindowController.setInstrumentDataToForm(this.editInstrumentWindowController.getInstrumentDataModel().getFindInstrument());
+            this.storageDataModel.initializeCurrentStorageModel();
         }
     }
     @FXML
@@ -256,6 +275,15 @@ public class StorageWindowController {
             this.calibrateInstrumentWindowController.setMainController(this.mainController);
             this.storageDataModel.initializeCurrentStorageModel();
             this.calibrateInstrumentWindowController.setInstrumentDataToForm(this.storageDataModel.getCurrentStorageModel().getInstrument(), this.storageDataModel.getCurrentStorage());
+        }
+    }
+    private void spendInstrument(StorageFxModel storageFxModel){
+        this.spendInstrumentWindowController = FxmlTools.openVBoxWindow(SPEND_INSTRUMENT_WINDOW);
+        if (this.spendInstrumentWindowController != null) {
+            this.spendInstrumentWindowController.setMainWindowController(this.mainController);
+            this.spendInstrumentWindowController.setStorageWindowController(this);
+            this.spendInstrumentWindowController.init(storageFxModel);
+            this.storageDataModel.initializeCurrentStorageModel(storageFxModel.getIdStorage());
         }
     }
     @FXML

@@ -3,7 +3,6 @@ package controllers.admin;
 import dataModels.UserDataModel;
 import dbModels.UserModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,14 +14,14 @@ public class UserWindowController {
     public UserWindowController(){
         System.out.println("Konstruktor klasy UserWindowController");
     }
-    private UserDataModel userDataModel=new UserDataModel();
+    private final UserDataModel userDataModel=new UserDataModel();
     public UserDataModel getUserDataModel() {
         return userDataModel;
     }
     private EditUserWindowController editUserWindowController;
 
-    private final String EDIT_USER_LABEL="Edycja użytkownika";
-    private final String DELETE_USER_LABEL="Usuwanie użytkownika";
+    private static final String EDIT_USER_LABEL="Edycja użytkownika";
+    private static final String DELETE_USER_LABEL="Usuwanie użytkownika";
     private final String EDIT_USER_WINDOW="/fxml/admin/EditUserWindow.fxml";
 
 
@@ -60,7 +59,9 @@ public class UserWindowController {
     @FXML
     void addUser() {
         this.editUserWindowController= FxmlTools.openVBoxWindow(EDIT_USER_WINDOW);
-        this.editUserWindowController.setUserWindowController(this);
+        if(this.editUserWindowController!=null) {
+            this.editUserWindowController.setUserWindowController(this);
+        }
     }
 
     @FXML
@@ -72,12 +73,14 @@ public class UserWindowController {
     void deleteUser() {
         if(this.userDataModel.getSelectedUser().getIdUser()!=null){
             this.editUserWindowController= FxmlTools.openVBoxWindow(EDIT_USER_WINDOW);
-            this.editUserWindowController.setUserToForm(this.userDataModel.getSelectedUser());
-            this.editUserWindowController.setUserFormEditableFalse();
-            this.editUserWindowController.setUserWindowController(this);
-            this.editUserWindowController.setFunction("delete");
-            this.editUserWindowController.setSelectedUserId(this.userDataModel.getSelectedUser().getIdUser());
-            this.editUserWindowController.setUserLabel(DELETE_USER_LABEL);
+            if(this.editUserWindowController!=null) {
+                this.editUserWindowController.setUserToForm(this.userDataModel.getSelectedUser());
+                this.editUserWindowController.setUserFormEditableFalse();
+                this.editUserWindowController.setUserWindowController(this);
+                this.editUserWindowController.setFunction("delete");
+                this.editUserWindowController.setSelectedUserId(this.userDataModel.getSelectedUser().getIdUser());
+                this.editUserWindowController.setUserLabel(DELETE_USER_LABEL);
+            }
         }
     }
 
@@ -85,10 +88,12 @@ public class UserWindowController {
     void editUser() {
         if(this.userDataModel.getSelectedUser().getIdUser()!=null){
             this.editUserWindowController= FxmlTools.openVBoxWindow(EDIT_USER_WINDOW);
-            this.editUserWindowController.setUserToForm(this.userDataModel.getSelectedUser());
-            this.editUserWindowController.setUserWindowController(this);
-            this.editUserWindowController.setSelectedUserId(this.userDataModel.getSelectedUser().getIdUser());
-            this.editUserWindowController.setUserLabel(EDIT_USER_LABEL);
+            if(this.editUserWindowController!=null) {
+                this.editUserWindowController.setUserToForm(this.userDataModel.getSelectedUser());
+                this.editUserWindowController.setUserWindowController(this);
+                this.editUserWindowController.setSelectedUserId(this.userDataModel.getSelectedUser().getIdUser());
+                this.editUserWindowController.setUserLabel(EDIT_USER_LABEL);
+            }
         }
     }
 
