@@ -125,7 +125,7 @@ public class ApplicantsWindowController {
 
     @FXML
     void choseApplicant() {
-        if(this.newApplicantWindowController!=null) {
+        if(this.newInstrumentWindowController!=null) {
             this.newInstrumentWindowController.setApplicantComboBox(this.applicantsDataModel.getCurrentApplicantElement().getShortName());
             this.newInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.applicantsDataModel.getCurrentApplicantElement()));
         }

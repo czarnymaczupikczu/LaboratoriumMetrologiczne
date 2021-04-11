@@ -113,7 +113,6 @@ public class EditDateWindowController {
                     this.editDateErrorLabel.setText(SPEND_DATE_ERROR);
                     break;
                 }
-
                 if (this.storageWindowController.getStorageDataModel().getStorageSelectedItemsList().size() == storageModelList.size()) {
                     String newSpendDateString = newSpendDate.toString();
                     for (StorageModel storageModel : storageModelList) {

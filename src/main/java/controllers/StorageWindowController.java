@@ -1,10 +1,19 @@
 package controllers;
 
 import dataModels.StorageDataModel;
+import dbModels.InstrumentModel;
+import dbModels.StorageModel;
+import fxModels.InstrumentFxModel;
 import fxModels.StorageFxModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,8 +21,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utils.CommonTools;
 import utils.Converter;
 import utils.FxmlTools;
+import utils.database.CommonDao;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static dbModels.InstrumentModel.ID_INSTRUMENT;
+import static dbModels.StorageModel.ID_STORAGE;
 
 
 public class StorageWindowController {
@@ -79,6 +93,7 @@ public class StorageWindowController {
     @FXML private TableColumn<StorageFxModel, String> spendDateColumn;
     //MenuItem
     @FXML private MenuItem spendDateItem;
+    @FXML private MenuItem cancelSpendInstrumentItem;
     @FXML private MenuItem calibrationRemarksItem;
     //Labels
     @FXML private Label shortNameLabel;
@@ -100,6 +115,7 @@ public class StorageWindowController {
         addFilter();
         if(this.mainController.getMainDataModel().getUser().getPermissionLevel().equals("worker")){
             this.calibrationRemarksItem.setDisable(true);
+            this.cancelSpendInstrumentItem.setVisible(false);
         }
     }
     private void initializeTableView(){
@@ -176,20 +192,37 @@ public class StorageWindowController {
     @FXML
     void spendInstrument(){
         if(this.storageDataModel.getStorageSelectedItemsList().size()>0) {
-            if (this.storageDataModel.getStorageSelectedItemsList().get(0).getSpendDate().equals("")) {
-                if (this.storageDataModel.getStorageSelectedItemsList().get(0).getCalibrationDates().equals("")) {
-                    if(CommonTools.display(SPEND_TITLE_MESSAGE,SPEND_WINDOW_MESSAGE)){
-                        spendInstrument(this.storageDataModel.getStorageSelectedItemsList().get(0));
+            for(StorageFxModel storageFxModel:this.storageDataModel.getStorageSelectedItemsList()) {
+                if (storageFxModel.getSpendDate().equals("")) {
+                    if (storageFxModel.getCalibrationDates().equals("")) {
+                        if (CommonTools.display(SPEND_TITLE_MESSAGE, SPEND_WINDOW_MESSAGE)) {
+                            spendInstrument(storageFxModel);
+                        } else {
+                            this.spendInstrumentWindowController.cancel(); //Zamykamy okienko
+                        }
+                    } else {
+                        spendInstrument(storageFxModel);
                     }
-                    else{
-                        this.spendInstrumentWindowController.cancel(); //Zamykamy okienko
-                    }
-                }
-                else{
-                    spendInstrument(this.storageDataModel.getStorageSelectedItemsList().get(0));
                 }
             }
         }
+    }
+    @FXML
+    private void cancelSpendDate(){
+       for(StorageFxModel storageFxModel: this.storageDataModel.getStorageSelectedItemsList()){
+           System.out.println("Numer czujnika: "+storageFxModel.getInstrument().getIdentificationNumber());
+           decodeInstrumentRemarks(storageFxModel);
+       }
+
+        /*for (StorageFxModel storageFxModel : this.storageDataModel.getStorageSelectedItemsList()) {
+            if (!storageFxModel.getSpendDate().equals("")) {
+                CommonDao storageDao = new CommonDao();
+                StorageModel storageModel=storageDao.queryForFirst(StorageModel.class, ID_STORAGE, storageFxModel.getIdStorage());
+                storageModel.setSpendDate("");
+                storageModel.setSpendUser(null);
+                storageDao.createOrUpdate(storageModel);
+            }
+        }*/
     }
     @FXML
     void accreditedCalibration(){
@@ -227,7 +260,7 @@ public class StorageWindowController {
         if(this.editInstrumentWindowController!=null) {
             this.editInstrumentWindowController.setMainController(this.mainController);
             this.editInstrumentWindowController.setStorageWindowController(this);
-            this.editInstrumentWindowController.getInstrumentDataModel().searchForInstrument(this.getStorageDataModel().getCurrentStorage().getInstrument().getIdInstrument());
+            this.editInstrumentWindowController.getInstrumentDataModel().searchForInstrument(this.storageDataModel.getCurrentStorage().getInstrument().getIdInstrument());
             this.editInstrumentWindowController.getInstrumentDataModel().getFormInstrument().setApplicant(Converter.convertApplicantFxModelToApplicantModel(this.storageDataModel.getCurrentStorage().getInstrument().getApplicant()));
             this.editInstrumentWindowController.setInstrumentDataToForm(this.editInstrumentWindowController.getInstrumentDataModel().getFindInstrument());
             this.storageDataModel.initializeCurrentStorageModel();
@@ -278,12 +311,24 @@ public class StorageWindowController {
         }
     }
     private void spendInstrument(StorageFxModel storageFxModel){
-        this.spendInstrumentWindowController = FxmlTools.openVBoxWindow(SPEND_INSTRUMENT_WINDOW);
-        if (this.spendInstrumentWindowController != null) {
-            this.spendInstrumentWindowController.setMainWindowController(this.mainController);
-            this.spendInstrumentWindowController.setStorageWindowController(this);
-            this.spendInstrumentWindowController.init(storageFxModel);
-            this.storageDataModel.initializeCurrentStorageModel(storageFxModel.getIdStorage());
+        try {
+            FXMLLoader loader = new FXMLLoader(FxmlTools.class.getResource(SPEND_INSTRUMENT_WINDOW));
+            VBox vBox = loader.load();
+            this.spendInstrumentWindowController=loader.getController();
+            if (this.spendInstrumentWindowController != null) {
+                this.spendInstrumentWindowController.setMainWindowController(this.mainController);
+                this.spendInstrumentWindowController.setStorageWindowController(this);
+                this.spendInstrumentWindowController.init(storageFxModel);
+                this.storageDataModel.initializeCurrentStorageModel(storageFxModel.getIdStorage());
+            }
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(vBox);
+            window.initStyle(StageStyle.TRANSPARENT);
+            window.setScene(scene);
+            window.showAndWait();
+        } catch (IOException e) {
+            CommonTools.displayAlert(e.getMessage());
         }
     }
     @FXML
@@ -321,7 +366,7 @@ public class StorageWindowController {
             row.createCell(9).setCellValue(storageElement.getInstrument().getApplicant().getShortName());
             row.createCell(10).setCellValue(storageElement.getEntryDate());
             row.createCell(11).setCellValue(storageElement.getCalibrationDates());
-            row.createCell(12).setCellValue(storageElement.getSpendDate());
+            row.createCell(12).setCellValue(storageElement.getInstrumentRemarks());
             i++;
         }
         for(int j=0;j<13;j++){
@@ -330,5 +375,69 @@ public class StorageWindowController {
         FileOutputStream fileOut = new FileOutputStream("Magazyn.xlsx");
         workbook.write(fileOut);
         fileOut.close();
+    }
+    public void decodeInstrumentRemarks(StorageFxModel storage){
+        if(storage.getInstrumentRemarks()!=null){//Nie jest nulem
+            String temp=CommonTools.deleteWhiteSpaces(storage.getInstrumentRemarks());
+            if(temp.length()>0){
+                String length="";
+                String diameter="";
+                if(temp.contains("m/")){
+                    int tempLength=temp.length();
+                    int index=temp.indexOf("m/");
+                    length=String.valueOf(Integer.parseInt(temp.substring(0,index))*1000);
+                    diameter=temp.substring(index+2,tempLength-2);
+                }
+                else if(temp.contains("/")){
+
+                    int tempLength=temp.length();
+                    int index=temp.indexOf("/");
+                     length=temp.substring(0,index);
+                     diameter=temp.substring(index+1,tempLength);
+                }
+                else if(temp.contains("mm,")){
+                    int tempLength=temp.length();
+                    int index=temp.indexOf("mm,");
+                    length=temp.substring(0,index);
+                    diameter=temp.substring(index+3,tempLength-2);
+
+                }
+                else if(temp.contains("m,")){
+                    int tempLength=temp.length();
+                    int index=temp.indexOf("m,");
+                    length=String.valueOf(Integer.parseInt(temp.substring(0,index))*1000);
+                    diameter=temp.substring(index+2,tempLength-2);
+
+                }
+                else if(temp.contains("dł.-")){
+                    int tempLength=temp.length();
+                    int firstmm=temp.indexOf("mm");
+                    int index=temp.indexOf("śr.-");
+                    length=temp.substring(4,index-2);
+                    diameter=temp.substring(index+4,tempLength-2);
+
+                }
+                else if(temp.contains("L-")){
+                    int tempLength=temp.length();
+                    int firstmm=temp.indexOf("mm");
+                    int index=temp.indexOf("Ø-");
+                    length=temp.substring(2,index-2);
+                    diameter=temp.substring(index+2,tempLength-2);
+
+                }
+
+                    InstrumentModel instrument=searchForInstrument(storage.getInstrument().getIdInstrument());
+                    instrument.setLength(length);
+                    instrument.setDiameter(diameter);
+                    CommonDao commonDao=new CommonDao();
+                    commonDao.createOrUpdate(instrument);
+                    System.out.println("Długość: "+ length);
+                    System.out.println("średnica: "+diameter);
+            }
+        }
+    }
+    public InstrumentModel searchForInstrument(Integer value){
+        CommonDao commonDao=new CommonDao();
+        return commonDao.queryForFirst(InstrumentModel.class, ID_INSTRUMENT, value);
     }
 }

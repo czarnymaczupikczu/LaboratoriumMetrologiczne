@@ -28,6 +28,7 @@ public class MainWindowController {
     private static final String REJESTR_POZA="PozaAP";
     private static final String TITLE_MESSAGE="O programie";
     private static final String MESSAGE="Wersja programu: 4.0 Autor: Grzegorz Szymczyk";
+    private static final String ABOUT_PROGRAM_WINDOW="/fxml/AboutProgramWindow.fxml";
 
     private final MainDataModel mainDataModel=new MainDataModel();
     public MainDataModel getMainDataModel() {
@@ -160,6 +161,6 @@ public class MainWindowController {
     }
     @FXML
     void aboutProgram(){
-        CommonTools.displayMessage(TITLE_MESSAGE,MESSAGE);
+        AboutProgramWindowController aboutProgramWindowController = FxmlTools.openVBoxWindow(ABOUT_PROGRAM_WINDOW);
     }
 }

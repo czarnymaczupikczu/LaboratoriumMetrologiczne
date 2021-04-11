@@ -36,12 +36,12 @@
             <Insets top="5.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER_LEFT" depthTest="DISABLE" maxHeight="30.0" prefHeight="30.0" spacing="5.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;">
+      <HBox alignment="CENTER_LEFT" depthTest="DISABLE" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" spacing="5.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: black;">
          <children>
-            <Button mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
-            <Button mnemonicParsing="false" onAction="#accreditedCalibration" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
-            <Button mnemonicParsing="false" onAction="#nonAccreditedCalibration" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
-            <Button mnemonicParsing="false" onAction="#spendInstrument" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
+            <Button minHeight="30.0" mnemonicParsing="false" onAction="#addInstrument" prefHeight="30.0" prefWidth="250.0" text="Dodaj przyrząd" />
+            <Button minHeight="30.0" mnemonicParsing="false" onAction="#accreditedCalibration" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj w zakresie AP131" />
+            <Button minHeight="30.0" mnemonicParsing="false" onAction="#nonAccreditedCalibration" prefHeight="30.0" prefWidth="250.0" text="Wzorcuj poza zakresem" />
+            <Button minHeight="30.0" mnemonicParsing="false" onAction="#spendInstrument" prefHeight="30.0" prefWidth="250.0" text="Wydaj przyrząd" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" />
@@ -88,6 +88,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#editInstrument" text="Edytuj przyrząd" />
                   <MenuItem mnemonicParsing="false" onAction="#editInstrumentRemarks" text="Edytuj uwagi dotyczące przyrządu" />
                   <MenuItem fx:id="calibrationRemarksItem" mnemonicParsing="false" onAction="#editCalibrationRemarks" text="Edytuj uwagi dotyczące wzorcowania" />
+                  <MenuItem fx:id="cancelSpendInstrumentItem" mnemonicParsing="false" onAction="#cancelSpendDate" text="Anuluj wydanie przyrządu" />
               </items>
             </ContextMenu>
          </contextMenu>

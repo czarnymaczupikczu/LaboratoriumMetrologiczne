@@ -154,15 +154,15 @@ public class InstrumentDataModel {
     }
     public InstrumentModel searchForInstrument(String numberKind, String value){
         CommonDao commonDao=new CommonDao();
-        instrumentList=commonDao.selectAndWithLikeStatement(InstrumentModel.class, numberKind, value);
-        if(instrumentList.size()>0){
-            return instrumentList.get(instrumentList.size()-1);
+        this.instrumentList=commonDao.selectAndWithLikeStatement(InstrumentModel.class, numberKind, value);
+        if(this.instrumentList.size()>0){
+            return this.instrumentList.get(this.instrumentList.size()-1);
         }else{
             return null;
         }
     }
     public void searchForInstrument(Integer value){
         CommonDao commonDao=new CommonDao();
-        findInstrument=commonDao.queryForFirst(InstrumentModel.class, ID_INSTRUMENT, value);
+        this.findInstrument=commonDao.queryForFirst(InstrumentModel.class, ID_INSTRUMENT, value);
     }
 }

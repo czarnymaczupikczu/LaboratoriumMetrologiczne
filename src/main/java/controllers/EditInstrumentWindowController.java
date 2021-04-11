@@ -154,8 +154,8 @@ public class EditInstrumentWindowController {
     }
     private void addInstrumentToInstruments(InstrumentModel instrument){
         CommonDao commonDao=new CommonDao();
-        String sNumber=this.serialNumberTextField.getText();
-        String iNumber=this.identificationNumberTextField.getText();
+        String sNumber=instrument.getSerialNumber();
+        String iNumber=instrument.getIdentificationNumber();
         Integer idApplicant = instrument.getApplicant().getIdApplicant();
         InstrumentModel tempInstrument = null;
         if(!sNumber.isEmpty() && !iNumber.isEmpty()) {
@@ -165,14 +165,16 @@ public class EditInstrumentWindowController {
         }else if(!iNumber.isEmpty()){
             tempInstrument=commonDao.queryForFirst(InstrumentModel.class,IDENTIFICATION_NUMBER,iNumber,APPLICANT,idApplicant);
         }
-        if(tempInstrument==null){
-            commonDao.createOrUpdate(instrument);
-            cancel();
+        if(tempInstrument!=null){
+            System.out.println("Jest taki");
+            instrument.setIdInstrument(tempInstrument.getIdInstrument());
         }else{
-            this.storageWindowController.getStorageDataModel().getCurrentStorageModel().setInstrument(tempInstrument);
-            commonDao.createOrUpdate(this.storageWindowController.getStorageDataModel().getCurrentStorageModel());
-            cancel();
+            System.out.println("Nie ma takiego");
         }
+        commonDao.createOrUpdate(instrument);
+        this.storageWindowController.getStorageDataModel().getCurrentStorageModel().setInstrument(instrument);
+        commonDao.createOrUpdate(this.storageWindowController.getStorageDataModel().getCurrentStorageModel());
+        cancel();
     }
     private <T> T loadVBoxWindow(String resource){
         T instrumentData;

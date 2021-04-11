@@ -122,4 +122,5 @@ public class InstrumentModel implements ComplexModel{
     public void setApplicant(ApplicantModel applicant) {
         this.applicant = applicant;
     }
+
 }
