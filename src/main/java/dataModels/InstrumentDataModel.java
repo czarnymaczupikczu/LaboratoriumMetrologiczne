@@ -1,5 +1,6 @@
 package dataModels;
 
+import dbModels.ApplicantModel;
 import dbModels.InstrumentModel;
 import dbModels.instrument.*;
 import javafx.collections.FXCollections;
@@ -10,6 +11,7 @@ import utils.database.CommonDao;
 
 import java.util.List;
 
+import static dbModels.ApplicantModel.SHORT_NAME;
 import static dbModels.InstrumentModel.ID_INSTRUMENT;
 
 public class InstrumentDataModel {
@@ -160,6 +162,10 @@ public class InstrumentDataModel {
         }else{
             return null;
         }
+    }
+    public ApplicantModel searchForApplicant(String shortName){
+        CommonDao commonDao= new CommonDao();
+        return commonDao.queryForFirst(ApplicantModel.class, SHORT_NAME, shortName);
     }
     public void searchForInstrument(Integer value){
         CommonDao commonDao=new CommonDao();

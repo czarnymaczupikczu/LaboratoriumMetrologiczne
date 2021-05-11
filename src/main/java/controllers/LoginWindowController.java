@@ -51,8 +51,8 @@ public class LoginWindowController {
         System.out.println("Metoda initialize kontrolera LoginWindowController ");
         this.loginImageView.setImage(new Image(LOGO_EP_PATH));
         this.loginButton.disableProperty().bind(this.loginTextField.textProperty().isEmpty().or(this.passwordTextField.textProperty().isEmpty()));
-        this.loginTextField.setText("gszymczyk");
-        this.passwordTextField.setText("gs");
+        //this.loginTextField.setText("gszymczyk");
+        //this.passwordTextField.setText("gs");
     }
     @FXML
     private void login(){
@@ -98,7 +98,7 @@ public class LoginWindowController {
         window.setTitle("LABORATORIUM METROLOGICZNE");
         Scene scene = new Scene(mainBorderPane);
         //scene.getStylesheets().add("css/main.css");
-        //Application.setUserAgentStylesheet("css/main.css");
+        Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
 
         window.setScene(scene);
         window.show();

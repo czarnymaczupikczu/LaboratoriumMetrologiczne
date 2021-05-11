@@ -209,12 +209,11 @@ public class StorageWindowController {
     }
     @FXML
     private void cancelSpendDate(){
-       for(StorageFxModel storageFxModel: this.storageDataModel.getStorageSelectedItemsList()){
+      /* for(StorageFxModel storageFxModel: this.storageDataModel.getStorageSelectedItemsList()){
            System.out.println("Numer czujnika: "+storageFxModel.getInstrument().getIdentificationNumber());
            decodeInstrumentRemarks(storageFxModel);
-       }
-
-        /*for (StorageFxModel storageFxModel : this.storageDataModel.getStorageSelectedItemsList()) {
+       }*/
+       for (StorageFxModel storageFxModel : this.storageDataModel.getStorageSelectedItemsList()) {
             if (!storageFxModel.getSpendDate().equals("")) {
                 CommonDao storageDao = new CommonDao();
                 StorageModel storageModel=storageDao.queryForFirst(StorageModel.class, ID_STORAGE, storageFxModel.getIdStorage());
@@ -222,7 +221,7 @@ public class StorageWindowController {
                 storageModel.setSpendUser(null);
                 storageDao.createOrUpdate(storageModel);
             }
-        }*/
+        }
     }
     @FXML
     void accreditedCalibration(){
@@ -393,7 +392,8 @@ public class StorageWindowController {
                     int tempLength=temp.length();
                     int index=temp.indexOf("/");
                      length=temp.substring(0,index);
-                     diameter=temp.substring(index+1,tempLength);
+                     //diameter=temp.substring(index+1,tempLength);
+                    diameter=temp.substring(index+1,index+2);
                 }
                 else if(temp.contains("mm,")){
                     int tempLength=temp.length();

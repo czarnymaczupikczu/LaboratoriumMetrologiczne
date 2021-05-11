@@ -126,13 +126,13 @@ public class AdminWindowController {
 
     @FXML
     private void copyDataBase()  {
-        //File source = new File("C:/db/baza1.db");
-        File source = new File("baza.db");
+        File source = new File("K:/ZC/CM/roboczy/db/baza2.db");
+        //File source = new File("baza2.db");
         Format formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = formatter.format(new Date());
         fileName+=".db";
-        //File dest = new File("C:/KOPIE CM/KOPIE/Bazy danych/"+fileName);
-        File dest = new File("C:/KOPIE CM/"+fileName);
+        File dest = new File("C:/KOPIE CM/KOPIE/Bazy danych/"+fileName);
+        //File dest = new File("C:/KOPIE CM/"+fileName);
         InputStream is = null;
         OutputStream os = null;
         try {

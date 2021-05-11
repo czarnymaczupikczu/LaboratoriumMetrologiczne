@@ -93,6 +93,8 @@ public class NewInstrumentWindowController {
         this.instrumentDataModel.init();
         initializeComboBox();
         bindComboBox();
+        this.instrumentRemarks.setWrapText(true);
+        this.calibrationRemarks.setWrapText(true);
     }
     //Poszczególne przyciski
     @FXML
@@ -288,6 +290,30 @@ public class NewInstrumentWindowController {
             setInstrumentDataToForm(this.instrumentDataModel.getFindInstrument());
             System.out.println(this.instrumentDataModel.getFindInstrument().getApplicant().getFullName());
             this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.getFindInstrument().getApplicant());
+            String shortName=this.instrumentDataModel.getFindInstrument().getApplicant().getShortName();
+            if(shortName.equals("ZC/CT") || shortName.equals("ZC/CK")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("TE"));
+            }
+            else if(shortName.equals("ZC/CA")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("TA"));
+            }
+            else if(shortName.equals("ZC/CM")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("AM"));
+            }
+            else if(shortName.equals("TL")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("SL"));
+            }
+            else if(shortName.equals("ZO/OP")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("SP"));
+            }
+            else if(shortName.equals("ZO/OM")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("SM"));
+            }
+            else if(shortName.equals("ZCh/ChM")){
+                this.instrumentDataModel.getFormInstrument().setApplicant(this.instrumentDataModel.searchForApplicant("TM"));
+            }
+            this.applicantComboBox.setValue(this.instrumentDataModel.getFormInstrument().getApplicant().getShortName());
+            System.out.println(this.instrumentDataModel.getFormInstrument().getApplicant().getFullName());
             firstLabel.setTextFill(Color.WHITE);
             secondLabel.setTextFill(Color.WHITE);
         }
