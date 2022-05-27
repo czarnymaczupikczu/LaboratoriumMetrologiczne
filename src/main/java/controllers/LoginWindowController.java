@@ -98,7 +98,7 @@ public class LoginWindowController {
         window.setTitle("LABORATORIUM METROLOGICZNE");
         Scene scene = new Scene(mainBorderPane);
         //scene.getStylesheets().add("css/main.css");
-        Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+        Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
 
         window.setScene(scene);
         window.show();
